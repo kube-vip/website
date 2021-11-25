@@ -1,6 +1,6 @@
 ---
-title: "Usage"
-weight: 9
+title: "Cloud Provider"
+weight: 15
 description: >
   Specific use cases for kube-vip.
 ---

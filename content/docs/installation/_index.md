@@ -1,5 +1,5 @@
 ---
-title: "Kube-Vip Docs"
+title: "Installation"
 weight: 2
 description: >
   This is the index.

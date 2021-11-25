@@ -27,6 +27,6 @@ codeLineNumbers = false
 
 # optional
 # attribution. Feel free to delete this
-# [author]
-#   name = "Kube-Vip"
-#   url = "https://github.com/kube-vip/"
+[author]
+  name = "The Kube-Vip Authors All Rights Reserved"
+  url = "https://github.com/kube-vip/"

@@ -1,5 +1,5 @@
 ---
-title: "About Kube-Vip"
+title: "About"
 weight: 1
 ---
 
