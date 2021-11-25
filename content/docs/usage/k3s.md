@@ -15,7 +15,7 @@ In order to make ARP work on Equinix Metal, follow the [metal-gateway](https://m
 
 This step is optional but recommended if a K3s installation previously existed.
 
-```
+```sh
 rm -rf /var/lib/rancher /etc/rancher ~/.kube/*; \ 
 ip addr flush dev lo; \
 ip addr add 127.0.0.1/8 dev lo; 
@@ -25,7 +25,7 @@ ip addr add 127.0.0.1/8 dev lo;
 
 K3s has an optional manifests directory that will be searched to [auto-deploy](https://rancher.com/docs/k3s/latest/en/advanced/#auto-deploying-manifests) any manifests found within. Create this directory first in order to later place the `kube-vip` resources inside.
 
-```
+```sh
 mkdir -p /var/lib/rancher/k3s/server/manifests/
 ```
 
@@ -35,7 +35,7 @@ As `kube-vip` runs as a DaemonSet under K3s and not a static Pod, we will need t
 
 Get the RBAC manifest and place in the auto-deploy directory:
 
-```
+```sh
 curl https://kube-vip.io/manifests/rbac.yaml > /var/lib/rancher/k3s/server/manifests/kube-vip-rbac.yaml
 ```
 
@@ -49,7 +49,7 @@ Either store this generated manifest separately in the `/var/lib/rancher/k3s/ser
 
 ## Step 4: Install a HA K3s Cluster
 
-There are multiple ways to install K3s including `[k3sup](https://k3sup.dev/)` or [running the binary](https://rancher.com/docs/k3s/latest/en/quick-start/) locally. Whichever method you choose, the `--tls-san` flag must be passed with the same IP when generating the `kube-vip` DaemonSet manifest when installing the first server (control plane) instance. This is so that K3s generates an API server certificate with the `kube-vip` virtual IP address.
+There are multiple ways to install K3s including [`k3sup`](https://k3sup.dev/) or [running the binary](https://rancher.com/docs/k3s/latest/en/quick-start/) locally. Whichever method you choose, the `--tls-san` flag must be passed with the same IP when generating the `kube-vip` DaemonSet manifest when installing the first server (control plane) instance. This is so that K3s generates an API server certificate with the `kube-vip` virtual IP address.
 
 Once the cluster is installed, you should be able to edit the `kubeconfig` file generated from the process and use the `kube-vip` VIP address to access the control plane.
 

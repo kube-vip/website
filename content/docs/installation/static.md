@@ -68,7 +68,7 @@ This configuration will create a manifest that starts `kube-vip` providing contr
 
 > Note: When running these commands on a to-be control plane node, `sudo` access may be required along with pre-creation of the `/etc/kubernetes/manifests/` directory.
 
-```
+```sh
 kube-vip manifest pod \
     --interface $INTERFACE \
     --address $VIP \
@@ -80,7 +80,7 @@ kube-vip manifest pod \
 
 #### Example ARP Manifest
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -151,7 +151,7 @@ This configuration will create a manifest that starts `kube-vip` providing contr
 
 `export INTERFACE=lo`
 
-```
+```sh
 kube-vip manifest pod \
     --interface $INTERFACE \
     --address $VIP \
@@ -165,7 +165,7 @@ kube-vip manifest pod \
 
 #### Example BGP Manifest
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:

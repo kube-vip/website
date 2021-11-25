@@ -39,14 +39,15 @@ The easiest method to generate a manifest is using the container itself, below w
 
 We can enable `kube-vip` with the capability to discover the required configuration for BGP by passing the `--metal` flag and the API Key and our project ID.
 
-```
+```sh
 export VIP= metal_EIP  
 export INTERFACE=<interface>
 ```
+
 where metal_EIP is the Elastic IP (EIP) address your requested via Metal's UI or API. For more informaiton on how to request a Metal's EIP, please see the following [Equinix Metal's EIP document](https://metal.equinix.com/developers/docs/networking/elastic-ips/#elastic-ip-addresses)
 <interface> is the interface you announce your VIP from via BGP. By default it's lo:0 in Equinix Metal.
     
-```
+```sh
 kube-vip manifest pod \
     --interface $INTERFACE\
     --vip $VIP \
@@ -57,13 +58,14 @@ kube-vip manifest pod \
     --metalKey xxxxxxx \
     --metalProjectID xxxxx | tee  /etc/kubernetes/manifests/kube-vip.yaml
 ```
+
 where metalKey is your "personal API key" under "Personal Settings" of your Metal's portal, and MetalProjectID is your Metal's "Project ID" under "Project Settings"
     
 ### Creating a manifest using the metadata
 
 We can parse the metadata, *however* it requires that the tools `curl` and `jq` are installed. 
 
-```
+```sh
 kube-vip manifest pod \
     --interface $INTERFACE\
     --vip $VIP \
@@ -76,13 +78,13 @@ kube-vip manifest pod \
     --bgpRouterID $(curl https://metadata.platformequinix.com/metadata | jq -r '.bgp_neighbors[0].customer_ip') | sudo tee /etc/kubernetes/manifests/vip.yaml
 ```
 
-## Load Balancing servies on Equinix Metal
+## Load Balancing services on Equinix Metal
 
 Below are two examples for running `type:LoadBalancer` services on worker nodes only and will create a daemonset that will run `kube-vip`. 
 
 **NOTE** This use-case requires the [Equinix Metal CCM](https://github.com/equinix/cloud-provider-equinix-metal) to be installed prior to the kube-vip setup and that the cluster/kubelet is configured to use an "external" cloud provider.
 
-```
+```sh
 export INTERFACE=<interface>
 ```
 where <interface> is the interface you announce your VIP from via BGP. By default it's lo:0 in Equinix Metal.
@@ -91,7 +93,7 @@ where <interface> is the interface you announce your VIP from via BGP. By defaul
 
 This is important as the CCM will apply the BGP configuration to the [node annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) making it easy for `kube-vip` to find the networking configuration it needs to expose load balancer addresses. The `--annotations metal.equinix.com` will cause kube-vip to "watch" the annotations of the worker node that it is running on, once all of the configuarion has been applied by the CCM then the `kube-vip` pod is ready to advertise BGP addresses for the service.
 
-```
+```sh
 kube-vip manifest daemonset \
   --interface $INTERFACE \
   --services \
@@ -104,7 +106,7 @@ kube-vip manifest daemonset \
 
 Alternatively it is possible to create a daemonset that will use the existing CCM secret to do an API lookup, this will allow for discovering the networking configuration needed to advertise loadbalancer addresses through BGP.
 
-```
+```sh
 kube-vip manifest daemonset --interface $INTERFACE \
 --services \
 --inCluster \
@@ -117,7 +119,7 @@ kube-vip manifest daemonset --interface $INTERFACE \
 
 Follow the [Equinix Metal's Elastic IP (EIP) document](https://metal.equinix.com/developers/docs/networking/elastic-ips/#elastic-ip-addresses) either through the API, CLI or through the UI, to create a public IPv4 EIP address, for example (145.75.75.1) and this is the address you can expose through BGP as the service loadbalancer.
 
-```
+```sh
 # metal ip request -p xxx-bbb-ccc -f ams1 -q 1 -t public_ipv4                                                                   
 +-------+---------------+--------+----------------------+
 |   ID  |    ADDRESS    | PUBLIC |       CREATED        |
@@ -132,7 +134,7 @@ kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=
 
 If `kube-vip` has been sat waiting for a long time then you may need to investigate that the annotations have been applied correctly by doing running the `describe` on the node:
 
-```
+```sh
 kubectl describe node k8s.bgp02
 ...
 Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.sock
@@ -145,7 +147,7 @@ Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.
 
 If there are errors regarding `169.254.255.1` or `169.254.255.2` in the `kube-vip` logs then the routes to the ToR switches that provide BGP peering may by missing from the nodes. They can be replaced with the below command:
 
-```
+```sh
 GATEWAY_IP=$(curl https://metadata.platformequinix.com/metadata | jq -r ".network.addresses[] | select(.public == false) | .gateway")
 ip route add 169.254.255.1 via $GATEWAY_IP
 ip route add 169.254.255.2 via $GATEWAY_IP

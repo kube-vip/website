@@ -19,7 +19,7 @@ The functionality of `kube-vip` depends on the flags used to create the static P
 
 Since `kube-vip` as a DaemonSet runs as a regular resource instead of a static Pod, it still needs the correct access to be able to watch Kubernetes Services and other objects. In order to do this, RBAC resources must be created which include a ServiceAccount, ClusterRole, and ClusterRoleBinding and can be applied this with the command:
 
-```
+```sh
 kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 ```
 
@@ -31,7 +31,7 @@ In order to create an easier experience of consuming the various functionality w
 
 When creating the `kube-vip` installation manifest as a DaemonSet, the `manifest` subcommand takes the value `daemonset` as opposed to the `pod` value. The flags `--inCluster` and `--taint` are also needed to configure the DaemonSet to use a ServiceAccount and affine the `kube-vip` Pods to control plane nodes thereby preventing them from running on worker instances.
 
-```
+```sh
 kube-vip manifest daemonset \
     --interface $INTERFACE \
     --address $VIP \
@@ -135,7 +135,7 @@ This configuration will create a manifest that starts `kube-vip` providing contr
 
 `export INTERFACE=lo`
 
-```
+```sh
 kube-vip manifest daemonset \
     --interface $INTERFACE \
     --address $VIP \
@@ -147,7 +147,6 @@ kube-vip manifest daemonset \
     --localAS 65000 \
     --bgpRouterID 192.168.0.2 \
     --bgppeers 192.168.0.10:65000::false,192.168.0.11:65000::false
-
 ```
 
 #### Example BGP Manifest

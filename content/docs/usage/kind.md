@@ -13,7 +13,7 @@ The documentation for KIND is fantastic and its [quick start](https://kind.sigs.
 
 We will need to find addresses that can be used by Kube-Vip:
 
-```
+```sh
 docker network inspect kind -f '{{ range $i, $a := .IPAM.Config }}{{ println .Subnet }}{{ end }}'
 ```
 
@@ -21,13 +21,13 @@ This will return a CIDR range such as `172.18.0.0/16` and from here we can selec
 
 ## Deploy the Kube-Vip Cloud Controller
 
-```
+```sh
 kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
 ```
 
 ## Add our Address range
 
-```
+```sh
 kubectl create configmap --namespace kube-system kubevip --from-literal range-global=172.18.100.10-172.18.100.30
 ```
 
@@ -55,21 +55,21 @@ The easiest method to generate a manifest is using the container itself, below w
 
 ## Deploy Kube-vip as a DaemonSet
 
-```
+```sh
 kube-vip manifest daemonset --services --inCluster --arp --interface eth0 | kubectl apply -f -
 ```
 
 ## Test
 
-```
+```sh
 kubectl apply -f https://k8s.io/examples/application/deployment.yaml
 ```
 
-```
+```sh
 kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
 ```
 
-```
+```sh
 kubectl get svc
 NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
 kubernetes   ClusterIP      10.96.0.1       <none>          443/TCP        74m

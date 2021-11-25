@@ -21,7 +21,7 @@ The `kube-vip` cloud provider can be used to populate an IP address for Services
 
 The `kube-vip` cloud provider can be installed from the latest release in the `main` branch by using the following command:
 
-```
+```sh
 kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
 ```
 
@@ -31,13 +31,13 @@ In order for `kube-vip` to set an IP address for a Service of type `LoadBalancer
 
 To allow a global (cluster-wide) CIDR block which `kube-vip` can use to allocate an IP to Services of type `LoadBalancer` in any Namespace, create a ConfigMap named `kubevip` with the key `cidr-global` and value equal to a CIDR block available in your environment. For example, the below command creates a global CIDR with value `192.168.0.220/29` from which `kube-vip` will allocate IP addresses.
 
-```
+```sh
 kubectl create configmap -n kube-system kubevip --from-literal cidr-global=192.168.0.220/29
 ```
 
 To use a global range instead, create the key `range-global` with the value set to a valid range of IP addresses. For example, the below command creates a global range using the pool `192.168.1.220-192.168.1.230`.
 
-```
+```sh
 kubectl create configmap -n kube-system kubevip --from-literal range-global=192.168.1.220-192.168.1.230
 ```
 
@@ -78,13 +78,13 @@ data:
 
 We can now expose a Service and once the cloud provider has provided an address, `kube-vip` will start to advertise that address to the outside world as shown below:
 
-```
+```sh
 kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
 ```
 
 or via a Service YAML definition:
 
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -101,13 +101,13 @@ spec:
 
 We can also expose a specific address by specifying it imperatively on the command line:
 
-```
+```sh
 kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx --load-balancer-ip=1.1.1.1
 ```
 
 or including it in the Service definition:
 
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -129,7 +129,7 @@ With `kube-vip` > 0.2.1, it is possible to use the local network DHCP server to 
 
 In order to do this, we need to signify to `kube-vip` and the cloud provider that we don't need one of their managed addresses. We do this by explicitly exposing a Service on the address `0.0.0.0`. When `kube-vip` sees a Service on this address, it will create a `macvlan` interface on the host and request a DHCP address. Once this address is provided, it will assign it as the `LoadBalancer` IP and update the Kubernetes Service.
 
-```
+```sh
 $ kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx-dhcp --load-balancer-ip=0.0.0.0; kubectl get svc
 service/nginx-dhcp exposed
 NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
@@ -160,7 +160,7 @@ Add the following to the `kube-vip` `env:` section of either the static Pod or D
 
 **Note** some environments may require (Unifi) `Secure mode` being `disabled` (this allows a host with a different address to register a port).
 
-```
+```yaml
 - name: enableUPNP
   value: "true"
 ```
@@ -176,7 +176,7 @@ To expose a port successfully, we'll need to change the command slightly:
 
 The above example should expose a port on your external (Internet facing) address that can be tested externally with:
 
-```
+```sh
 $ curl externalIP:32380
 <!DOCTYPE html>
 <html>
