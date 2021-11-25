@@ -5,4 +5,4 @@ description: >
   Starter.
 ---
 
-Hello, world.
+This is the index page.
