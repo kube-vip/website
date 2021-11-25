@@ -1,7 +1,7 @@
 [build]
 publish = "public"
 #command = "hugo --gc --minify"
-command = "hugo --gc --minify --baseURL https://docs.neuralvibes.com/"
+command = "hugo --gc --minify --baseURL https://stupefied-banach-586e67.netlify.app/"
 
 [context.production.environment]
 HUGO_VERSION = "0.88.1"
