@@ -28,5 +28,5 @@ codeLineNumbers = false
 # optional
 # attribution. Feel free to delete this
 [author]
-  name = "The Kube-Vip Authors All Rights Reserved"
-  url = "https://github.com/kube-vip/"
+  name = "The Linux Foundation. All Rights Reserved."
+  url = "https://www.linuxfoundation.org/"

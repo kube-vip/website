@@ -2,7 +2,7 @@
 title: "Installation"
 weight: 2
 description: >
-  This is the index.
+  How to install kube-vip.
 ---
 
 Kube-Vip provides Kubernetes clusters with a virtual IP and load balancer for both the control plane (for building a highly-available cluster) and Kubernetes Services of type `LoadBalancer` without relying on any external hardware or software.
@@ -16,10 +16,6 @@ The idea behind `kube-vip` is a small, self-contained, highly-available option f
 - Edge (ARM / Raspberry Pi)
 - Virtualisation
 - Pretty much anywhere else :)
-
-## Why?
-
-The "original" purpose of `kube-vip` was to simplify the building of highly-available (HA) Kubernetes clusters, which at the time involved a few components and configurations that all needed to be managed. This was blogged about in detail by [thebsdbox](https://twitter.com/thebsdbox/) [here](https://thebsdbox.co.uk/2020/01/02/Designing-Building-HA-bare-metal-Kubernetes-cluster/#Networking-load-balancing). Since the project has evolved, it can now use those same technologies to provide load balancing capabilities for Kubernetes Service resources of type `LoadBalancer`.
 
 ## Links
 

@@ -4,10 +4,10 @@
   weight = 2
   url = "docs/"
 
-# [[main]]
-#   name = "Blog"
-#   weight = 3
-#   url = "posts/"
+[[main]]
+  name = "Community"
+  weight = 3
+  url = "community/"
 
 # [[main]]
 #   name = "Blog"

@@ -5,8 +5,6 @@ description: >
   This is the index.
 ---
 
-# Equinix Metal Overview (using the [Equinix Metal CCM](https://github.com/equinix/cloud-provider-equinix-metal))
-
 ## BGP with Equinix Metal
 
 When deploying Kubernetes with Equinix Metal with the `--controlplane` functionality we need to pre-populate the BGP configuration in order for the control plane to be advertised and work in a HA scenario. Luckily Equinix Metal provides the capability to "look up" the configuration details (for BGP) that we need in order to advertise our virtual IP (VIP) for HA functionality. We can either make use of the [Equinix Metal API](https://metal.equinix.com/developers/api/) or we can parse the [Equinix Metal Metadata service](https://metal.equinix.com/developers/docs/servers/metadata/).
@@ -15,9 +13,9 @@ When deploying Kubernetes with Equinix Metal with the `--controlplane` functiona
 
 ## Configure to use a container runtime
 
-### Get latest version
+### Get latest version
 
- We can parse the GitHub API to find the latest version (or we can set this manually)
+We can parse the GitHub API to find the latest version (or we can set this manually)
 
 `KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")`
 
@@ -28,13 +26,15 @@ or manually:
 The easiest method to generate a manifest is using the container itself, below will create an alias for different container runtimes.
 
 ### containerd
+
 `alias kube-vip="ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"`
 
 ### Docker
+
 `alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:KVVERSION"`
 
 ## Creating HA clusters in Equinix Metal
-    
+
 ### Creating a manifest using the API
 
 We can enable `kube-vip` with the capability to discover the required configuration for BGP by passing the `--metal` flag and the API Key and our project ID.
@@ -46,7 +46,7 @@ export INTERFACE=<interface>
 
 where metal_EIP is the Elastic IP (EIP) address your requested via Metal's UI or API. For more informaiton on how to request a Metal's EIP, please see the following [Equinix Metal's EIP document](https://metal.equinix.com/developers/docs/networking/elastic-ips/#elastic-ip-addresses)
 <interface> is the interface you announce your VIP from via BGP. By default it's lo:0 in Equinix Metal.
-    
+
 ```sh
 kube-vip manifest pod \
     --interface $INTERFACE\
@@ -60,10 +60,10 @@ kube-vip manifest pod \
 ```
 
 where metalKey is your "personal API key" under "Personal Settings" of your Metal's portal, and MetalProjectID is your Metal's "Project ID" under "Project Settings"
-    
+
 ### Creating a manifest using the metadata
 
-We can parse the metadata, *however* it requires that the tools `curl` and `jq` are installed. 
+We can parse the metadata, *however* it requires that the tools `curl` and `jq` are installed.
 
 ```sh
 kube-vip manifest pod \
@@ -80,15 +80,16 @@ kube-vip manifest pod \
 
 ## Load Balancing services on Equinix Metal
 
-Below are two examples for running `type:LoadBalancer` services on worker nodes only and will create a daemonset that will run `kube-vip`. 
+Below are two examples for running `type:LoadBalancer` services on worker nodes only and will create a daemonset that will run `kube-vip`.
 
 **NOTE** This use-case requires the [Equinix Metal CCM](https://github.com/equinix/cloud-provider-equinix-metal) to be installed prior to the kube-vip setup and that the cluster/kubelet is configured to use an "external" cloud provider.
 
 ```sh
 export INTERFACE=<interface>
 ```
+
 where <interface> is the interface you announce your VIP from via BGP. By default it's lo:0 in Equinix Metal.
-    
+
 ### Using Annotations
 
 This is important as the CCM will apply the BGP configuration to the [node annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) making it easy for `kube-vip` to find the networking configuration it needs to expose load balancer addresses. The `--annotations metal.equinix.com` will cause kube-vip to "watch" the annotations of the worker node that it is running on, once all of the configuarion has been applied by the CCM then the `kube-vip` pod is ready to advertise BGP addresses for the service.
@@ -102,7 +103,7 @@ kube-vip manifest daemonset \
   --inCluster | k apply -f -
 ```
 
-### Using the existing CCM secret 
+### Using the existing CCM secret
 
 Alternatively it is possible to create a daemonset that will use the existing CCM secret to do an API lookup, this will allow for discovering the networking configuration needed to advertise loadbalancer addresses through BGP.
 
@@ -115,7 +116,7 @@ kube-vip manifest daemonset --interface $INTERFACE \
 --provider-config /etc/cloud-sa/cloud-sa.json | kubectl apply -f -
 ```
 
-### Expose with [Equinix Metal CCM](https://github.com/equinix/cloud-provider-equinix-metal)
+### Expose with Equinix Metal CCM
 
 Follow the [Equinix Metal's Elastic IP (EIP) document](https://metal.equinix.com/developers/docs/networking/elastic-ips/#elastic-ip-addresses) either through the API, CLI or through the UI, to create a public IPv4 EIP address, for example (145.75.75.1) and this is the address you can expose through BGP as the service loadbalancer.
 
