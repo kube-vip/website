@@ -1,6 +1,6 @@
 ---
 title: "DaemonSet"
-weight: 4
+weight: 22
 description: >
   This is the index.
 ---

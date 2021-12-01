@@ -1,6 +1,6 @@
 ---
 title: "Static Pods"
-weight: 3
+weight: 21
 description: >
   This is the index.
 ---

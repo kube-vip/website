@@ -1,6 +1,6 @@
 ---
 title: "Architecture"
-weight: 2
+weight: 11
 description: >
   Kube-Vip architecture.
 ---

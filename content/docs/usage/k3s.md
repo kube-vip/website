@@ -1,6 +1,6 @@
 ---
 title: "K3s"
-weight: 16
+weight: 34
 description: >
   This is the index.
 ---

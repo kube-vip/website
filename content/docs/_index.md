@@ -1,6 +1,6 @@
 ---
 title: "About"
-weight: 1
+weight: 10
 ---
 
 Kube-Vip is an open-source project that aims to simplify providing load balancing services for Kubernetes clusters.

@@ -1,6 +1,6 @@
 ---
 title: "KinD"
-weight: 17
+weight: 36
 description: >
   This is the index.
 ---

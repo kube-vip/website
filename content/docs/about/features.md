@@ -1,6 +1,6 @@
 ---
 title: "Features"
-weight: 1
+weight: 12
 description: >
   Kube-Vip features.
 ---

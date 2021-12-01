@@ -1,6 +1,6 @@
 ---
 title: "Equinix Metal"
-weight: 18
+weight: 38
 description: >
   This is the index.
 ---

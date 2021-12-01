@@ -1,6 +1,6 @@
 ---
 title: "Flags and Environment Variables"
-weight: 5
+weight: 23
 description: >
   Kube-Vip Flag / Environment Variable reference
 ---
