@@ -2,37 +2,37 @@
 title: "Flags and Environment Variables"
 weight: 23
 description: >
-  Kube-Vip Flag / Environment Variable reference
+  kube-vip flag and environment variable reference
 ---
 
 ## Flags
 
-These flags are typically used in the `kube-vip` manifest generation process.
+These flags are typically used in the kube-vip manifest generation process.
 
 | Category            | Flag                   | Usage                                                              | Notes                                                                           |
 | ------------------- | ---------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                        |                                                                    |                                                                                 |
 |                     | `--log`                | default 4                                                          | Set to `5` for debugging logs                                                   |
 | **Mode**            |                        |                                                                    |                                                                                 |
-|                     | `--controlplane`       | Enables `kube-vip` control plane functionality                     |                                                                                 |
-|                     | `--services`           | Enables `kube-vip` to watch services of type `LoadBalancer`        |                                                                                 |
+|                     | `--controlplane`       | Enables kube-vip control plane functionality                     |                                                                                 |
+|                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`        |                                                                                 |
 | **VIP Config**      |                        |                                                                    |                                                                                 |
 |                     | `--arp`                | Enables ARP broadcasts from Leader                                 |                                                                                 |
-|                     | `--bgp`                | Enables BGP peering from `kube-vip`                                |                                                                                 |
+|                     | `--bgp`                | Enables BGP peering from kube-vip                                |                                                                                 |
 |                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
 |                     | `--ddns`               | Enables DDNS support                                               | Requires `--address` is used and set to FQDN                                    |
 |                     | `--interface`          | Linux interface on the node                                        |                                                                                 |
 |                     | `--leaderElection`     | Enables Kubernetes LeaderElection                                  | Used by ARP, as only the leader can broadcast                                   |
-|                     | `--enableLoadBalancer` | Enables IPVS load balancer                                         | `kube-vip` ≥ 0.4.0                                                              |
+|                     | `--enableLoadBalancer` | Enables IPVS load balancer                                         | kube-vip ≥ 0.4.0                                                              |
 |                     | `--lbPort`             | 6443                                                               | The port that the api server will load-balanced on                              |
 |                     | `--lbForwardingMethod` | Select the forwarding method (default local)                       | The IPVS forwarding method (local, masquerade, tunnel, direct, bypass)          |
 | **Services**        |                        |                                                                    |                                                                                 |
 |                     | `--cidr`               | Defaults "32"                                                      | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `--serviceInterface`   | ""                                                                 | Defines an optional different interface to bind services                        |
 | **Kubernetes**      |                        |                                                                    |                                                                                 |
-|                     | `--inCluster`          | Required for `kube-vip` as DaemonSet.                              |  Runs `kube-vip` with a ServiceAccount called `kube-vip`.                       |
-|                     | `--taint`              | Required for `kube-vip` as DaemonSet.                              |  Adds node affinity rules forcing `kube-vip` Pods to run on control plane.      |
+|                     | `--inCluster`          | Required for kube-vip as DaemonSet.                              |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
+|                     | `--taint`              | Required for kube-vip as DaemonSet.                              |  Adds node affinity rules forcing kube-vip Pods to run on control plane.      |
 | **LeaderElection**  |                        |                                                                    |                                                                                 |
 |                     | `--leaseDuration`      | default 5                                                          | Seconds a lease is held for                                                     |
 |                     | `--leaseRenewDuration` | default 3                                                          | Seconds a leader can attempt to renew the lease                                 |
@@ -58,7 +58,7 @@ These flags are typically used in the `kube-vip` manifest generation process.
 
 ## Environment Variables
 
-These environment variables are usually part of a `kube-vip` manifest and used when running the `kube-vip` Pod.
+These environment variables are usually part of a kube-vip manifest and used when running the kube-vip Pod.
 
 More environment variables can be read through the `pkg/kubevip/config_envvar.go` file.
 
@@ -67,17 +67,17 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 | **Troubleshooting** |                       |                                                             |                                                                                 |
 |                     | `vip_loglevel`        | default 4                                                   | Set to `5` for debugging logs                                                   |
 | **Mode**            |                       |                                                             |                                                                                 |
-|                     | `cp_enable`           | Enables `kube-vip` control plane functionality              |                                                                                 |
-|                     | `svc_enable`          | Enables `kube-vip` to watch Services of type `LoadBalancer` |                                                                                 |
+|                     | `cp_enable`           | Enables kube-vip control plane functionality              |                                                                                 |
+|                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer` |                                                                                 |
 | **VIP Config**      |                       |                                                             |                                                                                 |
 |                     | `vip_arp`             | Enables ARP broadcasts from Leader                          |                                                                                 |
-|                     | `bgp_enable`          | Enables BGP peering from `kube-vip`                         |                                                                                 |
+|                     | `bgp_enable`          | Enables BGP peering from kube-vip                         |                                                                                 |
 |                     | `vip_address`         | `<IP Address>`                                              | (deprecated)                                                                    |
 |                     | `address`             | `<IP Address>` or `<DNS name>`                              |                                                                                 |
 |                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                       | Requires `vip_address` is set to FQDN                                           |
 |                     | `vip_interface`       | `<linux interface>`                                         |                                                                                 |
 |                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                           | Used by ARP, as only the leader can broadcast                                   |
-|                     | `lb_enable`           | Enables IPVS LoadBalancer                                   | `kube-vip` ≥ 0.4.0. Adds nodes to the IPVS load balancer                        |
+|                     | `lb_enable`           | Enables IPVS LoadBalancer                                   | kube-vip ≥ 0.4.0. Adds nodes to the IPVS load balancer                        |
 |                     | `lb_port`             | 6443                                                        | The IPVS port that will be used to load-balance control plane requests          |
 |                     | `lb_fwdmethod`        | Select the forwarding method (default local)                | The IPVS forwarding method (local, masquerade, tunnel, direct, bypass)          |
 | **Services**        |                       |                                                             |                                                                                 |

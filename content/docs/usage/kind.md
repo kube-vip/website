@@ -2,16 +2,16 @@
 title: "KinD"
 weight: 36
 description: >
-  This is the index.
+  kube-vip usage on KinD.
 ---
 
 ## Deploying KIND
 
 The documentation for KIND is fantastic and its [quick start](https://kind.sigs.k8s.io/docs/user/quick-start/) guide will have you up and running in no time.
 
-## Find Address Pool for Kube-Vip
+## Find Address Pool for kube-vip
 
-We will need to find addresses that can be used by Kube-Vip:
+We will need to find addresses that can be used by kube-vip:
 
 ```sh
 docker network inspect kind -f '{{ range $i, $a := .IPAM.Config }}{{ println .Subnet }}{{ end }}'
@@ -19,7 +19,7 @@ docker network inspect kind -f '{{ range $i, $a := .IPAM.Config }}{{ println .Su
 
 This will return a CIDR range such as `172.18.0.0/16` and from here we can select a range.
 
-## Deploy the Kube-Vip Cloud Controller
+## Deploy the kube-vip Cloud Controller
 
 ```sh
 kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
@@ -53,7 +53,7 @@ The easiest method to generate a manifest is using the container itself, below w
 
 `alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:$KVVERSION"`
 
-## Deploy Kube-vip as a DaemonSet
+## Deploy kube-vip as a DaemonSet
 
 ```sh
 kube-vip manifest daemonset --services --inCluster --arp --interface eth0 | kubectl apply -f -

@@ -2,7 +2,7 @@
 title: "Usage"
 weight: 30
 description: >
-  This is the index.
+  kube-vip usage.
 ---
 
-Kube-Vip can be used in several different Kubernetes environments and distributions, but some differences exist.
+kube-vip can be used in several different Kubernetes environments and distributions, but some differences exist. In general, a minimum requirement for using kube-vip for control plane load balancing is the control plane nodes must run kubelet.
