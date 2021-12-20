@@ -158,5 +158,5 @@ TCP 14:49  ESTABLISHED 192.168.0.40:56040 192.168.0.40:6443  192.168.0.42:6443
 
 The kube-vip Kubernetes load balancer requires a number of components in order to function:
 
-- [Kube-Vip Cloud Provider](https://github.com/kube-vip/kube-vip-cloud-provider)
-- [Kube-Vip Deployment](https://github.com/kube-vip/kube-vip)
+- [kube-vip Cloud Provider](https://github.com/kube-vip/kube-vip-cloud-provider)
+- [kube-vip Deployment](https://github.com/kube-vip/kube-vip)
