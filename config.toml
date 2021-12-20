@@ -1,4 +1,4 @@
-baseURL = "https://example.com/"
+baseURL = "kube-vip.chipzoller.dev/"
 title = "kube-vip"
 enableRobotsTXT = true
 # this example loads the theme as hugo module
