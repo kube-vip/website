@@ -2,10 +2,10 @@
 title: "Features"
 weight: 12
 description: >
-  Kube-Vip features.
+  kube-vip features.
 ---
 
-Kube-Vip was originally created to provide a HA solution for the Kubernetes control plane, but over time it has evolved to incorporate that same functionality for Kubernetes Services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer). Some of the features include:
+kube-vip was originally created to provide a HA solution for the Kubernetes control plane, but over time it has evolved to incorporate that same functionality for Kubernetes Services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer). Some of the features include:
 
 - VIP addresses can be IPv4, IPv6, or DNS name
 - Control plane load balancing:

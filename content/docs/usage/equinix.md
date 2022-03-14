@@ -2,7 +2,7 @@
 title: "Equinix Metal"
 weight: 38
 description: >
-  This is the index.
+  kube-vip usage on Equinix Metal.
 ---
 
 ## BGP with Equinix Metal
@@ -37,7 +37,7 @@ The easiest method to generate a manifest is using the container itself, below w
 
 ### Creating a manifest using the API
 
-We can enable `kube-vip` with the capability to discover the required configuration for BGP by passing the `--metal` flag and the API Key and our project ID.
+We can enable kube-vip with the capability to discover the required configuration for BGP by passing the `--metal` flag and the API Key and our project ID.
 
 ```sh
 export VIP= metal_EIP  
@@ -80,7 +80,7 @@ kube-vip manifest pod \
 
 ## Load Balancing services on Equinix Metal
 
-Below are two examples for running `type:LoadBalancer` services on worker nodes only and will create a daemonset that will run `kube-vip`.
+Below are two examples for running `type:LoadBalancer` services on worker nodes only and will create a daemonset that will run kube-vip.
 
 **NOTE** This use-case requires the [Equinix Metal CCM](https://github.com/equinix/cloud-provider-equinix-metal) to be installed prior to the kube-vip setup and that the cluster/kubelet is configured to use an "external" cloud provider.
 
@@ -92,7 +92,7 @@ where <interface> is the interface you announce your VIP from via BGP. By defaul
 
 ### Using Annotations
 
-This is important as the CCM will apply the BGP configuration to the [node annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) making it easy for `kube-vip` to find the networking configuration it needs to expose load balancer addresses. The `--annotations metal.equinix.com` will cause kube-vip to "watch" the annotations of the worker node that it is running on, once all of the configuarion has been applied by the CCM then the `kube-vip` pod is ready to advertise BGP addresses for the service.
+This is important as the CCM will apply the BGP configuration to the [node annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) making it easy for kube-vip to find the networking configuration it needs to expose load balancer addresses. The `--annotations metal.equinix.com` will cause kube-vip to "watch" the annotations of the worker node that it is running on, once all of the configuarion has been applied by the CCM then the kube-vip pod is ready to advertise BGP addresses for the service.
 
 ```sh
 kube-vip manifest daemonset \
@@ -133,7 +133,7 @@ kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=
 
 ## Troubleshooting
 
-If `kube-vip` has been sat waiting for a long time then you may need to investigate that the annotations have been applied correctly by doing running the `describe` on the node:
+If kube-vip has been sat waiting for a long time then you may need to investigate that the annotations have been applied correctly by doing running the `describe` on the node:
 
 ```sh
 kubectl describe node k8s.bgp02
@@ -146,7 +146,7 @@ Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: /var/run/dockershim.
                     metal.equinix.com/src-ip: x.x.x.x
 ```
 
-If there are errors regarding `169.254.255.1` or `169.254.255.2` in the `kube-vip` logs then the routes to the ToR switches that provide BGP peering may by missing from the nodes. They can be replaced with the below command:
+If there are errors regarding `169.254.255.1` or `169.254.255.2` in the kube-vip logs then the routes to the ToR switches that provide BGP peering may by missing from the nodes. They can be replaced with the below command:
 
 ```sh
 GATEWAY_IP=$(curl https://metadata.platformequinix.com/metadata | jq -r ".network.addresses[] | select(.public == false) | .gateway")

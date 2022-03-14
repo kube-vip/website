@@ -5,21 +5,21 @@ description: >
   Specific use cases for kube-vip.
 ---
 
-# Kube-Vip On-Prem
+# kube-vip On-Prem
 
-We've designed `kube-vip` to be as decoupled or agnostic from other components that may exist within a Kubernetes cluster as possible. This has lead to `kube-vip` having a very simplistic but robust approach to advertising Kubernetes Services to the outside world and marking these Services as ready to use.
+We've designed kube-vip to be as decoupled or agnostic from other components that may exist within a Kubernetes cluster as possible. This has lead to kube-vip having a very simplistic but robust approach to advertising Kubernetes Services to the outside world and marking these Services as ready to use.
 
 ## Cloud Controller Manager
 
-`kube-vip` isn't coupled to anything other than the Kubernetes API and will only act upon an existing Kubernetes primitive (in this case the object of type `Service`). This makes it easy for existing [cloud controller managers (CCMs)](https://kubernetes.io/docs/concepts/architecture/cloud-controller/) to simply apply their logic to services of type LoadBalancer and leave `kube-vip` to take the next steps to advertise these load balancers to the outside world.
+kube-vip isn't coupled to anything other than the Kubernetes API and will only act upon an existing Kubernetes primitive (in this case the object of type `Service`). This makes it easy for existing [cloud controller managers (CCMs)](https://kubernetes.io/docs/concepts/architecture/cloud-controller/) to simply apply their logic to services of type LoadBalancer and leave kube-vip to take the next steps to advertise these load balancers to the outside world.
 
-## Using the Kube-Vip Cloud Provider
+## Using the kube-vip Cloud Provider
 
-The `kube-vip` cloud provider can be used to populate an IP address for Services of type `LoadBalancer` similar to what public cloud providers allow through a Kubernetes CCM. The below instructions *should just work* on Kubernetes regardless of the architecture (a Linux OS being the only requirement) and will install the latest components.
+The kube-vip cloud provider can be used to populate an IP address for Services of type `LoadBalancer` similar to what public cloud providers allow through a Kubernetes CCM. The below instructions *should just work* on Kubernetes regardless of the architecture (a Linux OS being the only requirement) and will install the latest components.
 
-## Install the Kube-Vip Cloud Provider
+## Install the kube-vip Cloud Provider
 
-The `kube-vip` cloud provider can be installed from the latest release in the `main` branch by using the following command:
+The kube-vip cloud provider can be installed from the latest release in the `main` branch by using the following command:
 
 ```sh
 kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
@@ -27,9 +27,9 @@ kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provi
 
 ## Create a global CIDR or IP Range
 
-In order for `kube-vip` to set an IP address for a Service of type `LoadBalancer`, it needs to have an availability of IP address to assign. This information is stored in a Kubernetes ConfigMap to which `kube-vip` has access. You control the scope of the IP allocations with the `key` within the ConfigMap. Either CIDR blocks or IP ranges may be specified and scoped either globally (cluster-side) or per-Namespace.
+In order for kube-vip to set an IP address for a Service of type `LoadBalancer`, it needs to have an availability of IP address to assign. This information is stored in a Kubernetes ConfigMap to which kube-vip has access. You control the scope of the IP allocations with the `key` within the ConfigMap. Either CIDR blocks or IP ranges may be specified and scoped either globally (cluster-side) or per-Namespace.
 
-To allow a global (cluster-wide) CIDR block which `kube-vip` can use to allocate an IP to Services of type `LoadBalancer` in any Namespace, create a ConfigMap named `kubevip` with the key `cidr-global` and value equal to a CIDR block available in your environment. For example, the below command creates a global CIDR with value `192.168.0.220/29` from which `kube-vip` will allocate IP addresses.
+To allow a global (cluster-wide) CIDR block which kube-vip can use to allocate an IP to Services of type `LoadBalancer` in any Namespace, create a ConfigMap named `kubevip` with the key `cidr-global` and value equal to a CIDR block available in your environment. For example, the below command creates a global CIDR with value `192.168.0.220/29` from which kube-vip will allocate IP addresses.
 
 ```sh
 kubectl create configmap -n kube-system kubevip --from-literal cidr-global=192.168.0.220/29
@@ -43,7 +43,7 @@ kubectl create configmap -n kube-system kubevip --from-literal range-global=192.
 
 Creating services of type `LoadBalancer` in any Namespace will now take addresses from one of the global pools defined in the ConfigMap unless a Namespace-specific pool is created.
 
-### The Kube-Vip Cloud Provider ConfigMap
+### The kube-vip Cloud Provider ConfigMap
 
 To manage the IP address ranges for Services of type `LoadBalancer`, the `kube-vip-cloud-provider` uses a ConfigMap held in the `kube-system` Namespace. IP addresses can be configured using one or multiple formats:
 
@@ -76,7 +76,7 @@ data:
 
 ### Expose a Service
 
-We can now expose a Service and once the cloud provider has provided an address, `kube-vip` will start to advertise that address to the outside world as shown below:
+We can now expose a Service and once the cloud provider has provided an address, kube-vip will start to advertise that address to the outside world as shown below:
 
 ```sh
 kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
@@ -125,9 +125,9 @@ spec:
 
 ### Using DHCP for Load Balancers (experimental)
 
-With `kube-vip` > 0.2.1, it is possible to use the local network DHCP server to provide `kube-vip` with a load balancer address that can be used to access a Kubernetes service on the network.
+With kube-vip > 0.2.1, it is possible to use the local network DHCP server to provide kube-vip with a load balancer address that can be used to access a Kubernetes service on the network.
 
-In order to do this, we need to signify to `kube-vip` and the cloud provider that we don't need one of their managed addresses. We do this by explicitly exposing a Service on the address `0.0.0.0`. When `kube-vip` sees a Service on this address, it will create a `macvlan` interface on the host and request a DHCP address. Once this address is provided, it will assign it as the `LoadBalancer` IP and update the Kubernetes Service.
+In order to do this, we need to signify to kube-vip and the cloud provider that we don't need one of their managed addresses. We do this by explicitly exposing a Service on the address `0.0.0.0`. When kube-vip sees a Service on this address, it will create a `macvlan` interface on the host and request a DHCP address. Once this address is provided, it will assign it as the `LoadBalancer` IP and update the Kubernetes Service.
 
 ```sh
 $ kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx-dhcp --load-balancer-ip=0.0.0.0; kubectl get svc
@@ -146,7 +146,7 @@ nginx-dhcp   LoadBalancer   10.97.150.208   192.168.0.155   80:31184/TCP   3s
 
 ### Using UPnP to expose a Service to the outside world
 
-With `kube-vip` > 0.2.1, it is possible to expose a Service of type `LoadBalancer` on a specific port to the Internet by using UPnP (on a supported gateway).
+With kube-vip > 0.2.1, it is possible to expose a Service of type `LoadBalancer` on a specific port to the Internet by using UPnP (on a supported gateway).
 
 Most simple networks look something like the following:
 
@@ -156,7 +156,7 @@ Using UPnP we can create a matching port on the `<external network address>` all
 
 #### Enable UPnP
 
-Add the following to the `kube-vip` `env:` section of either the static Pod or DaemonSet for `kube-vip`, and the rest should be completely automated.
+Add the following to the kube-vip `env:` section of either the static Pod or DaemonSet for kube-vip, and the rest should be completely automated.
 
 **Note** some environments may require (Unifi) `Secure mode` being `disabled` (this allows a host with a different address to register a port).
 

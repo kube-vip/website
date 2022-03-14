@@ -7,12 +7,12 @@ description: >
 
 This section covers two parts of the architecture:
 
-1. The technical capabilities of `kube-vip`.
+1. The technical capabilities of kube-vip.
 2. The components to build a load balancing service within Kubernetes.
 
-The `kube-vip` project is designed to provide both a highly available networking endpoint and load balancing functionality for underlying networking services. The project was originally designed for the purpose of providing a resilient control plane for Kubernetes but has since expanded to provide the same functionality for Service resources within a Kubernetes cluster.
+The kube-vip project is designed to provide both a highly available networking endpoint and load balancing functionality for underlying networking services. The project was originally designed for the purpose of providing a resilient control plane for Kubernetes but has since expanded to provide the same functionality for Service resources within a Kubernetes cluster.
 
-Additionally, `kube-vip` is designed to be lightweight and multi-architecture. All of the components are built for Linux on `x86`, `armv7`, `armhvf`, and `ppc64le` architectures. This means that `kube-vip` will run fine in bare metal, virtual, and edge (Raspberry Pi or small ARM SoC) use cases.
+Additionally, kube-vip is designed to be lightweight and multi-architecture. All of the components are built for Linux on `x86`, `armv7`, `armhvf`, and `ppc64le` architectures. This means that kube-vip will run fine in bare metal, virtual, and edge (Raspberry Pi or small ARM SoC) use cases.
 
 ## Technologies
 
@@ -20,7 +20,7 @@ There are a number of technologies or functional design choices that provide hig
 
 ### Cluster
 
-The `kube-vip` service builds a multi-node or multi-pod cluster to provide high availability. In ARP mode, a leader is elected which will inherit the virtual IP and become the leader of the load balancing within the cluster whereas with BGP all nodes will advertise the VIP address.
+The kube-vip service builds a multi-node or multi-pod cluster to provide high availability. In ARP mode, a leader is elected which will inherit the virtual IP and become the leader of the load balancing within the cluster whereas with BGP all nodes will advertise the VIP address.
 
 When using ARP or [Layer 2](https://osi-model.com/data-link-layer/) it will use [leader election](https://godoc.org/k8s.io/client-go/tools/leaderelection).
 
@@ -32,7 +32,7 @@ When the VIP moves from one host to another, any host that has been using the VI
 
 ### ARP
 
-`kube-vip` can optionally be configured to broadcast a Gratuitous ARP that will typically immediately notify all local hosts that the VIP-to-MAC address mapping has changed.
+kube-vip can optionally be configured to broadcast a Gratuitous ARP that will typically immediately notify all local hosts that the VIP-to-MAC address mapping has changed.
 
 Below we can see that the failover is typically done within a few seconds as the ARP broadcast is received.
 
@@ -59,33 +59,33 @@ Request timeout for icmp_seq 150
 
 ### Load Balancing
 
-`kube-vip` has the capability to provide a high availability address for both the Kubernetes control plane and for a Kubernetes Service. As of v0.4.0, `kube-vip` implements support for true load balancing for the control plane to distribute API requests across control plane nodes.
+kube-vip has the capability to provide a high availability address for both the Kubernetes control plane and for a Kubernetes Service. As of v0.4.0, kube-vip implements support for true load balancing for the control plane to distribute API requests across control plane nodes.
 
 #### Kubernetes Service Load Balancing
 
-The following is required in the `kube-vip` manifest to enable Service of type `LoadBalancer`:
+The following is required in the kube-vip manifest to enable Service of type `LoadBalancer`:
 
 ```yaml
 - name: svc_enable
   value: "true"
 ```
 
-This section details the flow of events in order for `kube-vip` to advertise a Kubernetes Service:
+This section details the flow of events in order for kube-vip to advertise a Kubernetes Service:
 
 1. An end user exposes an application through Kubernetes as a Service type `LoadBalancer`. For example, imperatively using `kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx`
 2. Within the Kubernetes cluster, a Service object is created with the `spec.type` set to `LoadBalancer`.
 3. A controller (typically a [Cloud Controller](/usage/on-prem)) has a loop that "watches" for Services of the type `LoadBalancer`.
 4. The controller now has the responsibility of providing an IP address for this Service along with doing anything that is network specific for the environment where the cluster is running.
 5. Once the controller has an IP address, it will update the Service field `spec.loadBalancerIP` with the IP address.
-6. `kube-vip` Pods implement a "watcher" for Services that have a `svc.Spec.loadBalancerIP` address attached.
-7. When a new Service appears, `kube-vip` will start advertising this address to the wider network (through BGP/ARP) which will allow traffic to come into the cluster and hit the Service network.
-8. Finally, `kube-vip` will update the Service status so that the API reflects the object is ready. This is done by updating the `status.loadBalancer.ingress` with the VIP address.
+6. kube-vip Pods implement a "watcher" for Services that have a `svc.Spec.loadBalancerIP` address attached.
+7. When a new Service appears, kube-vip will start advertising this address to the wider network (through BGP/ARP) which will allow traffic to come into the cluster and hit the Service network.
+8. Finally, kube-vip will update the Service status so that the API reflects the object is ready. This is done by updating the `status.loadBalancer.ingress` with the VIP address.
 
 #### Control Plane Load-Balancing
 
-As of `kube-vip` v0.4.0, IPVS load balancing is configured for having the VIP in the same subnet as the control plane nodes. NAT-based load balancing will follow later.
+As of kube-vip v0.4.0, IPVS load balancing is configured for having the VIP in the same subnet as the control plane nodes. NAT-based load balancing will follow later.
 
-To enable control plane load balancing using IPVS, the environment variable `lb_enable` is required in the `kube-vip` manifest:
+To enable control plane load balancing using IPVS, the environment variable `lb_enable` is required in the kube-vip manifest:
 
 ```yaml
 - name : lb_enable
@@ -94,7 +94,7 @@ To enable control plane load balancing using IPVS, the environment variable `lb_
 
 The load balancing is provided through IPVS (IP Virtual Server) and provides a Layer 4 (TCP-based) round-robin across all of the control plane nodes. By default, the load balancer will listen on the default port of 6443 as the Kubernetes API server. The IPVS virtual server lives in kernel space and doesn't create an "actual" service that listens on port 6443. This allows the kernel to parse packets before they're sent to an actual TCP port. This is important to know because it means we don't have any port conflicts having the IPVS load balancer listening on the same port as the API server on the same host.
 
-The load balancer port can be customised by changing the `lb_port` environment variable in the `kube-vip` manifest:
+The load balancer port can be customised by changing the `lb_port` environment variable in the kube-vip manifest:
 
 ```yaml
 - name: lb_port
@@ -103,7 +103,7 @@ The load balancer port can be customised by changing the `lb_port` environment v
 
 ##### How it works
 
-Once the `lb_enable` variable is set to `true`, `kube-vip` will do the following:
+Once the `lb_enable` variable is set to `true`, kube-vip will do the following:
 
 - In Layer 2 it will create an IPVS service on the leader.
 - In Layer 3 all nodes will create an IPVS service.
@@ -156,7 +156,7 @@ TCP 14:49  ESTABLISHED 192.168.0.40:56040 192.168.0.40:6443  192.168.0.42:6443
 
 ## Components within a Kubernetes Cluster
 
-The `kube-vip` Kubernetes load balancer requires a number of components in order to function:
+The kube-vip Kubernetes load balancer requires a number of components in order to function:
 
-- [Kube-Vip Cloud Provider](https://github.com/kube-vip/kube-vip-cloud-provider)
-- [Kube-Vip Deployment](https://github.com/kube-vip/kube-vip)
+- [kube-vip Cloud Provider](https://github.com/kube-vip/kube-vip-cloud-provider)
+- [kube-vip Deployment](https://github.com/kube-vip/kube-vip)
