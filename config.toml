@@ -1,4 +1,4 @@
-baseURL = "docs.kube-vip.io/"
+baseURL = "kube-vip.io/"
 title = "kube-vip"
 enableRobotsTXT = true
 # this example loads the theme as hugo module
