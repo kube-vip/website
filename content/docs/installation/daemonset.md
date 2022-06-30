@@ -245,6 +245,14 @@ The `routerID` needs to be unique on each node that participates in BGP advertis
 - name: bgp_routerinterface
   value: "ens160"
 ```
+Alternatively, we can use the IP address of the pod itself as a unique value for the `routerID`:
+
+```yaml
+- name: bgp_routerid
+  valueFrom:
+    fieldRef:
+      fieldPath: status.podIP
+```
 
 ### DaemonSet Manifest Overview
 
