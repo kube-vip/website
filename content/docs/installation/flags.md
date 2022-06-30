@@ -14,11 +14,14 @@ These flags are typically used in the kube-vip manifest generation process.
 | **Troubleshooting** |                        |                                                                    |                                                                                 |
 |                     | `--log`                | default 4                                                          | Set to `5` for debugging logs                                                   |
 | **Mode**            |                        |                                                                    |                                                                                 |
+|                     | `--arp`                | Enables ARP broadcasts from Leader                                 |                                                                                 |
+|                     | `--bgp`                | Enables BGP peering from kube-vip                                |                                          
+|                     | `--table`              | Enables routing entries to be created                            |                                                                                 |
+|                     | `--wireguard`          | Enables services to be exposed over Wireguard                      |                                          
+| **Features**        |                        |                                                                    |                                                                                 |
 |                     | `--controlplane`       | Enables kube-vip control plane functionality                     |                                                                                 |
 |                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`        |                                                                                 |
 | **VIP Config**      |                        |                                                                    |                                                                                 |
-|                     | `--arp`                | Enables ARP broadcasts from Leader                                 |                                                                                 |
-|                     | `--bgp`                | Enables BGP peering from kube-vip                                |                                                                                 |
 |                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
 |                     | `--ddns`               | Enables DDNS support                                               | Requires `--address` is used and set to FQDN                                    |
@@ -28,8 +31,10 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--lbPort`             | 6443                                                               | The port that the api server will load-balanced on                              |
 |                     | `--lbForwardingMethod` | Select the forwarding method (default local)                       | The IPVS forwarding method (local, masquerade, tunnel, direct, bypass)          |
 | **Services**        |                        |                                                                    |                                                                                 |
+|                     | `--vipSubnet`          | Defaults ""                                                        | The Virtual IP address subnet e.g. /32 /24 /8 etc..|
 |                     | `--cidr`               | Defaults "32"                                                      | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
-|                     | `--serviceInterface`   | ""                                                                 | Defines an optional different interface to bind services                        |
+|                     | `--serviceInterface`   | ""                                                                 | (Optional) different interface to bind services too                        |
+|                     | `--serviceElection`    | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
 | **Kubernetes**      |                        |                                                                    |                                                                                 |
 |                     | `--inCluster`          | Required for kube-vip as DaemonSet.                              |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
 |                     | `--taint`              | Required for kube-vip as DaemonSet.                              |  Adds node affinity rules forcing kube-vip Pods to run on control plane.      |
