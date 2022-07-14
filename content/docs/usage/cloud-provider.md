@@ -1,6 +1,6 @@
 ---
-title: "Cloud Provider"
-weight: 32
+title: "On-Premises (kube-vip-cloud-controller)"
+weight: 52
 description: >
   Specific use cases for kube-vip.
 ---

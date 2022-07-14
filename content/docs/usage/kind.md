@@ -1,6 +1,6 @@
 ---
 title: "KinD"
-weight: 36
+weight: 56
 description: >
   kube-vip usage on KinD.
 ---

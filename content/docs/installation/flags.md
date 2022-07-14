@@ -1,6 +1,6 @@
 ---
 title: "Flags and Environment Variables"
-weight: 23
+weight: 33
 description: >
   kube-vip flag and environment variable reference
 ---
@@ -9,7 +9,7 @@ description: >
 
 These flags are typically used in the kube-vip manifest generation process.
 
-| Category            | Flag                   | Usage                                                              | Notes                                                                           |
+| Category            | Flag<div style="width:190px">property</div>              | Usage                                                              | Notes                                                                           |
 | ------------------- | ---------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                        |                                                                    |                                                                                 |
 |                     | `--log`                | default 4                                                          | Set to `5` for debugging logs                                                   |
@@ -67,7 +67,7 @@ These environment variables are usually part of a kube-vip manifest and used whe
 
 More environment variables can be read through the `pkg/kubevip/config_envvar.go` file.
 
-| Category            | Environment Variable  | Usage                                                       | Notes                                                                           |
+| Category            | Environment Variable <div style="width:190px">property</div> | Usage                                                       | Notes                                                                           |
 | ------------------- | --------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                       |                                                             |                                                                                 |
 |                     | `vip_loglevel`        | default 4                                                   | Set to `5` for debugging logs                                                   |

@@ -17,6 +17,24 @@ kube-vip provides Kubernetes clusters with a virtual IP and load balancer for bo
 
 [![Build and publish main image regularly](https://github.com/kube-vip/kube-vip/actions/workflows/main.yaml/badge.svg)](https://github.com/kube-vip/kube-vip/actions/workflows/main.yaml)
 
+## Modes 
+
+### ARP
+
+**ARP** is a layer 2 protocol that is used to inform the network of the location of a new address. When a new IP address is configured to a device, there needs to be a mechanism to inform the network of which piece of hardware is hosting this new address. ARP is the technology that is used to ensure that a network understands the link between the hardware address (MAC) and the logical address (IP).
+
+### BGP
+
+**BGP** is a mechanism so that networks that rely on routing (layer 3) can ensure that new addresses are advertised to the routing infrastructure. When this information has been updated it transparently means that the router will automatically forward traffic to the correct devices.
+
+### Routing Table
+
+The **Routing Table** mode is to allow additional routing technologies such as ECMP etc. to be configuraed so that traffic can be send to a range of nodes (such as your Kubernetes nodes), and kube-vip will manage the addition/deletion of addresses to the routing tables of these nodes so that they can recieve the correct traffic.
+
+### WireGuard
+
+The [**Wireguard**](https://www.wireguard.com/) mode allows Kubernetes services to be advertised over the wireguard interface (`wg0`), it's main use-case is so that distributed services across multiple clusters can centralise all their advised services on a central network controlled by wireguard.
+
 ## Features
 
 ### Control Plane

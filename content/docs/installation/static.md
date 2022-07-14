@@ -1,6 +1,6 @@
 ---
 title: "Static Pods"
-weight: 21
+weight: 31
 description: >
   kube-vip installation as a static Pod.
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Equinix Metal"
-weight: 38
+weight: 58
 description: >
   kube-vip usage on Equinix Metal.
 ---

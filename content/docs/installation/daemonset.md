@@ -1,6 +1,6 @@
 ---
 title: "DaemonSet"
-weight: 22
+weight: 32
 description: >
   kube-vip installation as a DaemonSet.
 ---
