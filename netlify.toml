@@ -30,3 +30,6 @@ HUGO_VERSION = "0.88.1"
 [context.next.environment]
 HUGO_ENABLEGITINFO = "true"
 
+[[redirects]]
+  from = "/helm-charts"
+  to = "https://kube-vip.github.io/helm-charts/"
