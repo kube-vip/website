@@ -9,5 +9,7 @@ This site uses the Compose Hugo theme loaded as a Hugo module. Updating the them
 To run a live server as you're working on doc updates, please use the following command:
 
 ```
-hugo server --bind 0.0.0.0 -b `hostname -f`
+hugo server -b `hostname -f`
 ```
+
+If you're wanting to access the exposed server, then you can bind it either to a specific external IP or all IPs with `-b 0.0.0.0`.

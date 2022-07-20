@@ -21,7 +21,7 @@ kube-vip provides Kubernetes clusters with a virtual IP and load balancer for bo
 
 ### ARP
 
-**ARP** is a layer 2 protocol that is used to inform the network of the location of a new address. When a new IP address is configured to a device, there needs to be a mechanism to inform the network of which piece of hardware is hosting this new address. ARP is the technology that is used to ensure that a network understands the link between the hardware address (MAC) and the logical address (IP).
+**ARP** is a layer 2 protocol that is used to inform the network of the location of a new address. When a new IP address is configured to a device, there needs to be a mechanism to inform the network of which piece of hardware is hosting this new address. ARP is the technology that is used to ensure that a network understands the link between the hardware address (MAC) and the logical address (IP). In order to inform the entire layer 2 network of a net IP <--> MAC pairing typically a gratuitous ARP broadcast is performed, more detail can be found here [https://www.practicalnetworking.net/series/arp/gratuitous-arp/](https://www.practicalnetworking.net/series/arp/gratuitous-arp/)
 
 ### BGP
 
@@ -29,11 +29,11 @@ kube-vip provides Kubernetes clusters with a virtual IP and load balancer for bo
 
 ### Routing Table
 
-The **Routing Table** mode is to allow additional routing technologies such as ECMP etc. to be configuraed so that traffic can be send to a range of nodes (such as your Kubernetes nodes), and kube-vip will manage the addition/deletion of addresses to the routing tables of these nodes so that they can recieve the correct traffic.
+The **Routing Table** mode is to allow additional routing technologies such as ECMP etc. to be configured so that traffic can be send to a range of nodes (such as your Kubernetes nodes), and kube-vip will manage the addition/deletion of addresses to the routing tables of these nodes so that they can recieve the correct traffic.
 
 ### WireGuard
 
-The [**Wireguard**](https://www.wireguard.com/) mode allows Kubernetes services to be advertised over the wireguard interface (`wg0`), it's main use-case is so that distributed services across multiple clusters can centralise all their advised services on a central network controlled by wireguard.
+The [**Wireguard**](https://www.wireguard.com/) mode allows Kubernetes services to be advertised over the wireguard interface (`wg0`). One of its main use-case is so that distributed services across multiple clusters can centralise all their advised services on a central network controlled by wireguard.
 
 ## Features
 

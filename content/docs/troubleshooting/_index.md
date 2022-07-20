@@ -7,9 +7,9 @@ description: >
 
 ## Wireguard 
 
-To debug most wireguard issues you'll need to examine the node that has the leadership or the wireguard servier itself. 
+To debug most Wireguard issues you'll need to examine the node that has the leadership or the Wireguard server itself. 
 
-### View wireguard configuration (server)
+### View Wireguard configuration (server)
 
 The `wg show all` command will detail the peer connections, the peers being the kube-vip leader on the remote cluster.
 
@@ -29,9 +29,9 @@ peer: Zl4q4n6aLOJcLvNxzbsknpUccvJxlXg/e3isNjBF5Gk=
 
 ### An `allowed ips: (none)` configuration
 
-In the event an peer has no allowed ips, it usually means that two peers were created with the same ip range (which is illegal in Wireguard)
+In the event an peer has no allowed IPs it usually means that two peers were created with the same ip range (which is illegal in Wireguard)
 
-### Enable wireguard debugging (on the server)
+### Enable Wireguard debugging (on the server)
 ```
 echo module wireguard +p > /sys/kernel/debug/dynamic_debug/control
 ```
