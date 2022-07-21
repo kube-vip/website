@@ -1,6 +1,6 @@
 ---
 title: "K3s"
-weight: 34
+weight: 54
 description: >
   kube-vip usage on K3s.
 ---

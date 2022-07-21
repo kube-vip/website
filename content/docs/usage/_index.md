@@ -1,6 +1,6 @@
 ---
 title: "Usage"
-weight: 30
+weight: 50
 description: >
   kube-vip usage.
 ---
