@@ -23,15 +23,15 @@ It is entirely possible for multiple services to share the same IP, as long as t
 
 The below example will create two load balancer services that listen on the same ip `192.168.0.220` but expose port `80` & `81`.
 ```
-$ kubectl expose deployment deployment \
+$ kubectl expose deployment test-deploy \
     --port=80 --target-port=80 \
     --type=LoadBalancer --name http1 \
     --load-balancer-ip=192.168.0.220
-service/nginx1 exposed
+service/http1 exposed
 
-$ kubectl expose deployment deployment \
+$ kubectl expose deployment test-deploy \
     --port=81 --target-port=80 \
     --type=LoadBalancer --name http2 \
     --load-balancer-ip=192.168.0.220
-service/nginx2 exposed
+service/http2 exposed
 ```
