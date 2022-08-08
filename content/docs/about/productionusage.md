@@ -20,6 +20,7 @@ Below is a small list of places where kube-vip is used:
 - Cluster-API Cloudstack
 - Cluster-API Nutanix
 - Cluster-API BYOH (Bring your own host)
+- Cluster-API IBMCloud
 - EKS-Anywhere
 - Harvester (from Rancher)
 
