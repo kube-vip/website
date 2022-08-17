@@ -42,7 +42,7 @@ Cloud Controller:
  kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
 ```
 
-### Install kube-vip
+### Install kube-vip
 
 We can parse the GitHub API to find the latest version (or we can set this manually)
 
