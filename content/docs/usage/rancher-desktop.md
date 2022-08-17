@@ -21,9 +21,9 @@ This will then ensure that `k3s` will start with the internal service lb disable
 
 With Rancher Desktop you're typically left with `nerdctl` to apply manifests, so the following steps are required:
 
-### Apply Network range
+### Apply Network range
 
-**Note** I've 
+**Note** I've yet to determine what would be the correct IP range **or if DHCP would work (this is still WiP)
 
 ```
 kubectl create configmap --namespace kube-system kubevip --from-literal range-global=172.18.100.10-172.18.100.30
