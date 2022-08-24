@@ -25,7 +25,42 @@ kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 
 ## Generating a Manifest
 
-In order to create an easier experience of consuming the various functionality within kube-vip, we can use the kube-vip container itself to generate our DaemonSet manifest. We do this by running the kube-vip image as a container and passing in the various [flags](/flags/) for the capabilities we want to enable. Generating a kube-vip manifest for running as a DaemonSet is almost identical to the process when running kube-vip as a [static Pod](/install_static). Only a few flags are different between the two processes. Therefore, refer back to the [Generating a Manifest](/install_static/#generating-a-manifest) section on the [static Pod installation page](/install_static) for the main process steps.
+In order to create an easier experience of consuming the various functionality within kube-vip, we can use the kube-vip container itself to generate our static Pod manifest. We do this by running the kube-vip image as a container and passing in the various [flags](/flags/) for the capabilities we want to enable.
+
+### Set configuration details
+
+We use environment variables to predefine the values of the inputs to supply to kube-vip.
+
+Set the `VIP` address to be used for the control plane:
+
+`export VIP=192.168.0.40`
+
+Set the `INTERFACE` name to the name of the interface on the control plane(s) which will announce the VIP. In many Linux distributions this can be found with the `ip a` command.
+
+`export INTERFACE=ens160`
+
+Get the latest version of the kube-vip release by parsing the GitHub API. This step requires that `jq` and `curl` are installed.
+
+`KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")`
+
+To set manually instead, find the desired [release tag](https://github.com/kube-vip/kube-vip/releases):
+
+`export KVVERSION=v0.5.0`
+
+### Creating the manifest
+
+With the input values now set, we can pull and run the kube-vip image supplying it the desired flags and values. Once the static Pod manifest is generated for your desired method (ARP or BGP), if running multiple control plane nodes, ensure it is placed in each control plane's static manifest directory (by default, `/etc/kubernetes/manifests`).
+
+Depending on the container runtime, use one of the two aliased commands to create a kube-vip command which runs the kube-vip image as a container.
+
+For containerd, run the below command:
+
+`alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"`
+
+For Docker, run the below command:
+
+`alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:$KVVERSION"`
+
 
 ### ARP Example for DaemonSet
 
