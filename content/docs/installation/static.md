@@ -44,7 +44,7 @@ Get the latest version of the kube-vip release by parsing the GitHub API. This s
 
 To set manually instead, find the desired [release tag](https://github.com/kube-vip/kube-vip/releases):
 
-`export KVVERSION=v0.4.0`
+`export KVVERSION=v0.5.0`
 
 ### Creating the manifest
 
@@ -54,7 +54,7 @@ Depending on the container runtime, use one of the two aliased commands to creat
 
 For containerd, run the below command:
 
-`alias kube-vip="ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"`
+`alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"`
 
 For Docker, run the below command:
 
