@@ -89,3 +89,15 @@ spec:
 *Example additions to a manifest*
 
 The annotations mean that kube-vip will know that the traffic from the `pod` will now need modifying so that the source address becomes the address of the loadBalancer. The `externalTrafficPolicy` is required because the loadbalancer address needs to be on the same node where the pod resides, otherwise the rules written into the kernel wont work.
+
+### Applying Egress rules only to certain destination ports
+
+To allow differentiation of traffic, in the event you would have multiple pods performing various egress.. we can apply rules that are specific on outbound traffic. So if we had a sip client that was sending traffic out to a remote host on port `5060` we would only rewrite the egress of that traffic particularly. This is done through annotations:
+
+```
+  annotations:
+    kube-vip.io/egress: "true"
+    kube-vip.io/egress-destination-ports: udp:5060
+```
+
+The annotation is a colon seperated value of protocol (`udp` or `tcp`) and the destination port, you can have multiple protocols and ports by using a comma e.g. `tcp:8080,udp:5060`
