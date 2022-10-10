@@ -77,6 +77,8 @@ To pull all this together, kube-vip will utilise a loadBalancer address to becom
 
 ### Using kube-vip Egress
 
+**NOTE:** At this time, egress requires `iptables` in order to re-write rules that will change traffic. To facilitate this a seperate kube-vip image exists that has `iptables`, this image is called `kube-vip-iptables` and is available [here](https://github.com/kube-vip/kube-vip/pkgs/container/kube-vip-iptables).
+
 To enable Egress kube-vip requires `serviceElection` to be enabled, the Kubernetes service requires the below Egress annotation **and** it requires `externalTrafficPolicy` set to `Local`. 
 
 ```
