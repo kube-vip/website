@@ -55,3 +55,41 @@ The above example shows that the `spec.loadBalancerIP` was populated with an IP 
 ### Examining the `kube-vip` pods
 
 Checking the logs of the kube-vip pods should hopefully reveal some reasons as to why they're unsuccssefully advertising the IP to the outside world and updating the `status` of the serivce.
+
+### If `kubectl` doesn't work
+
+Sometimes `kubectl` can't talk to the cluster, which makes it difficult to troubleshoot why the control plane node isn't working. This is likely due to the API server and etcd pods crashing, which results in kube-vip crashing.
+
+If a new control plane node is unstable, there may be an issue with your Container Runtime Interface (CRI) cgroup configuration if using `containerd` on a `systemd` based distro.
+
+#### Check the stability of your Control Plane Node's Pods
+
+To check the stability of your control plane pods when `kubectl` is unusable, you can use `crictl`:
+
+```
+crictl ps -a
+```
+
+Or to watch the pods over a period of time:
+```
+watch -n 1 crictl ps -a
+```
+
+If you see the control plane pods (etcd, kube-apiserver, etc.) show a mix of "Exited" and "Running" and the "ATTEMPT" counters are going up every minute or so, it is likely the CRI is not configured correctly.
+On a system using `containerd` (sometimes installed as a dependency of docker) for the CRI and `systemd` for the init system, the cgroup driver in `containerd` needs to be configured for systemd.
+Without the systemd cgroup driver, it appears containers are frequently sent the SIGTERM signal.
+
+#### Set containerd to use systemd cgroups
+
+`containerd` needs the cgroup driver set to systemd when a systemd init system is present on your distro. To do this, you can execute the following 3 commands to generate the containerd config and set the option:
+```
+sudo mkdir /etc/containerd
+sudo containerd config default | sed 's/SystemdCgroup = false/SystemdCgroup = true/' | sudo tee /etc/containerd/config.toml
+sudo systemctl restart containerd.service
+```
+
+If you have already attempted to init a new control plane node with `kubeadm`, and it is the first node in a new cluster, you can then reset and init it again with the following commands:
+```
+sudo kubeadm reset -f
+sudo kubeadm init .....
+```
