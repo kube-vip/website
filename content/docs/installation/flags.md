@@ -93,6 +93,8 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `vip_renewdeadline`   | default 3                                                   | Seconds a leader can attempt to renew the lease                                 |
 |                     | `vip_retryperiod`     | default 1                                                   | Number of times the leader will hold the lease for                              |
 |                     | `cp_namespace`        | "kube-vip"                                                  | The namespace where the lease will reside                                       |
+|                     | `egress_podcidr`      | "10.0.0.0/16"                                               | The CIDR range where pods will be allocated and IP address                       |
+|                     | `egress_servicecidr`  | "10.96.0.0/12"                                              | The CIDR range where services will be allocated and IP address             |
 | **BGP**             |                       |                                                             |                                                                                 |
 |                     | `bgp_routerid`        | `<IP Address>`                                              | Typically the address of the local node                                         |
 |                     | `bgp_routerinterface` | Interface name                                              | Used to associate the `routerID` with the control plane's interface.            |
