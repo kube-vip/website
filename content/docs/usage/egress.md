@@ -103,3 +103,22 @@ To allow differentiation of traffic, in the event you would have multiple pods p
 ```
 
 The annotation is a colon seperated value of protocol (`udp` or `tcp`) and the destination port, you can have multiple protocols and ports by using a comma e.g. `tcp:8080,udp:5060`
+
+### Excluding traffic for Pod and Service CIDRs
+
+By default kube-vip wont egress traffic for the default networks:
+
+-	Pod CIDR     = "10.0.0.0/16"
+-	Service CIDR = "10.96.0.0/12"
+
+If you've configured different ranges for your network then these values will need to be modified within the kube-vip yaml"
+
+```
+        env:
+        - name: egress_podcidr
+          value: "x.x.x.x/yy"
+        - name: egress_servicecidr
+          value: "x.x.x.x/yy"
+```
+
+This will set a different range when an egress rule is configured.
