@@ -39,9 +39,9 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--inCluster`          | Required for kube-vip as DaemonSet.                              |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
 |                     | `--taint`              | Required for kube-vip as DaemonSet.                              |  Adds node affinity rules forcing kube-vip Pods to run on control plane.      |
 | **LeaderElection**  |                        |                                                                    |                                                                                 |
-|                     | `--leaseDuration`      | default 5                                                          | Seconds a lease is held for                                                     |
-|                     | `--leaseRenewDuration` | default 3                                                          | Seconds a leader can attempt to renew the lease                                 |
-|                     | `--leaseRetry`         | default 1                                                          | Number of times the leader will hold the lease for                              |
+|                     | `--leaseDuration`      | default 15                                                          | Seconds a lease is held for                                                     |
+|                     | `--leaseRenewDuration` | default 10                                                          | Seconds a leader can attempt to renew the lease                                 |
+|                     | `--leaseRetry`         | default 2                                                          | Number of times the leader will hold the lease for                              |
 |                     | `--namespace`          | "kube-vip"                                                         | The namespace where the lease will reside                                       |
 | **BGP**             |                        |                                                                    |                                                                                 |
 |                     | `--bgpRouterID`        | `<IP Address>`                                                     | Typically the address of the local node                                         |
