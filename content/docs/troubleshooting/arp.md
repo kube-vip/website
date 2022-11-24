@@ -9,6 +9,8 @@ description: >
 
 The "average" failover time that is observed with kube-vip is around ~3 seconds, **however** this can wildly depend on the underlying infrastructure such as virtual and physical switches blocking or limiting kube-vip from updating the network. The most simple test that can be performed to begin working out how your infrastructure is performing is the following:
 
+**NOTE**: If you have set `kube-vip` to watch a specific namespace then you will need to ensure that this deployment also deploys there by adding `-n <namespace>`
+
 **Deploy a simple nginx application:**
 ```
 kubectl apply -f https://k8s.io/examples/application/deployment.yaml
