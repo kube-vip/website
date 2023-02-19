@@ -5,7 +5,7 @@ description: >
   kube-vip ARP mode
 ---
 
-ARP (sometimes referred to as layer 2 as it's updating the underlying network topology) is a simplistic protocol that is used to update the underlying network that in order to reach a certain IP address traffic should be sent to a specific piece of hardware. ARP will typically broadcast updates to the entire network that update the IP to Hardware (MAC) mapping this ensures traffic is sent to the corerct physical or virtual network nic.
+ARP (sometimes referred to as layer 2 as it's updating the underlying network topology) is a simplistic protocol that is used to update the underlying network that in order to reach a certain IP address traffic should be sent to a specific piece of hardware. ARP will typically broadcast updates to the entire network that update the IP to Hardware (MAC) mapping this ensures traffic is sent to the correct physical or virtual network nic.
 
 ### Control plane
 
@@ -24,4 +24,4 @@ In this mode (default) all kube-vip pods will elect a leader and this leader wil
 
 ### `leaderElection` per service
 
-In this mode kube-vip will perform an election everytime a new Kubernetes service is created allowing service addresses to be spread across all nodes where a kube-vip pod is running. 
+In this mode kube-vip will perform an election every time a new Kubernetes service is created allowing service addresses to be spread across all nodes where a kube-vip pod is running. 
