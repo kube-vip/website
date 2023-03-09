@@ -40,6 +40,7 @@ kind: Service
 metadata:
   annotations:
     kube-vip.io/vipHost: k8s04
+    "kube-vip.io/loadbalancerIPs": "1.1.1.1"
   labels:
     implementation: kube-vip
     ipam-address: 192.168.0.220
@@ -50,7 +51,9 @@ spec:
   loadBalancerIP: 192.168.0.220
 ```
 
-The above example shows that the `spec.loadBalancerIP` was populated with an IP from the cloud controller, this means that the problem is with the `kube-vip` pods themselves.
+The above example shows that the `annotations[kube-vip.io/loadbalancerIPs]` was populated with an IP from the cloud controller, this means that the problem is with the `kube-vip` pods themselves.
+
+Since k8s 1.24, loadbalancerIP field [is deprecated](https://github.com/kubernetes/kubernetes/pull/107235). It's recommended to use the annotations instead of command line or `service.spec.loadBalancerIP` to specify the ip.
 
 ### Examining the `kube-vip` pods
 
