@@ -41,7 +41,7 @@ curl https://kube-vip.io/manifests/rbac.yaml > /var/lib/rancher/k3s/server/manif
 
 ## Step 3: Generate a kube-vip DaemonSet Manifest
 
-Refer to the [DaemonSet manifest generation documentation](/content/docs/installation/daemonset.md#generating-a-manifest) for the process to complete this step.
+Refer to the [DaemonSet manifest generation documentation](/docs/installation/daemonset/#generating-a-manifest) for the process to complete this step.
 
 Either store this generated manifest separately in the `/var/lib/rancher/k3s/server/manifests/` directory, or append to the existing RBAC manifest called `kube-vip-rbac.yaml`. As a general best practice, it is a cleaner approach to place all related resources into a single YAML file.
 
