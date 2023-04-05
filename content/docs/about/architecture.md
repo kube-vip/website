@@ -74,7 +74,7 @@ This section details the flow of events in order for kube-vip to advertise a Kub
 
 1. An end user exposes an application through Kubernetes as a Service type `LoadBalancer`. For example, imperatively using `kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx`
 2. Within the Kubernetes cluster, a Service object is created with the `spec.type` set to `LoadBalancer`.
-3. A controller (typically a [Cloud Controller](/usage/on-prem)) has a loop that "watches" for Services of the type `LoadBalancer`.
+3. A controller (typically a [Cloud Controller](/docs/usage/cloud-provider/)) has a loop that "watches" for Services of the type `LoadBalancer`.
 4. The controller now has the responsibility of providing an IP address for this Service along with doing anything that is network specific for the environment where the cluster is running.
 5. Once the controller has an IP address, it will update the Service field `spec.annotations["kube-vip.io/loadbalancerIPs"]` and `spec.loadBalancerIP` with the IP address. `spec.loadBalancerIP` is deprecated in k8s 1.24, will not be updated in future release
 6. `kube-vip` Pods implement a "watcher" for Services that have a `spec.annotations["kube-vip.io/loadbalancerIPs"]` address attached. If the annotation is not presented, it will fallback to check `svc.Spec.loadBalancerIP`.
