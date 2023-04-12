@@ -55,4 +55,4 @@ Once the cluster is installed, you should be able to edit the `kubeconfig` file 
 
 ## Step 5: Service Load Balancing
 
-If wanting to use the kube-vip [cloud controller](/usage/on-prem), pass the `--disable servicelb` flag so K3s will not attempt to render Kubernetes Service resources of type `LoadBalancer`. If building with `k3sup`, the flag should be given as an argument to the `--k3s-extra-args` flag itself: `--k3s-extra-args "--disable servicelb"`. To install the kube-vip cloud controller, follow the additional steps in the [cloud controller guide](/on-prem/#install-the-kube-vip-cloud-provider).
+If wanting to use the kube-vip [cloud controller](/docs/usage/cloud-provider/), pass the `--disable servicelb` flag so K3s will not attempt to render Kubernetes Service resources of type `LoadBalancer`. If building with `k3sup`, the flag should be given as an argument to the `--k3s-extra-args` flag itself: `--k3s-extra-args "--disable servicelb"`. To install the kube-vip cloud controller, follow the additional steps in the [cloud controller guide](/docs/usage/cloud-provider/#install-the-kube-vip-cloud-provider).
