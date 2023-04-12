@@ -113,3 +113,6 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `vip_packetproject`   | Equinix Metal Project (Name)                                |                                                                                 |
 |                     | `vip_packetprojectid` | Equinix Metal Project (UUID)                                |                                                                                 |
 |                     | `provider_config`     | Path to the Equinix Metal provider configuration            | Requires the Equinix Metal CCM                                                  |
+| **Egress**          |                       |                                                             |                                                               |
+|                     | `EGRESS_CLEAN`        | Enables kube-vip to clean left over iptables rules          |                                                                                 |
+|                     | `egress_withnftables` | Uses nftables instead of iptables                           |                                                                                 |
