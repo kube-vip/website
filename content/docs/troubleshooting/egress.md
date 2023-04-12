@@ -21,6 +21,25 @@ sudo modprobe iptable_mangle
 
 They should also be added to `/etc/modules` for reboot persistence.
 
+## Using the Calico CNI
+
+The Calico CNI by default will always attempt to have its `iptables` rules as the highest priority, which means that the kube-vip rules can end up being ignored. In order for the kube-vip egress rules to have the precident over any other rules managed by Calico we need to modify its behaviour, which we can do with the following command:
+
+```
+ kubectl patch felixconfigurations.crd.projectcalico.org default --type='merge' -p '{"spec":{"chainInsertMode":"Append"}}'
+```
+We can verify the mode of the calcio pods by examining them: 
+
+```
+kubectl logs -n kube-system calico-node-<ID> | grep -i chaininsertmode
+```
+
+More information about Calicos behaviour is available [here](https://docs.tigera.io/calico/latest/reference/resources/felixconfig)
+
+## Dangling rules in iptables
+
+In the event that kube-vip is being terminated, then it wont be able to clean up existing rules during shutdown. In order for kube-vip to clean those rules we can add the environment variable `EGRESS_CLEAN`, set to `true` to the kube-vip configuration. This will ensure that on startup kube-vip will remove any rules that have the comment `/* a3ViZS12aXAK=kube-vip */` (used to identify rules kube-vip manages). 
+
 ## Finding the iptables rules
 
 In order to view the iptables rules created by kube-vip you may need to use the legacy iptables command, you can view the current configuration with `sudo iptables -v`. If `nf_tables` is listed then you will need to use `iptables-legacy` in order to view the correct rules.
