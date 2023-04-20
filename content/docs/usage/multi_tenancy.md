@@ -13,7 +13,7 @@ The default behaviour for kube-vip is to simply have a single cloud-controller (
 
 Below will create a `Role` that will provide the required access within our namespace `finance`, additionally a service account and the binding to the role will also be created. 
 
-**note:** chance `finance` to which ever namespace you will be using
+**note:** change `finance` to whichever namespace you will be using
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -80,7 +80,7 @@ The final piece of the puzzle is to set the `svc_namespace` correctly.
 
 ### Prometheus conflicts
 
-By default prometheus will bind to port `2112`, this isn't normally a problem however if we have multiple kube-vip deployments running on the same node they will have port conflicts (this is because kube-vip requires `hostNetworking`). You can either change each deployment to use it's own specific port for prometheus or change the default value to blank as shown below:
+By default prometheus will bind to port `2112`, this isn't normally a problem however if we have multiple kube-vip deployments running on the same node they will have port conflicts (this is because kube-vip requires `hostNetworking`). You can either change each deployment to use its own specific port for prometheus or change the default value to blank as shown below:
 
 ```yaml
     spec:
