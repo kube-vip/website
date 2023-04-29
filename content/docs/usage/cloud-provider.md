@@ -57,7 +57,7 @@ To control which IP address range is used for which Service, the following rules
 
 - Global address pools (`cidr-global` or `range-global`) are available for use by *any* Service in *any* Namespace
 - Namespace specific address pools (`cidr-<namespace>` or `range-<namespace>`) are *only* available for use by a Service in the *specific* Namespace
-- Static IP addresses can be applied to a Service of type `LoadBalancer` using the `spec.annotations["kube-vip.io/loadbalancerIPs"]`(Since kube-vip 0.5.12) or spec.loadBalancerIP` field, even outside of the assigned ranges
+- Static IP addresses can be applied to a Service of type `LoadBalancer` using the `metadata.annotations["kube-vip.io/loadbalancerIPs"]`(Since kube-vip 0.5.12) or spec.loadBalancerIP` field, even outside of the assigned ranges
 
 Example Configmap:
 
