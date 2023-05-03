@@ -5,17 +5,17 @@ description: >
   Kubernetes services options
 ---
 
-When the services are enabled for kube-vip a [watcher](https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes) is enabled on all services that match the type `loadBalancer`. The "watcher" will only advertise a kubernetes service once the `spec.annotations["kube-vip.io/loadbalancerIPs"]`(Since kube-vip 0.5.12) or `spec.loadBalancerIP` has been populated, which is the role performed by a cloud controller. Additionally kube-vip may ignore or act upon a service depending on various annotations.
+When the services are enabled for kube-vip a [watcher](https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes) is enabled on all services that match the type `loadBalancer`. The "watcher" will only advertise a kubernetes service once the `metadata.annotations["kube-vip.io/loadbalancerIPs"]`(Since kube-vip 0.5.12) or `spec.loadBalancerIP` has been populated, which is the role performed by a cloud controller. Additionally kube-vip may ignore or act upon a service depending on various annotations.
 
 ## Configure kube-vip to ignore a service
 
-To configure kube-vip to ignore a service add add an `Annotation` of `kube-vip.io/ignore=true` in the `svc.Metadata.Annotations`
+To configure kube-vip to ignore a service add a `kube-vip.io/ignore=true` annotation in the `metadata.annotations`
 
 ## Kubernetes LoadBalancer Class (Kubernetes v1.24+) (kube-vip v0.5.0+)
 
-The watcher will always examine the [load balancer class ](https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-class), and if it isn't set then will assume that classes aren't being set and act upon the service. If the `svc.Spec.LoadBalancerClass` has been set in the service spec then kube-vip will only act **IF** the spec has been set to:
+The watcher will always examine the [load balancer class ](https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-class), and if it isn't set then will assume that classes aren't being set and act upon the service. If the `spec.loadBalancerClass` has been set in the service spec then kube-vip will only act **IF** the spec has been set to:
 
-`svc.Spec.LoadBalancerClass`=`kube-vip.io/kube-vip-class`.
+`spec.loadBalancerClass`=`kube-vip.io/kube-vip-class`.
 
 ## Multiple services on the same IP
 
