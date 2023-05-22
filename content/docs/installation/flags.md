@@ -35,6 +35,7 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--cidr`               | Defaults "32"                                                      | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `--servicesInterface`  | ""                                                                 | (Optional) different interface to bind services too                        |
 |                     | `--serviceElection`    | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
+|                     | `--onlyAllowTrafficServicePorts`    | false                                                 | Only allow traffic to service ports, others will be dropped                     |
 | **Kubernetes**      |                        |                                                                    |                                                                                 |
 |                     | `--inCluster`          | Required for kube-vip as DaemonSet.                              |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
 |                     | `--taint`              | Required for kube-vip as DaemonSet.                              |  Adds node affinity rules forcing kube-vip Pods to run on control plane.      |
@@ -88,6 +89,7 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 | **Services**        |                       |                                                             |                                                                                 |
 |                     | `vip_servicesinterface` | ""                                                        | Defines an optional different interface to bind                                 |
 |                     | `vip_cidr`            | Defaults "32"                                               | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
+|                     | `enable_service_security` | Boolean. Enable service security feature, defaults false | Restrict traffic to only service ports                 |
 | **LeaderElection**  |                       |                                                             |                                                                                 |
 |                     | `vip_leaseduration`   | default 5                                                   | Seconds a lease is held for                                                     |
 |                     | `vip_renewdeadline`   | default 3                                                   | Seconds a leader can attempt to renew the lease                                 |
