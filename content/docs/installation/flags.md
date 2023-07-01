@@ -34,7 +34,7 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--vipSubnet`          | Defaults ""                                                        | The Virtual IP address subnet e.g. /32 /24 /8 etc..|
 |                     | `--cidr`               | Defaults "32"                                                      | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `--servicesInterface`  | ""                                                                 | (Optional) different interface to bind services too                        |
-|                     | `--serviceElection`    | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
+|                     | `--servicesElection`   | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
 |                     | `--onlyAllowTrafficServicePorts`    | false                                                 | Only allow traffic to service ports, others will be dropped                     |
 | **Kubernetes**      |                        |                                                                    |                                                                                 |
 |                     | `--inCluster`          | Required for kube-vip as DaemonSet.                              |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
