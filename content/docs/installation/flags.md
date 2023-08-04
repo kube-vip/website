@@ -88,6 +88,7 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `lb_fwdmethod`        | Select the forwarding method (default local)                | The IPVS forwarding method (local, masquerade, tunnel, direct, bypass)          |
 | **Services**        |                       |                                                             |                                                                                 |
 |                     | `vip_servicesinterface` | ""                                                        | Defines an optional different interface to bind                                 |
+|                     | `svc_election`        | Enables a leadership Election for each Service, allowing them to be distributed |                                                             |
 |                     | `vip_cidr`            | Defaults "32"                                               | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `enable_service_security` | Boolean. Enable service security feature, defaults false | Restrict traffic to only service ports                 |
 | **LeaderElection**  |                       |                                                             |                                                                                 |
