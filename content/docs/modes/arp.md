@@ -13,7 +13,7 @@ When using ARP with the control plane feature, then a leader election will take 
 
 ### Services
 
-Services can be exposed in two ways: 
+Services can be exposed in two ways:
 
 - `leaderElection` for all services
 - `leaderElection` per service
@@ -24,4 +24,4 @@ In this mode (default) all kube-vip pods will elect a leader and this leader wil
 
 ### `leaderElection` per service
 
-In this mode kube-vip will perform an election every time a new Kubernetes service is created allowing service addresses to be spread across all nodes where a kube-vip pod is running. 
+In this mode kube-vip will perform an election every time a new Kubernetes service is created allowing service addresses to be spread across all nodes where a kube-vip pod is running.
