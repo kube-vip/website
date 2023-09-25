@@ -38,7 +38,7 @@ More information about Calicos behaviour is available [here](https://docs.tigera
 
 ## Dangling rules in iptables
 
-In the event that kube-vip is being terminated, then it wont be able to clean up existing rules during shutdown. In order for kube-vip to clean those rules we can add the environment variable `EGRESS_CLEAN`, set to `true` to the kube-vip configuration. This will ensure that on startup kube-vip will remove any rules that have the comment `/* a3ViZS12aXAK=kube-vip */` (used to identify rules kube-vip manages). 
+In the event that kube-vip is being terminated, then it won't be able to clean up existing rules during shutdown. In order for kube-vip to clean those rules we can add the environment variable `EGRESS_CLEAN`, set to `true` to the kube-vip configuration. This will ensure that on startup kube-vip will remove any rules that have the comment `/* a3ViZS12aXAK=kube-vip */` (used to identify rules kube-vip manages). 
 
 ## Finding the iptables rules
 

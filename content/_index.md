@@ -29,7 +29,7 @@ kube-vip provides Kubernetes clusters with a virtual IP and load balancer for bo
 
 ### Routing Table
 
-The **Routing Table** mode is to allow additional routing technologies such as ECMP etc. to be configured so that traffic can be send to a range of nodes (such as your Kubernetes nodes), and kube-vip will manage the addition/deletion of addresses to the routing tables of these nodes so that they can recieve the correct traffic.
+The **Routing Table** mode is to allow additional routing technologies such as ECMP etc. to be configured so that traffic can be send to a range of nodes (such as your Kubernetes nodes), and kube-vip will manage the addition/deletion of addresses to the routing tables of these nodes so that they can receive the correct traffic.
 
 ### WireGuard
 
@@ -55,7 +55,7 @@ The [**Wireguard**](https://www.wireguard.com/) mode allows Kubernetes services 
 - Service LoadBalancer address pools per namespace or global
 - Service LoadBalancer address via (existing network DHCP)
 - Service LoadBalancer address exposure to gateway via UPNP
-- ... manifest generation, vendor API integrations and many nore... 
+- ... manifest generation, vendor API integrations and many more...
 
 {{< button "docs/" "Read the Docs" >}}
 {{< /column >}}

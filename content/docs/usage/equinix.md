@@ -44,7 +44,7 @@ export VIP= metal_EIP
 export INTERFACE=<interface>
 ```
 
-where metal_EIP is the Elastic IP (EIP) address your requested via Metal's UI or API. For more informaiton on how to request a Metal's EIP, please see the following [Equinix Metal's EIP document](https://metal.equinix.com/developers/docs/networking/elastic-ips/#elastic-ip-addresses)
+where metal_EIP is the Elastic IP (EIP) address your requested via Metal's UI or API. For more information on how to request a Metal's EIP, please see the following [Equinix Metal's EIP document](https://metal.equinix.com/developers/docs/networking/elastic-ips/#elastic-ip-addresses)
 <interface> is the interface you announce your VIP from via BGP. By default it's lo:0 in Equinix Metal.
 
 ```sh
@@ -92,7 +92,7 @@ where <interface> is the interface you announce your VIP from via BGP. By defaul
 
 ### Using Annotations
 
-This is important as the CCM will apply the BGP configuration to the [node annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) making it easy for kube-vip to find the networking configuration it needs to expose load balancer addresses. The `--annotations metal.equinix.com` will cause kube-vip to "watch" the annotations of the worker node that it is running on, once all of the configuarion has been applied by the CCM then the kube-vip pod is ready to advertise BGP addresses for the service.
+This is important as the CCM will apply the BGP configuration to the [node annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) making it easy for kube-vip to find the networking configuration it needs to expose load balancer addresses. The `--annotations metal.equinix.com` will cause kube-vip to "watch" the annotations of the worker node that it is running on, once all of the configuration has been applied by the CCM then the kube-vip pod is ready to advertise BGP addresses for the service.
 
 ```sh
 kube-vip manifest daemonset \

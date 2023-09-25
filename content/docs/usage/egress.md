@@ -17,7 +17,7 @@ Imagine the following: *"I've an application or service that I deploy that will 
 
 So this application running in a pod will send traffic externally from the cluster to some other address/port else how does that work? Well all pods have internal IP addresses, these are addresses that only make sense **inside** the cluster, anything that is external simply has no way of directly interacting with these pod networks. So there is no direct connectivity from outside to an internal pod, when traffic is being sent external there needs to be a method to allow this traffic to return... this is where things get interesting!
 
-If we packet capture traffic from our `pod` at the external location we will see that we're not recieving traffic from the `pod`, **but** we are actually recieving traffic from the `node` where the `pod` is currently running! Given this `node` has an external address it should stand that traffic can successfully go back and forth with another address on the network. When traffic returns to the `node` the rules in the kernel can then ensure the traffic is forwarded to the `pod`.
+If we packet capture traffic from our `pod` at the external location we will see that we're not receiving traffic from the `pod`, **but** we are actually receiving traffic from the `node` where the `pod` is currently running! Given this `node` has an external address it should stand that traffic can successfully go back and forth with another address on the network. When traffic returns to the `node` the rules in the kernel can then ensure the traffic is forwarded to the `pod`.
 
 
 ```goat
@@ -55,7 +55,7 @@ What if the Kubernetes node network is on it's own protected network that doesn'
 In order to provide both a stable egress addresses and the capability to utilise additional networks kube-vip provides two bits of functionality:
 
 - `serviceInterface`, which allows binding services to a different interface than the default
-- `serviceElection`, this allows kube-vip to distribute loadBalancer addresses acrosss multiple nodes
+- `serviceElection`, this allows kube-vip to distribute loadBalancer addresses across multiple nodes
 
 To pull all this together, kube-vip will utilise a loadBalancer address to become the **egress** source address when enabled!
 
@@ -77,7 +77,7 @@ To pull all this together, kube-vip will utilise a loadBalancer address to becom
 
 ### Using kube-vip Egress
 
-**NOTE:** At this time, egress requires `iptables` in order to re-write rules that will change traffic. To facilitate this a seperate kube-vip image exists that has `iptables`, this image is called `kube-vip-iptables` and is available [here](https://github.com/kube-vip/kube-vip/pkgs/container/kube-vip-iptables).
+**NOTE:** At this time, egress requires `iptables` in order to re-write rules that will change traffic. To facilitate this a separate kube-vip image exists that has `iptables`, this image is called `kube-vip-iptables` and is available [here](https://github.com/kube-vip/kube-vip/pkgs/container/kube-vip-iptables).
 
 **Additionally** Should your Operating System (RHEL, Rocky Linux) have started the steps to deprecate `iptables` in favour of `nftables` then you will need to use the environment variable `egress_withnftables` (set to `true`), otherwise some of the rules will be ignored by the kernel. Whilst the rules will work, you may view confusing results viewing the rules inside and outside the pod that is being egressed.
 
@@ -92,7 +92,7 @@ spec:
 ```
 *Example additions to a manifest*
 
-The annotations mean that kube-vip will know that the traffic from the `pod` will now need modifying so that the source address becomes the address of the loadBalancer. The `externalTrafficPolicy` is required because the loadbalancer address needs to be on the same node where the pod resides, otherwise the rules written into the kernel wont work.
+The annotations mean that kube-vip will know that the traffic from the `pod` will now need modifying so that the source address becomes the address of the loadBalancer. The `externalTrafficPolicy` is required because the loadbalancer address needs to be on the same node where the pod resides, otherwise the rules written into the kernel won't work.
 
 ### Applying Egress rules only to certain destination ports
 
@@ -104,11 +104,11 @@ To allow differentiation of traffic, in the event you would have multiple pods p
     kube-vip.io/egress-destination-ports: udp:5060
 ```
 
-The annotation is a colon seperated value of protocol (`udp` or `tcp`) and the destination port, you can have multiple protocols and ports by using a comma e.g. `tcp:8080,udp:5060`
+The annotation is a colon separated value of protocol (`udp` or `tcp`) and the destination port, you can have multiple protocols and ports by using a comma e.g. `tcp:8080,udp:5060`
 
 ### Excluding traffic for Pod and Service CIDRs
 
-By default kube-vip wont egress traffic for the default networks:
+By default kube-vip won't egress traffic for the default networks:
 
 -	Pod CIDR     = "10.0.0.0/16"
 -	Service CIDR = "10.96.0.0/12"
