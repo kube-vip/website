@@ -44,6 +44,8 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--leaseRenewDuration` | default 10                                                         | Seconds a leader can attempt to renew the lease                                 |
 |                     | `--leaseRetry`         | default 2                                                          | Number of times the leader will hold the lease for                              |
 |                     | `--namespace`          | "kube-vip"                                                         | The namespace where the lease will reside                                       |
+| **ARP**             |                        |                                                                    |                                                                                 |
+|                     | `--enableNodeLabeling` | false                                                              | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
 | **BGP**             |                        |                                                                    |                                                                                 |
 |                     | `--bgpRouterID`        | `<IP Address>`                                                     | Typically the address of the local node                                         |
 |                     | `--localAS`            | default 65000                                                      | The AS we peer from                                                             |
@@ -98,6 +100,8 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `cp_namespace`        | "kube-vip"                                                  | The namespace where the lease will reside                                       |
 |                     | `egress_podcidr`      | "10.0.0.0/16"                                               | The CIDR range where pods will be allocated and IP address                      |
 |                     | `egress_servicecidr`  | "10.96.0.0/12"                                              | The CIDR range where services will be allocated and IP address                  |
+| **ARP**             |                       |                                                             |                                                                                 |
+|                     | `enable_node_labeling` | false                                                      | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
 | **BGP**             |                       |                                                             |                                                                                 |
 |                     | `bgp_routerid`        | `<IP Address>`                                              | Typically the address of the local node                                         |
 |                     | `bgp_routerinterface` | Interface name                                              | Used to associate the `routerID` with the control plane's interface.            |
