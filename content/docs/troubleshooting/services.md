@@ -11,7 +11,7 @@ If a service is stuck in the `<pending>` state then there are a number of places
 
 ### Are all the components running?
 
-In order for a succesfuly load balancer service to be created then ensure the following is running:
+In order for a successfully load balancer service to be created then ensure the following is running:
 
 - A Cloud controller manager, such as the kube-vip-cloud-provider
 - The kube-vip pods (either as a daemonset or as static pods)
@@ -57,7 +57,7 @@ Since k8s 1.24, loadbalancerIP field [is deprecated](https://github.com/kubernet
 
 ### Examining the `kube-vip` pods
 
-Checking the logs of the kube-vip pods should hopefully reveal some reasons as to why they're unsuccssefully advertising the IP to the outside world and updating the `status` of the serivce.
+Checking the logs of the kube-vip pods should hopefully reveal some reasons as to why they're unsuccssefully advertising the IP to the outside world and updating the `status` of the service.
 
 ### If `kubectl` doesn't work
 

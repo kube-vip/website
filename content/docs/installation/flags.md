@@ -15,12 +15,12 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--log`                | default 4                                                          | Set to `5` for debugging logs                                                   |
 | **Mode**            |                        |                                                                    |                                                                                 |
 |                     | `--arp`                | Enables ARP broadcasts from Leader                                 |                                                                                 |
-|                     | `--bgp`                | Enables BGP peering from kube-vip                                |                                          
-|                     | `--table`              | Enables routing entries to be created                            |                                                                                 |
-|                     | `--wireguard`          | Enables services to be exposed over Wireguard                      |                                          
+|                     | `--bgp`                | Enables BGP peering from kube-vip                                  |                                                                                 |
+|                     | `--table`              | Enables routing entries to be created                              |                                                                                 |
+|                     | `--wireguard`          | Enables services to be exposed over Wireguard                      |                                                                                 |
 | **Features**        |                        |                                                                    |                                                                                 |
-|                     | `--controlplane`       | Enables kube-vip control plane functionality                     |                                                                                 |
-|                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`        |                                                                                 |
+|                     | `--controlplane`       | Enables kube-vip control plane functionality                       |                                                                                 |
+|                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`          |                                                                                 |
 | **VIP Config**      |                        |                                                                    |                                                                                 |
 |                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
@@ -37,13 +37,15 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--servicesElection`   | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
 |                     | `--onlyAllowTrafficServicePorts`    | false                                                 | Only allow traffic to service ports, others will be dropped                     |
 | **Kubernetes**      |                        |                                                                    |                                                                                 |
-|                     | `--inCluster`          | Required for kube-vip as DaemonSet.                              |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
-|                     | `--taint`              | Required for kube-vip as DaemonSet.                              |  Adds node affinity rules forcing kube-vip Pods to run on control plane.      |
+|                     | `--inCluster`          | Required for kube-vip as DaemonSet.                                |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
+|                     | `--taint`              | Required for kube-vip as DaemonSet.                                |  Adds node affinity rules forcing kube-vip Pods to run on control plane.      |
 | **LeaderElection**  |                        |                                                                    |                                                                                 |
-|                     | `--leaseDuration`      | default 15                                                          | Seconds a lease is held for                                                     |
-|                     | `--leaseRenewDuration` | default 10                                                          | Seconds a leader can attempt to renew the lease                                 |
+|                     | `--leaseDuration`      | default 15                                                         | Seconds a lease is held for                                                     |
+|                     | `--leaseRenewDuration` | default 10                                                         | Seconds a leader can attempt to renew the lease                                 |
 |                     | `--leaseRetry`         | default 2                                                          | Number of times the leader will hold the lease for                              |
 |                     | `--namespace`          | "kube-vip"                                                         | The namespace where the lease will reside                                       |
+| **ARP**             |                        |                                                                    |                                                                                 |
+|                     | `--enableNodeLabeling` | false                                                              | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
 | **BGP**             |                        |                                                                    |                                                                                 |
 |                     | `--bgpRouterID`        | `<IP Address>`                                                     | Typically the address of the local node                                         |
 |                     | `--localAS`            | default 65000                                                      | The AS we peer from                                                             |
@@ -73,11 +75,11 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 | **Troubleshooting** |                       |                                                             |                                                                                 |
 |                     | `vip_loglevel`        | default 4                                                   | Set to `5` for debugging logs                                                   |
 | **Mode**            |                       |                                                             |                                                                                 |
-|                     | `cp_enable`           | Enables kube-vip control plane functionality              |                                                                                 |
-|                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer` |                                                                                 |
+|                     | `cp_enable`           | Enables kube-vip control plane functionality                |                                                                                 |
+|                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer`   |                                                                                 |
 | **VIP Config**      |                       |                                                             |                                                                                 |
 |                     | `vip_arp`             | Enables ARP broadcasts from Leader                          |                                                                                 |
-|                     | `bgp_enable`          | Enables BGP peering from kube-vip                         |                                                                                 |
+|                     | `bgp_enable`          | Enables BGP peering from kube-vip                           |                                                                                 |
 |                     | `vip_address`         | `<IP Address>`                                              | (deprecated)                                                                    |
 |                     | `address`             | `<IP Address>` or `<DNS name>`                              |                                                                                 |
 |                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                       | Requires `vip_address` is set to FQDN                                           |
@@ -96,8 +98,10 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `vip_renewdeadline`   | default 3                                                   | Seconds a leader can attempt to renew the lease                                 |
 |                     | `vip_retryperiod`     | default 1                                                   | Number of times the leader will hold the lease for                              |
 |                     | `cp_namespace`        | "kube-vip"                                                  | The namespace where the lease will reside                                       |
-|                     | `egress_podcidr`      | "10.0.0.0/16"                                               | The CIDR range where pods will be allocated and IP address                       |
-|                     | `egress_servicecidr`  | "10.96.0.0/12"                                              | The CIDR range where services will be allocated and IP address             |
+|                     | `egress_podcidr`      | "10.0.0.0/16"                                               | The CIDR range where pods will be allocated and IP address                      |
+|                     | `egress_servicecidr`  | "10.96.0.0/12"                                              | The CIDR range where services will be allocated and IP address                  |
+| **ARP**             |                       |                                                             |                                                                                 |
+|                     | `enable_node_labeling` | false                                                      | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
 | **BGP**             |                       |                                                             |                                                                                 |
 |                     | `bgp_routerid`        | `<IP Address>`                                              | Typically the address of the local node                                         |
 |                     | `bgp_routerinterface` | Interface name                                              | Used to associate the `routerID` with the control plane's interface.            |
@@ -116,6 +120,6 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `vip_packetproject`   | Equinix Metal Project (Name)                                |                                                                                 |
 |                     | `vip_packetprojectid` | Equinix Metal Project (UUID)                                |                                                                                 |
 |                     | `provider_config`     | Path to the Equinix Metal provider configuration            | Requires the Equinix Metal CCM                                                  |
-| **Egress**          |                       |                                                             |                                                               |
+| **Egress**          |                       |                                                             |                                                                                 |
 |                     | `EGRESS_CLEAN`        | Enables kube-vip to clean left over iptables rules          |                                                                                 |
 |                     | `egress_withnftables` | Uses nftables instead of iptables                           |                                                                                 |
