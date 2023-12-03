@@ -33,6 +33,12 @@ kubectl create configmap --namespace kube-system kubevip --from-literal range-gl
 
 ## Install kube-vip
 
+## Create RBAC settings
+
+ ```
+ kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
+ ```
+
 ### Get latest version
 
 We can parse the GitHub API to find the latest version (or we can set this manually)
