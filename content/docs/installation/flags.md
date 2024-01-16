@@ -21,6 +21,7 @@ These flags are typically used in the kube-vip manifest generation process.
 | **Features**        |                        |                                                                    |                                                                                 |
 |                     | `--controlplane`       | Enables kube-vip control plane functionality                       |                                                                                 |
 |                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`          |                                                                                 |
+|                     | `--enableEndpointSlices`  | Enables use of `EndopintSlices` instead of `Endpoints` |
 | **VIP Config**      |                        |                                                                    |                                                                                 |
 |                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
