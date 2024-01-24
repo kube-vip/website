@@ -154,6 +154,11 @@ TCP 14:53  ESTABLISHED 192.168.0.45:46528 192.168.0.40:6443  192.168.0.43:6443
 TCP 14:49  ESTABLISHED 192.168.0.40:56040 192.168.0.40:6443  192.168.0.42:6443
 ```
 
+##### Known issues
+
+| Issue                                                                                 | Link                                            | Summary of root cause                                                                                                                | Workaround                                                                                                                                           |
+|---------------------------------------------------------------------------------------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Service lb with ipvs mode won't work with kubeproxy that is configured with ipvs mode | https://github.com/kube-vip/kube-vip/issues/454 | if kube-proxy is configured with ipvs mode, it will monitor all ipvs rules on the Node and remove those that are not created by it | add node cidr into kube-proxy configuration. For example  ```kubeProxyArgs: ["--ipvs-exclude-cidrs=192.168.2.0/24"] # cidr of node network``` |
 ## Components within a Kubernetes Cluster
 
 The kube-vip Kubernetes load balancer requires a number of components in order to function:
