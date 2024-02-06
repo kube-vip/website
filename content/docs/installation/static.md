@@ -182,7 +182,7 @@ spec:
     - name: port
       value: "6443"
     - name: vip_interface
-      value: ens192
+      value: lo
     - name: vip_cidr
       value: "32"
     - name: cp_enable
