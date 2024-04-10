@@ -71,56 +71,56 @@ These environment variables are usually part of a kube-vip manifest and used whe
 
 More environment variables can be read through the `pkg/kubevip/config_envvar.go` file.
 
-| Category            | Environment Variable <div style="width:190px">property</div> | Usage                                                       | Notes                                                                           |
-| ------------------- | --------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| **Troubleshooting** |                       |                                                             |                                                                                 |
-|                     | `vip_loglevel`        | default 4                                                   | Set to `5` for debugging logs                                                   |
-| **Mode**            |                       |                                                             |                                                                                 |
-|                     | `cp_enable`           | Enables kube-vip control plane functionality                |                                                                                 |
-|                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer`   |                                                                                 |
-| **VIP Config**      |                       |                                                             |                                                                                 |
-|                     | `vip_arp`             | Enables ARP broadcasts from Leader                          |                                                                                 |
-|                     | `bgp_enable`          | Enables BGP peering from kube-vip                           |                                                                                 |
-|                     | `vip_address`         | `<IP Address>`                                              | (deprecated)                                                                    |
-|                     | `address`             | `<IP Address>` or `<DNS name>`                              |                                                                                 |
-|                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                       | Requires `vip_address` is set to FQDN                                           |
-|                     | `vip_interface`       | `<linux interface>`                                         |                                                                                 |
-|                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                           | Used by ARP, as only the leader can broadcast                                   |
-|                     | `lb_enable`           | Enables IPVS LoadBalancer                                   | kube-vip ≥ 0.4.0. Adds nodes to the IPVS load balancer                        |
-|                     | `lb_port`             | 6443                                                        | The IPVS port that will be used to load-balance control plane requests          |
-|                     | `lb_fwdmethod`        | Select the forwarding method (default local)                | The IPVS forwarding method (local, masquerade, tunnel, directroute, bypass)          |
-| **Services**        |                       |                                                             |                                                                                 |
-|                     | `vip_servicesinterface` | ""                                                        | Defines an optional different interface to bind                                 |
+| Category            | Environment Variable <div style="width:190px">property</div> | Usage                                                                           | Notes                                                                           |
+| ------------------- | --------------------- |---------------------------------------------------------------------------------| ------------------------------------------------------------------------------- |
+| **Troubleshooting** |                       |                                                                                 |                                                                                 |
+|                     | `vip_loglevel`        | default 4                                                                       | Set to `5` for debugging logs                                                   |
+| **Mode**            |                       |                                                                                 |                                                                                 |
+|                     | `cp_enable`           | Enables kube-vip control plane functionality                                    |                                                                                 |
+|                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer`                       |                                                                                 |
+| **VIP Config**      |                       |                                                                                 |                                                                                 |
+|                     | `vip_arp`             | Enables ARP broadcasts from Leader                                              |                                                                                 |
+|                     | `bgp_enable`          | Enables BGP peering from kube-vip                                               |                                                                                 |
+|                     | `vip_address`         | `<IP Address>`                                                                  | (deprecated)                                                                    |
+|                     | `address`             | `<IP Address>` or `<DNS name>`                                                  |                                                                                 |
+|                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                                           | Requires `vip_address` is set to FQDN                                           |
+|                     | `vip_interface`       | `<linux interface>`                                                             |                                                                                 |
+|                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                                               | Used by ARP, as only the leader can broadcast                                   |
+|                     | `lb_enable`           | Enables IPVS LoadBalancer                                                       | kube-vip ≥ 0.4.0. Adds nodes to the IPVS load balancer                        |
+|                     | `lb_port`             | 6443                                                                            | The IPVS port that will be used to load-balance control plane requests          |
+|                     | `lb_fwdmethod`        | Select the forwarding method (default local)                                    | The IPVS forwarding method (local, masquerade, tunnel, directroute, bypass)          |
+| **Services**        |                       |                                                                                 |                                                                                 |
+|                     | `vip_servicesinterface` | ""                                                                              | Defines an optional different interface to bind                                 |
 |                     | `svc_election`        | Enables a leadership Election for each Service, allowing them to be distributed |                                                             |
-|                     | `vip_cidr`            | Defaults "32"                                               | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
-|                     | `enable_service_security` | Boolean. Enable service security feature, defaults false | Restrict traffic to only service ports                 |
-| **LeaderElection**  |                       |                                                             |                                                                                 |
-|                     | `vip_leaseduration`   | default 5                                                   | Seconds a lease is held for                                                     |
-|                     | `vip_renewdeadline`   | default 3                                                   | Seconds a leader can attempt to renew the lease                                 |
-|                     | `vip_retryperiod`     | default 1                                                   | Number of times the leader will hold the lease for                              |
-|                     | `cp_namespace`        | "kube-vip"                                                  | The namespace where the lease will reside                                       |
-|                     | `egress_podcidr`      | "10.0.0.0/16"                                               | The CIDR range where pods will be allocated and IP address                      |
-|                     | `egress_servicecidr`  | "10.96.0.0/12"                                              | The CIDR range where services will be allocated and IP address                  |
-| **ARP**             |                       |                                                             |                                                                                 |
-|                     | `enable_node_labeling` | false                                                      | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
-| **BGP**             |                       |                                                             |                                                                                 |
-|                     | `bgp_routerid`        | `<IP Address>`                                              | Typically the address of the local node                                         |
-|                     | `bgp_routerinterface` | Interface name                                              | Used to associate the `routerID` with the control plane's interface.            |
-|                     | `bgp_as`              | default 65000                                               | The AS we peer from                                                             |
-|                     | `bgp_peers`           | `<address:AS:password:multihop>`                            | Comma separated list of BGP peers                                               |
-|                     | `bgp_peeraddress`     | `<IP Address>`                                              | Address of a single BGP Peer                                                    |
-|                     | `bgp_peeras`          | default 65000                                               | AS of a single BGP Peer                                                         |
-|                     | `bgp_peerpass`        | ""                                                          | Password to work with a single BGP Peer                                         |
-|                     | `bgp_multihop`        | Enables eBGP MultiHop                                       | Enable multiHop with a single BGP Peer                                          |
-|                     | `bgp_sourceif`        | Source Interface                                            | Determines which interface BGP should peer _from_                               |
-|                     | `bgp_sourceip`        | Source Address                                              | Determines which IP address BGP should peer _from_                              |
-|                     | `annotations`         | `<provider string>`                                         | Startup will be paused until the node annotations contain the BGP configuration |
-| **Equinix Metal**   |                       |                                                             | (May be deprecated)                                                             |
-|                     | `vip_packet`          | Enables Equinix Metal API calls                             |                                                                                 |
-|                     | `PACKET_AUTH_TOKEN`   | Equinix Metal API token                                     |                                                                                 |
-|                     | `vip_packetproject`   | Equinix Metal Project (Name)                                |                                                                                 |
-|                     | `vip_packetprojectid` | Equinix Metal Project (UUID)                                |                                                                                 |
-|                     | `provider_config`     | Path to the Equinix Metal provider configuration            | Requires the Equinix Metal CCM                                                  |
-| **Egress**          |                       |                                                             |                                                                                 |
-|                     | `EGRESS_CLEAN`        | Enables kube-vip to clean left over iptables rules          |                                                                                 |
-|                     | `egress_withnftables` | Uses nftables instead of iptables                           |                                                                                 |
+|                     | `vip_cidr`            | Defaults "32"                                                                   | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
+|                     | `enable_service_security` | Boolean. Enable service security feature, defaults false                        | Restrict traffic to only service ports                 |
+| **LeaderElection**  |                       |                                                                                 |                                                                                 |
+|                     | `vip_leaseduration`   | default 15                                                                      | Seconds a lease is held for                                                     |
+|                     | `vip_renewdeadline`   | default 10                                                                      | Seconds a leader can attempt to renew the lease                                 |
+|                     | `vip_retryperiod`     | default 2                                                                       | Number of times the leader will hold the lease for                              |
+|                     | `cp_namespace`        | "kube-vip"                                                                      | The namespace where the lease will reside                                       |
+|                     | `egress_podcidr`      | "10.0.0.0/16"                                                                   | The CIDR range where pods will be allocated and IP address                      |
+|                     | `egress_servicecidr`  | "10.96.0.0/12"                                                                  | The CIDR range where services will be allocated and IP address                  |
+| **ARP**             |                       |                                                                                 |                                                                                 |
+|                     | `enable_node_labeling` | false                                                                           | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
+| **BGP**             |                       |                                                                                 |                                                                                 |
+|                     | `bgp_routerid`        | `<IP Address>`                                                                  | Typically the address of the local node                                         |
+|                     | `bgp_routerinterface` | Interface name                                                                  | Used to associate the `routerID` with the control plane's interface.            |
+|                     | `bgp_as`              | default 65000                                                                   | The AS we peer from                                                             |
+|                     | `bgp_peers`           | `<address:AS:password:multihop>`                                                | Comma separated list of BGP peers                                               |
+|                     | `bgp_peeraddress`     | `<IP Address>`                                                                  | Address of a single BGP Peer                                                    |
+|                     | `bgp_peeras`          | default 65000                                                                   | AS of a single BGP Peer                                                         |
+|                     | `bgp_peerpass`        | ""                                                                              | Password to work with a single BGP Peer                                         |
+|                     | `bgp_multihop`        | Enables eBGP MultiHop                                                           | Enable multiHop with a single BGP Peer                                          |
+|                     | `bgp_sourceif`        | Source Interface                                                                | Determines which interface BGP should peer _from_                               |
+|                     | `bgp_sourceip`        | Source Address                                                                  | Determines which IP address BGP should peer _from_                              |
+|                     | `annotations`         | `<provider string>`                                                             | Startup will be paused until the node annotations contain the BGP configuration |
+| **Equinix Metal**   |                       |                                                                                 | (May be deprecated)                                                             |
+|                     | `vip_packet`          | Enables Equinix Metal API calls                                                 |                                                                                 |
+|                     | `PACKET_AUTH_TOKEN`   | Equinix Metal API token                                                         |                                                                                 |
+|                     | `vip_packetproject`   | Equinix Metal Project (Name)                                                    |                                                                                 |
+|                     | `vip_packetprojectid` | Equinix Metal Project (UUID)                                                    |                                                                                 |
+|                     | `provider_config`     | Path to the Equinix Metal provider configuration                                | Requires the Equinix Metal CCM                                                  |
+| **Egress**          |                       |                                                                                 |                                                                                 |
+|                     | `EGRESS_CLEAN`        | Enables kube-vip to clean left over iptables rules                              |                                                                                 |
+|                     | `egress_withnftables` | Uses nftables instead of iptables                                               |                                                                                 |
