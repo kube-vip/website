@@ -23,7 +23,7 @@ ip addr add 127.0.0.1/8 dev lo;
 
 ## Step 1: Create Manifests Folder
 
-K3s has an optional manifests directory that will be searched to [auto-deploy](https://rancher.com/docs/k3s/latest/en/advanced/#auto-deploying-manifests) any manifests found within. Create this directory first in order to later place the kube-vip resources inside.
+K3s has an optional manifests directory that will be searched to [auto-deploy](https://docs.k3s.io/installation/packaged-components#auto-deploying-manifests-addons) any manifests found within. Create this directory first in order to later place the kube-vip resources inside.
 
 ```sh
 mkdir -p /var/lib/rancher/k3s/server/manifests/
