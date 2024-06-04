@@ -43,7 +43,7 @@ By default ARP mode provides a HA implementation of a VIP (your service IP addre
 The kube-vip `yaml` will require the following:
 
 ```yaml
-- name: enableServicesElection
+- name: svc_election
   value: "true"
 ```
 
@@ -53,7 +53,7 @@ By default Kubernetes will use the policy `cluster` as the policy for all traffi
 
 In order for the `local` traffic policy to work a load balancer services VIP needs to be exposed from a node that has one of the pods that is part of that service. This is because the traffic will go direct to that pod and **not** onto the services network ensuring that the source IP address is preserved.
 
-In kube-vip a service can be created with the `local` traffic policy, if the `enableServicesElection` has been **enabled**. This is because when this service is created kube-vip will only allow nodes that have a local pod instance running to participate in the leaderElection.
+In kube-vip a service can be created with the `local` traffic policy, if the `enableServicesElection` (environment variable `svc_election` is set to `"true"`) has been **enabled**. This is because when this service is created kube-vip will only allow nodes that have a local pod instance running to participate in the leaderElection.
 
 Example for exposing an nginx deployment:
 ```yaml
