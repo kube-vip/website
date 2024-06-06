@@ -13,9 +13,15 @@ To configure kube-vip to ignore a service add a `kube-vip.io/ignore=true` annota
 
 ## Kubernetes LoadBalancer Class (Kubernetes v1.24+) (kube-vip v0.5.0+)
 
+### Default behavior
+
 The watcher will always examine the [load balancer class ](https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-class), and if it isn't set then will assume that classes aren't being set and act upon the service. If the `spec.loadBalancerClass` has been set in the service spec then kube-vip will only act **IF** the spec has been set to:
 
 `spec.loadBalancerClass`=`kube-vip.io/kube-vip-class`.
+
+### Optional behavior
+
+Alternate LoadBalancer Class handlig behavior can be enabled by setting `LoadBalancerClassLegacyHandling` config flag to `false`. In this mode, kube-vip will only process the service if it's `spec.loadBalancerClass` value **is equal** to the class configured in kube-vip using `LoadBalancerClassName` flag.
 
 ## Multiple services on the same IP
 
