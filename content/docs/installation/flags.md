@@ -33,7 +33,7 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--lbForwardingMethod` | Select the forwarding method (default local)                       | The IPVS forwarding method (local, masquerade, tunnel, directroute, bypass)          |
 | **Services**        |                        |                                                                    |                                                                                 |
 |                     | `--vipSubnet`          | Defaults ""                                                        | The Virtual IP address subnet e.g. /32 /24 /8 etc..|
-|                     | `--cidr`               | Defaults "32"                                                      | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
+|                     | `--cidr`               | Defaults "Detected at runtime: /32 for IPv4 and /128 for IPv6"     | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `--servicesInterface`  | ""                                                                 | (Optional) different interface to bind services too                        |
 |                     | `--servicesElection`   | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
 |                     | `--onlyAllowTrafficServicePorts`    | false                                                 | Only allow traffic to service ports, others will be dropped                     |
@@ -92,7 +92,7 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 | **Services**        |                       |                                                                                 |                                                                                 |
 |                     | `vip_servicesinterface` | ""                                                                              | Defines an optional different interface to bind                                 |
 |                     | `svc_election`        | Enables a leadership Election for each Service, allowing them to be distributed |                                                             |
-|                     | `vip_cidr`            | Defaults "32"                                                                   | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
+|                     | `vip_cidr`            | Detected at runtime: /32 for IPv4 and /128 for IPv6                             | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `enable_service_security` | Boolean. Enable service security feature, defaults false                        | Restrict traffic to only service ports                 |
 | **LeaderElection**  |                       |                                                                                 |                                                                                 |
 |                     | `vip_leaseduration`   | default 15                                                                      | Seconds a lease is held for                                                     |
