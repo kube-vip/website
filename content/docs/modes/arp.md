@@ -25,3 +25,7 @@ In this mode (default) all kube-vip pods will elect a leader and this leader wil
 ### `leaderElection` per service
 
 In this mode kube-vip will perform an election every time a new Kubernetes service is created allowing service addresses to be spread across all nodes where a kube-vip pod is running.
+
+### **Cautions**
+
+1. With this mode, kube-vip assigns VIP on the network interface which may be **wrongly** chosen by kubelet as the node's InternalIP, which is not intended. So we recommend to ensure kubelet using the right IP by setting the `--node-ip` option for [kubelet](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) explicitly.
