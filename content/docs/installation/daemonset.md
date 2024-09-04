@@ -13,7 +13,7 @@ Unlike running kube-vip as a [static Pod](/install_static) there are a few more 
 
 ## kube-vip as HA, Load Balancer, or both
 
-The functionality of `kube-vip` depends on the flags used to create the static Pod manifest. By passing in `--controlplane` we instruct `kube-vip` to provide and advertise a virtual IP to be used by the control plane. By passing in `--services` we tell `kube-vip` to provide load balancing for Kubernetes Service resources created inside the cluster. With both enabled, `kube-vip` will manage a virtual IP address that is passed through its configuration for a highly available Kubernetes cluster. It will also watch Services of type `LoadBalancer` and once their `service.metadata.annotations["kube-vip.io/loadbalancerIPs"]` or `spec.LoadBalancerIP` is updated (typically by a cloud controller, including (optionally) the one provided by kube-vip in [on-prem](/docs/usage/cloud-provider/) scenarios) it will advertise this address using BGP/ARP. In this example, we will use both when generating the manifest.
+The functionality of `kube-vip` depends on the flags used to create the Daemonset manifest. By passing in `--controlplane` we instruct `kube-vip` to provide and advertise a virtual IP to be used by the control plane. By passing in `--services` we tell `kube-vip` to provide load balancing for Kubernetes Service resources created inside the cluster. With both enabled, `kube-vip` will manage a virtual IP address that is passed through its configuration for a highly available Kubernetes cluster. It will also watch Services of type `LoadBalancer` and once their `service.metadata.annotations["kube-vip.io/loadbalancerIPs"]` or `spec.LoadBalancerIP` is updated (typically by a cloud controller, including (optionally) the one provided by kube-vip in [on-prem](/docs/usage/cloud-provider/) scenarios) it will advertise this address using BGP/ARP. In this example, we will use both when generating the manifest.
 
 When in `routing table` mode, `kube-vip` can be configured to not use any kind of leader election. In such case every `kube-vip` instance will watch all the configured services and will configure routing if the node kube-vip instance is running on has an endpoint associated with the service. To achieve this, both `leaderElection` and `servicesElection` flags should *not* be set.
 
@@ -51,7 +51,7 @@ To set manually instead, find the desired [release tag](https://github.com/kube-
 
 ### Creating the manifest
 
-With the input values now set, we can pull and run the kube-vip image supplying it the desired flags and values. Once the static Pod manifest is generated for your desired method (ARP or BGP), if running multiple control plane nodes, ensure it is placed in each control plane's static manifest directory (by default, `/etc/kubernetes/manifests`).
+With the input values now set, we can pull and run the kube-vip image supplying it the desired flags and values. 
 
 Depending on the container runtime, use one of the two aliased commands to create a kube-vip command which runs the kube-vip image as a container.
 
