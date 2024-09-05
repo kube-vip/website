@@ -106,9 +106,19 @@ To allow differentiation of traffic, in the event you would have multiple pods p
 
 The annotation is a colon separated value of protocol (`udp` or `tcp`) and the destination port, you can have multiple protocols and ports by using a comma e.g. `tcp:8080,udp:5060`
 
+### Applying Egress rules for dual/stack IPv6 pods/loadbalancers
+
+```
+  annotations:
+    kube-vip.io/egress: "true"
+    kube-vip.io/egress-ipv6: "true"
+```
+
+Adding the `egress-ipv6: "true"` annotation will create an egress rule the will change the source address from the IPv6 address of the pod, to the IPv6 address of the corresponding loadbalancer. 
+
 ### Excluding traffic for Pod and Service CIDRs
 
-By default kube-vip won't egress traffic for the default networks:
+Kube-vip will now attempt to auto-detect both the pod and service cidr, and then compare this information with the network types (IPv4/IPv6) of the egress that is taking place. If auto-detect doesn't success then kube-vip won't egress traffic for the default networks:
 
 -	Pod CIDR     = "10.0.0.0/16"
 -	Service CIDR = "10.96.0.0/12"
@@ -124,3 +134,17 @@ If you've configured different ranges for your network then these values will ne
 ```
 
 This will set a different range when an egress rule is configured.
+
+### Understanding the egress configuration
+
+When egress is enabled for a service, various annotations are added to the service that detail the configuration:
+
+```
+    annotations:
+      kube-vip.io/active-endpoint: ""
+      kube-vip.io/active-endpoint-ipv6: fd00:10:244:2::2   <-- address of the pod
+      kube-vip.io/egress: "true"
+      kube-vip.io/egress-ipv6: "true"
+      kube-vip.io/loadbalancerIPs: 172.18.255.250,fc00:f853:ccd:e793:ffff:ffff:ffff:fffa  <-- available load-balancers
+      kube-vip.io/vipHost: services-worker2
+```
