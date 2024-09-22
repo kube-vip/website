@@ -150,7 +150,13 @@ To expose a port successfully, we'll need to change the command slightly:
 `--target-port=80` the port of the application in the pods (HTT/NGINX)
 `--port=32380` the port the Service will be exposed on (and what you should connect to in order to receive traffic from the Service)
 
-`kubectl expose deployment plunder-nginx --port=32380 --target-port=80 --type=LoadBalancer --namespace plunder`
+Finally we'll have to annotate the service to enable Port Forwarding for that service.
+
+
+```
+kubectl expose deployment plunder-nginx --port=32380 --target-port=80 --type=LoadBalancer --namespace plunder
+kubectl annotate service plunder-nginx kube-vip.io/forwardUPNP=true
+```
 
 The above example should expose a port on your external (Internet facing) address that can be tested externally with:
 
