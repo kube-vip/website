@@ -24,7 +24,7 @@ The functionality of `kube-vip` depends on the flags used to create the static P
 
 ## Generating a Manifest
 
-In order to create an easier experience of consuming the various functionality within kube-vip, we can use the kube-vip container itself to generate our static Pod manifest. We do this by running the kube-vip image as a container and passing in the various [flags](/flags/) for the capabilities we want to enable.
+In order to create an easier experience of consuming the various functionality within kube-vip, we can use the kube-vip container itself to generate our static Pod manifest. We do this by running the kube-vip image as a container and passing in the various [flags](/docs/installation/flags/) for the capabilities we want to enable.
 
 ### Set configuration details
 
