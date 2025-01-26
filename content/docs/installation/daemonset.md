@@ -27,7 +27,7 @@ kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 
 ## Generating a Manifest
 
-In order to create an easier experience of consuming the various functionality within kube-vip, we can use the kube-vip container itself to generate our static Pod manifest. We do this by running the kube-vip image as a container and passing in the various [flags](/flags/) for the capabilities we want to enable.
+In order to create an easier experience of consuming the various functionality within kube-vip, we can use the kube-vip container itself to generate our static Pod manifest. We do this by running the kube-vip image as a container and passing in the various [flags](/docs/installation/flags/) for the capabilities we want to enable.
 
 ### Set configuration details
 
