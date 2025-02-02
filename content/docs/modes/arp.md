@@ -9,7 +9,7 @@ ARP (sometimes referred to as layer 2 as it's updating the underlying network to
 
 ### Control plane
 
-When using ARP with the control plane feature, then a leader election will take place in order to determine the leader. This leader will then host the control place IP address and use ARP (through a gratuitous ARP broadcast) to update the network accordingly.
+When using ARP with the control plane feature, then a leader election will take place in order to determine the leader. This leader will then host the control plane IP address and use ARP (through a gratuitous ARP broadcast) to update the network accordingly.
 
 ### Services
 
