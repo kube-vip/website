@@ -135,6 +135,25 @@ If you've configured different ranges for your network then these values will ne
 
 This will set a different range when an egress rule is configured.
 
+### Excluding traffic for specific networks
+
+In the event that a pod is on multiple networks we may have a scenario where we don't want to egress to that network.
+
+If we want to ensure we don't egress for a CIDR we can add to the service the following:
+```
+    annotations:
+      kube-vip.io/egress-denied-networks:172.18.0.0/24
+```
+
+These are comma separated values, so we we can add multiple networks not to egress.
+
+Additionally if we want to egress to only certain networks we can do the following:
+
+```
+    annotations:
+      kube-vip.io/egress-allowed-networks:172.18.0.0/24
+```
+
 ### Understanding the egress configuration
 
 When egress is enabled for a service, various annotations are added to the service that detail the configuration:
