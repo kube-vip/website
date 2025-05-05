@@ -29,3 +29,15 @@ In this mode kube-vip will perform an election every time a new Kubernetes servi
 ### **Cautions**
 
 1. With this mode, kube-vip assigns VIP on the network interface which may be **wrongly** chosen by kubelet as the node's InternalIP, which is not intended. So we recommend to ensure kubelet using the right IP by setting the `--node-ip` option for [kubelet](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) explicitly.
+
+1. When you use [calico](https://github.com/projectcalico/calico) you should additionally configure the correct autodetection mode, as would discover the VIP IP as the node IP and tries to use it for the BGP Speaker (Felix Container). The recommendation would be to set the following two environment variables as described in the [docs](https://docs.tigera.io/calico/latest/reference/configure-calico-node#kubernetes-internal-ip)). This will always use the configured node IP from above.
+
+    - ```yaml
+      - name: IP_AUTODETECTION_METHOD
+        value: kubernetes-internal-ip
+        ```
+
+    - ```yaml
+      - name: IP6_AUTODETECTION_METHOD
+        value: kubernetes-internal-ip
+        ```
