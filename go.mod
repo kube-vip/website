@@ -1,5 +1,5 @@
 module compose-exampleSite
 
-go 1.15
+go 1.24
 
-require github.com/onweru/compose v0.0.0-20220613192136-823b5de743db // indirect
+require github.com/cellebyte/compose v0.0.0-20250505220004-30e72ad608b2 // indirect
