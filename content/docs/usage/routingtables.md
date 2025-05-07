@@ -4,9 +4,9 @@
 # routing tables with the OS kernel.
 
 filter anycast_nets_v4 {
-    if (net ~ [{{ k8s.v4.service.loadbalanced.cidrs | map('regex_replace', '^(.*?)$', '\\1+') | join(", ") }}]) then {
-      bgp_community.add(({{ private_as_number }}, {{ bgp_community }}));
-      bgp_community.add(({{ private_as_number }}, 42));
+    if (net ~ [10.0.0.0/27+]) then {
+      bgp_community.add((65534, 16000));
+      bgp_community.add((65534, 42));
       accept;
     }
     reject;
@@ -14,9 +14,9 @@ filter anycast_nets_v4 {
 
 
 filter anycast_nets_v6 {
-    if (net ~ [{{ k8s.v6.service.loadbalanced.cidrs | map('regex_replace', '^(.*?)$', '\\1+') | join(", ") }}]) then {
-      bgp_community.add(({{ private_as_number }}, {{ bgp_community }}));
-      bgp_community.add(({{ private_as_number }}, 42));
+    if (net ~ [fd00::/64+]) then {
+      bgp_community.add((65534, 16000));
+      bgp_community.add((65534, 42));
       accept;
     }
     reject;
@@ -35,7 +35,7 @@ protocol kernel lb_v4 {
     ipv4 {
         table lbv4;
         import filter anycast_nets_v4;
-        export where dest != RTD_UNREACHABLE;	# Actually insert routes into the kernel routing table
+        export where dest != RTD_UNREACHABLE; # Actually insert routes into the kernel routing table
     };
 }
 
@@ -48,7 +48,7 @@ protocol kernel lb_v6 {
     ipv6 {
         table lbv6;
         import filter anycast_nets_v6;
-        export where dest != RTD_UNREACHABLE;	# Actually insert routes into the kernel routing table
+        export where dest != RTD_UNREACHABLE; # Actually insert routes into the kernel routing table
     };
 }
 
@@ -66,8 +66,7 @@ protocol pipe lb_pipe_v6 {
 }
 
 filter import_from_rr {
-    if ( ({{ private_as_number }}, 42) ~ bgp_community ) then {
-        # k8s_kniffel
+    if ( (65534, 42) ~ bgp_community ) then {
         accept;
     }
     reject;
