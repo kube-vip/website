@@ -12,7 +12,7 @@ These flags are typically used in the kube-vip manifest generation process.
 | Category            | Flag<div style="width:190px">property</div>              | Usage                                                              | Notes                                                                           |
 | ------------------- | ---------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                        |                                                                    |                                                                                 |
-|                     | `--log`                | default 4                                                          | Set to `5` for debugging logs                                                   |
+|                     | `--log`                | default 4                                                          | Set to `-4` for debugging logs                                                  |
 | **Mode**            |                        |                                                                    |                                                                                 |
 |                     | `--arp`                | Enables ARP broadcasts from Leader                                 |                                                                                 |
 |                     | `--bgp`                | Enables BGP peering from kube-vip                                  |                                                                                 |
@@ -74,7 +74,7 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 | Category            | Environment Variable <div style="width:190px">property</div> | Usage                                                                           | Notes                                                                           |
 | ------------------- | --------------------- |---------------------------------------------------------------------------------| ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                       |                                                                                 |                                                                                 |
-|                     | `vip_loglevel`        | default 4                                                                       | Set to `5` for debugging logs                                                   |
+|                     | `vip_loglevel`        | default 4                                                                       | Set to `-4` for debugging logs                                                  |
 | **Mode**            |                       |                                                                                 |                                                                                 |
 |                     | `cp_enable`           | Enables kube-vip control plane functionality                                    |                                                                                 |
 |                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer`                       |                                                                                 |
