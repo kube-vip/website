@@ -98,7 +98,7 @@ spec:
       value: "6443"
     - name: vip_interface
       value: ens192
-    - name: vip_cidr
+    - name: vip_subnet
       value: "32"
     - name: cp_enable
       value: "true"
@@ -183,7 +183,7 @@ spec:
       value: "6443"
     - name: vip_interface
       value: lo
-    - name: vip_cidr
+    - name: vip_subnet
       value: "32"
     - name: cp_enable
       value: "true"
