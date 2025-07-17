@@ -5,22 +5,110 @@ description: >
   Specific use cases for kube-vip.
 ---
 
+## Some neat infos about this mode
+
+Ensure that all other modes are turned off.
+Have a look at [Flags and Environment page](/docs/installation/flags/).
+
+Only `vip_routingtable: "true"` should be configured in your DaemonSet or Static Manifest.
+
+Additionally to enable cleanup of unwanted routes in kube-vips table at startup, you can enable `vip_cleanroutingtable: "true"`.
+
+```goat
+                                                           
+                                   ┌──────────────────────┐
+                                   │                      │
+                                   │   Node 1             │
+                                   │                      │
+                           ┌──────►│10.0.0.1  ┌───────────┐
+   ┌───────────────┐       │       │          │ Workload  │
+   │               │       │       │          │           │
+   │  Client       │       │       └──────────└───────────┘
+   │               ├───────┘       ┌──────────────────────┐
+   │               │               │                      │
+   │ 192.168.0.1   │               │   Node 2             │
+   │               │               │                      │
+   └───────────────┘               │          ┌───────────┐
+                                   │          │ Workload  │
+                                   │          │           │
+                                   └──────────└───────────┘
+                                                            
+```
+
+{{< tip "info" >}}
+Enabling `svc_election: "true"` kube-vip tries to do a leader election per service.
+This adds a higher possibility that not only one node gets all the traffic.
+{{< /tip >}}
+
+{{< tip "warning" >}}
+The leader election does not ensure, that traffic and services are distributed evenly to all nodes.
+{{< /tip >}}
+
+```goat
+                                   ┌──────────────────────┐
+                                   │                      │
+                                   │   Node 1             │
+                                   │                      │
+                           ┌──────►│10.0.0.1  ┌───────────┐
+   ┌───────────────┐       │       │          │ Workload  │
+   │               │       │       │          │           │
+   │  Client       │       │       └──────────└───────────┘
+   │               ├───────┤       ┌──────────────────────┐
+   │               │       │       │                      │
+   │ 192.168.0.1   │       │       │   Node 2             │
+   │               │       │       │                      │
+   └───────────────┘       └──────►│10.0.0.2  ┌───────────┐
+                                   │          │ Workload  │
+                                   │          │           │
+                                   └──────────└───────────┘
+```
+
+{{< tip "info" >}}
+To enable **multi-homing** of an advertised Route you need to disable both leader elections:
+
+* `vip_leaderelection: "false"`
+* `svc_election: "false"`.
+{{< /tip >}}
+
+```goat
+                                                            
+                                   ┌──────────────────────┐ 
+                                   │                      │ 
+                                   │   Node 1             │ 
+                                   │                      │ 
+                           ┌──────►│10.0.0.1  ┌───────────┐ 
+   ┌───────────────┐       │       │          │ Workload  │ 
+   │               │       │       │          │           │ 
+   │  Client       │       │       └──────────└───────────┘ 
+   │               ├───────┤       ┌──────────────────────┐ 
+   │               │       │       │                      │ 
+   │ 192.168.0.1   │       │       │   Node 2             │ 
+   │               │       │       │                      │ 
+   └───────────────┘       └──────►│10.0.0.1  ┌───────────┐ 
+                                   │          │ Workload  │ 
+                                   │          │           │ 
+                                   └──────────└───────────┘ 
+                                                            
+```
+
 ## Use BIRD to read routes from kube-vips table
 
 To read the routes which were written into the routing-table of the kubernetes node by kube-vip.
 You need to install a routing-daemon on the node.
 
-```console
+```bash
 apt install bird2
 ```
 
 Configure the following files according to your setup.
 If you need more guidance on how **bird** should be configured have a look at the [excellent guide](https://bird.network.cz/?get_doc&f=bird.html&v=20).
 
-```conf
-## /etc/bird.conf
-#This file is managed by Ansible. Local changes will be overwritten.
+### Peering
 
+This file configures the neighbors you want to peer with.
+
+```toml
+## /etc/bird.conf
 # Change this into your BIRD router ID. It's a world-wide unique identification
 # of your router, usually one of router's IPv4 addresses.
 router id 127.0.0.1;
@@ -53,7 +141,11 @@ protocol bgp <neigh>_v6 {
 ### ....
 ```
 
-```conf
+### Route Filtering
+
+To only advertise the Routes to the different neighbors, you can add it to this separate file. The `import` and `export` filter are then used by the other file above.
+
+```toml
 ## /etc/bird.d/kube-vip.conf
 # The Kernel protocol is not a real routing protocol. Instead of communicating
 # with other routers in the network, it performs synchronization of BIRD's
@@ -145,7 +237,7 @@ filter export_to_rr_v6 {
 
 ## Look into your routing tables in Bird
 
-```console
+```
 bird> show protocols
 Name       Proto      Table      State  Since         Info
 device1    Device     ---        up     2025-06-20    
@@ -159,7 +251,7 @@ lb_pipe_v6 Pipe       ---        up     2025-06-20    master6 <=> lbv6
 
 Have a look at IPv4
 
-```console
+```
 bird> show route protocol lb_v4 stats
 Table lbv4:
 10.0.0.18/32     unicast [lb_v4 2025-07-13] * (10)
@@ -171,7 +263,7 @@ Table lbv4:
 
 Have a look at IPv6
 
-```console
+```
 bird> show route protocol lb_v6 stats
 Table lbv6:
 fd00::5/128 unicast [lb_v6 2025-07-13] * (10)

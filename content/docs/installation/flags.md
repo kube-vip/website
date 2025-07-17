@@ -70,6 +70,11 @@ These environment variables are usually part of a kube-vip manifest and used whe
 
 More environment variables can be read through the `pkg/kubevip/config_envvar.go` file.
 
+{{< tip "warning" >}}
+Keep in mind Environment Variables always win against Flags.
+{{< /tip >}}
+
+
 | Category            | Environment Variable <div style="width:190px">property</div> | Usage                                                                           | Notes                                                                           |
 | ------------------- | --------------------- |---------------------------------------------------------------------------------| ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                       |                                                                                 |                                                                                 |
