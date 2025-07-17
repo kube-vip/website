@@ -5,21 +5,21 @@ description: >
   kube-vip Troubleshooting
 ---
 
-## Check IPv4
+## Check IPv4 Routes
 
 ```console
 $ ip r show table 198
 >
 ```
 
-## Check IPv6
+## Check IPv6 Routes
 
 ```console
 $ ip -6 r show table 198
 >
 ```
 
-## Monitor Events
+## Monitor Route Events
 
 ```console
 $ ip monitor route
