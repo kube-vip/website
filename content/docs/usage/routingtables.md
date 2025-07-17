@@ -121,17 +121,17 @@ protocol device {
 
 include "/etc/bird.d/*.conf";
 
-protocol bgp <neigh>_v4 {
+protocol bgp {{neigh}}_v4 {
     local as 65535;
-    neighbor <neighbor-ip> as 65535;
+    neighbor {{neighbor-ipv4}} as 65535;
     ipv4 {
         export filter export_to_rr_v4;
         import filter import_from_rr;
     };
 }
-protocol bgp <neigh>_v6 {
+protocol bgp {{neigh}}_v6 {
     local as 65535;
-    neighbor <neighbor-ipv6> as 65535;
+    neighbor {{neighbor-ipv6}} as 65535;
     ipv6 {
         export filter export_to_rr_v6;
         import filter import_from_rr;
@@ -239,14 +239,14 @@ filter export_to_rr_v6 {
 
 ```
 bird> show protocols
-Name       Proto      Table      State  Since         Info
-device1    Device     ---        up     2025-06-20    
-lb_v4      Kernel     lbv4       up     2025-06-20    
-lb_v6      Kernel     lbv6       up     2025-06-20    
-lb_pipe_v4 Pipe       ---        up     2025-06-20    master4 <=> lbv4
-lb_pipe_v6 Pipe       ---        up     2025-06-20    master6 <=> lbv6 
-<neigh>_v4 BGP        ---        up     2025-06-20    Established   
-<neigh>_v6 BGP        ---        up     2025-06-20    Established   
+Name         Proto      Table      State  Since         Info
+device1      Device     ---        up     2025-06-20
+lb_v4        Kernel     lbv4       up     2025-06-20
+lb_v6        Kernel     lbv6       up     2025-06-20
+lb_pipe_v4   Pipe       ---        up     2025-06-20    master4 <=> lbv4
+lb_pipe_v6   Pipe       ---        up     2025-06-20    master6 <=> lbv6
+{{neigh}}_v4 BGP        ---        up     2025-06-20    Established   
+{{neigh}}_v6 BGP        ---        up     2025-06-20    Established   
 ```
 
 Have a look at IPv4
