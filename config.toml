@@ -3,7 +3,7 @@ title = "kube-vip"
 enableRobotsTXT = true
 # this example loads the theme as hugo module
 # comment out line below, and uncomment the line after it if you prefer to load the theme normally
-theme = ["github.com/cellebyte/compose"] # edit this if you'd rather use a fork of this repo
+theme = ["github.com/onweru/compose"] # edit this if you'd rather use a fork of this repo
 # theme = "compose"
 enableGitInfo = true
 
