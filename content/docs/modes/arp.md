@@ -5,7 +5,7 @@ description: >
   kube-vip ARP mode
 ---
 
-ARP (sometimes referred to as layer 2 as it's updating the underlying network topology) is a simplistic protocol that is used to update the underlying network that in order to reach a certain IP address traffic should be sent to a specific piece of hardware. ARP will typically broadcast updates to the entire network that update the IP to Hardware (MAC) mapping this ensures traffic is sent to the correct physical or virtual network nic.
+ARP (sometimes referred to as layer 2 as it's updating the underlying network topology) is a simplistic protocol that is used to update the underlying network that in order to reach a certain IP address traffic should be sent to a specific piece of hardware. ARP mode works by broadcasting ARP announcements when the virtual IP (VIP) transitions between nodes. These broadcasts update the ARP tables across the network, changing the IP-to-MAC address mapping from the previous node's interface to the current active node's interface. This ensures that subsequent traffic destined for the VIP is forwarded to the correct physical or virtual network interface.
 
 ### Control plane
 
