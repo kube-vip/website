@@ -23,17 +23,16 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`          |                                                                                 |
 |                     | `--enableEndpointSlices`  | Enables use of `EndopintSlices` instead of `Endpoints` |
 | **VIP Config**      |                        |                                                                    |                                                                                 |
-|                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |
+|                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |           |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
 |                     | `--ddns`               | Enables DDNS support                                               | Requires `--address` is used and set to FQDN                                    |
 |                     | `--interface`          | Linux interface on the node                                        |                                                                                 |
 |                     | `--leaderElection`     | Enables Kubernetes LeaderElection                                  | Used by ARP, as only the leader can broadcast                                   |
+|                     | `--vipSubnet`          | `32,128` in ARP mode you could use (`auto,auto`)                   | Used when advertising in any mode                |
 |                     | `--enableLoadBalancer` | Enables IPVS load balancer                                         | kube-vip ≥ 0.4.0                                                              |
 |                     | `--lbPort`             | 6443                                                               | The port that the api server will load-balanced on                              |
 |                     | `--lbForwardingMethod` | Select the forwarding method (default local)                       | The IPVS forwarding method (local, masquerade, tunnel, directroute, bypass)          |
 | **Services**        |                        |                                                                    |                                                                                 |
-|                     | `--vipSubnet`          | Defaults ""                                                        | The Virtual IP address subnet e.g. /32 /24 /8 etc..|
-|                     | `--cidr`               | Defaults "Detected at runtime: /32 for IPv4 and /128 for IPv6"     | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `--servicesInterface`  | ""                                                                 | (Optional) different interface to bind services too                        |
 |                     | `--servicesElection`   | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
 |                     | `--onlyAllowTrafficServicePorts`    | false                                                 | Only allow traffic to service ports, others will be dropped                     |
@@ -71,6 +70,11 @@ These environment variables are usually part of a kube-vip manifest and used whe
 
 More environment variables can be read through the `pkg/kubevip/config_envvar.go` file.
 
+{{< tip "warning" >}}
+Keep in mind Environment Variables always win against Flags.
+{{< /tip >}}
+
+
 | Category            | Environment Variable <div style="width:190px">property</div> | Usage                                                                           | Notes                                                                           |
 | ------------------- | --------------------- |---------------------------------------------------------------------------------| ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                       |                                                                                 |                                                                                 |
@@ -86,13 +90,13 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                                           | Requires `vip_address` is set to FQDN                                           |
 |                     | `vip_interface`       | `<linux interface>`                                                             |                                                                                 |
 |                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                                               | Used by ARP, as only the leader can broadcast                                   |
+|                     | `vip_subnet`          | Detected at runtime: Tuple for IPv4,IPv6 (e.g. `32,128` or `auto,auto`)         | Used when advertising in any mode                |
 |                     | `lb_enable`           | Enables IPVS LoadBalancer                                                       | kube-vip ≥ 0.4.0. Adds nodes to the IPVS load balancer                        |
 |                     | `lb_port`             | 6443                                                                            | The IPVS port that will be used to load-balance control plane requests          |
 |                     | `lb_fwdmethod`        | Select the forwarding method (default local)                                    | The IPVS forwarding method (local, masquerade, tunnel, directroute, bypass)          |
 | **Services**        |                       |                                                                                 |                                                                                 |
 |                     | `vip_servicesinterface` | ""                                                                              | Defines an optional different interface to bind                                 |
 |                     | `svc_election`        | Enables a leadership Election for each Service, allowing them to be distributed |                                                             |
-|                     | `vip_cidr`            | Detected at runtime: /32 for IPv4 and /128 for IPv6                             | Used when advertising BGP addresses (typically as `x.x.x.x/32`)                 |
 |                     | `enable_service_security` | Boolean. Enable service security feature, defaults false                        | Restrict traffic to only service ports                 |
 | **LeaderElection**  |                       |                                                                                 |                                                                                 |
 |                     | `vip_leaseduration`   | default 15                                                                      | Seconds a lease is held for                                                     |
@@ -115,12 +119,6 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `bgp_sourceif`        | Source Interface                                                                | Determines which interface BGP should peer _from_                               |
 |                     | `bgp_sourceip`        | Source Address                                                                  | Determines which IP address BGP should peer _from_                              |
 |                     | `annotations`         | `<provider string>`                                                             | Startup will be paused until the node annotations contain the BGP configuration |
-| **Equinix Metal**   |                       |                                                                                 | (May be deprecated)                                                             |
-|                     | `vip_packet`          | Enables Equinix Metal API calls                                                 |                                                                                 |
-|                     | `PACKET_AUTH_TOKEN`   | Equinix Metal API token                                                         |                                                                                 |
-|                     | `vip_packetproject`   | Equinix Metal Project (Name)                                                    |                                                                                 |
-|                     | `vip_packetprojectid` | Equinix Metal Project (UUID)                                                    |                                                                                 |
-|                     | `provider_config`     | Path to the Equinix Metal provider configuration                                | Requires the Equinix Metal CCM                                                  |
-| **Egress**          |                       |                                                                                 |                                                                                 |
+**Egress**          |                       |                                                                                 |                                                                                 |
 |                     | `EGRESS_CLEAN`        | Enables kube-vip to clean left over iptables rules                              |                                                                                 |
 |                     | `egress_withnftables` | Uses nftables instead of iptables                                               |                                                                                 |

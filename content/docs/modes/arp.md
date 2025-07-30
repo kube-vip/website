@@ -5,7 +5,7 @@ description: >
   kube-vip ARP mode
 ---
 
-ARP (sometimes referred to as layer 2 as it's updating the underlying network topology) is a simplistic protocol that is used to update the underlying network that in order to reach a certain IP address traffic should be sent to a specific piece of hardware. ARP will typically broadcast updates to the entire network that update the IP to Hardware (MAC) mapping this ensures traffic is sent to the correct physical or virtual network nic.
+ARP (sometimes referred to as layer 2 as it's updating the underlying network topology) is a simplistic protocol that is used to update the underlying network that in order to reach a certain IP address traffic should be sent to a specific piece of hardware. ARP mode works by broadcasting ARP announcements when the virtual IP (VIP) transitions between nodes. These broadcasts update the ARP tables across the network, changing the IP-to-MAC address mapping from the previous node's interface to the current active node's interface. This ensures that subsequent traffic destined for the VIP is forwarded to the correct physical or virtual network interface.
 
 ### Control plane
 
@@ -29,3 +29,15 @@ In this mode kube-vip will perform an election every time a new Kubernetes servi
 ### **Cautions**
 
 1. With this mode, kube-vip assigns VIP on the network interface which may be **wrongly** chosen by kubelet as the node's InternalIP, which is not intended. So we recommend to ensure kubelet using the right IP by setting the `--node-ip` option for [kubelet](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) explicitly.
+
+1. When you use [calico](https://github.com/projectcalico/calico) you should additionally configure the correct autodetection mode, as would discover the VIP IP as the node IP and tries to use it for the BGP Speaker (Felix Container). The recommendation would be to set the following two environment variables as described in the [docs](https://docs.tigera.io/calico/latest/reference/configure-calico-node#kubernetes-internal-ip)). This will always use the configured node IP from above.
+
+    - ```yaml
+      - name: IP_AUTODETECTION_METHOD
+        value: kubernetes-internal-ip
+        ```
+
+    - ```yaml
+      - name: IP6_AUTODETECTION_METHOD
+        value: kubernetes-internal-ip
+        ```
