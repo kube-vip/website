@@ -98,7 +98,7 @@ NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
 kubernetes   ClusterIP      10.96.0.1       <none>          443/TCP        17m
 nginx-dhcp   LoadBalancer   10.97.150.208   192.168.0.155   80:31184/TCP   3s
 ```
-### DCHP hostname support
+### DHCP hostname support
 
 You can also specify a hostname used for the DHCP lease by adding an annotation to your service.
 
