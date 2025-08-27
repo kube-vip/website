@@ -77,15 +77,10 @@ To pull all this together, kube-vip will utilise a loadBalancer address to becom
 
 ### Using kube-vip Egress
 
-**NOTE:** At this time, egress requires `iptables` in order to re-write rules that will change traffic. To facilitate this a separate kube-vip image exists that has `iptables`, this image is called `kube-vip-iptables` and is available [here](https://github.com/kube-vip/kube-vip/pkgs/container/kube-vip-iptables).
-
-**Additionally** Should your Operating System (RHEL, Rocky Linux) have started the steps to deprecate `iptables` in favour of `nftables` then you will need to use the environment variable `egress_withnftables` (set to `true`), otherwise some of the rules will be ignored by the kernel. Whilst the rules will work, you may view confusing results viewing the rules inside and outside the pod that is being egressed.
-
-To enable Egress kube-vip requires `serviceElection` to be enabled, the Kubernetes service requires the below Egress annotation **and** it requires `externalTrafficPolicy` set to `Local`. 
-
 ```
   annotations:
     kube-vip.io/egress: "true"
+    kube-vip.io/egress-internal: "true"   # v1.0+ onwards
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
@@ -93,6 +88,22 @@ spec:
 *Example additions to a manifest*
 
 The annotations mean that kube-vip will know that the traffic from the `pod` will now need modifying so that the source address becomes the address of the loadBalancer. The `externalTrafficPolicy` is required because the loadbalancer address needs to be on the same node where the pod resides, otherwise the rules written into the kernel won't work.
+
+From version v1.0+ onwards the implementation of egress (which we're referring to as egress v2) is completely internal and has **no** external dependancies on other binaries (such as `iptables` or `nftables`). We make use of a Go package that interacts directly with the Linux kernel to program the egress datapath.
+
+This means that you no longer will need the image that is prefixed with `-iptables`, although we'll keep creating that image for a little longer whilst this implementation is battle tested.
+
+In order to use the new (internal) implemenation then use the following annotation `kube-vip.io/egress-internal: "true"`
+
+For a little more detail there is a blog post [here](https://thebsdbox.co.uk/2025/07/17/egress-v2-in-kube-vip/)
+
+#### Egress with kube-vip (pre v1.0+)
+
+**NOTE:** At this time, egress requires `iptables` in order to re-write rules that will change traffic. To facilitate this a separate kube-vip image exists that has `iptables`, this image is called `kube-vip-iptables` and is available [here](https://github.com/kube-vip/kube-vip/pkgs/container/kube-vip-iptables).
+
+**Additionally** Should your Operating System (RHEL, Rocky Linux) have started the steps to deprecate `iptables` in favour of `nftables` then you will need to use the environment variable `egress_withnftables` (set to `true`), otherwise some of the rules will be ignored by the kernel. Whilst the rules will work, you may view confusing results viewing the rules inside and outside the pod that is being egressed.
+
+To enable Egress kube-vip requires `serviceElection` to be enabled, the Kubernetes service requires the below Egress annotation **and** it requires `externalTrafficPolicy` set to `Local`. 
 
 ### Applying Egress rules only to certain destination ports
 
