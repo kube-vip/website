@@ -143,6 +143,8 @@ spec:
 status: {}
 ```
 
+> Note: Since Kubernetes v1.29, the kubeadm bootstrap process has changed so that the `admin.conf` isn't usable immediately. This can be worked around by using the `super-admin.conf` for initialization and then switching to `admin.conf` when done. See [this issue](https://github.com/kube-vip/kube-vip/issues/684) for more details.
+
 ### BGP
 
 This configuration will create a manifest that starts kube-vip providing control plane VIP and Kubernetes Service management. Unlike ARP, all nodes in the BGP configuration will advertise virtual IP addresses.
