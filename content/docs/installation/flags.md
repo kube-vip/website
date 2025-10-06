@@ -25,6 +25,7 @@ These flags are typically used in the kube-vip manifest generation process.
 | **VIP Config**      |                        |                                                                    |                                                                                 |
 |                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |           |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
+|                     | `--dnsMode`            | Dns lookup mode for address when the dns name is provided          | This will set the mode for the  DSN lookup (first, ipv4, ipv6, dual)            |
 |                     | `--ddns`               | Enables DDNS support                                               | Requires `--address` is used and set to FQDN                                    |
 |                     | `--interface`          | Linux interface on the node                                        |                                                                                 |
 |                     | `--leaderElection`     | Enables Kubernetes LeaderElection                                  | Used by ARP, as only the leader can broadcast                                   |
@@ -87,6 +88,7 @@ Keep in mind Environment Variables always win against Flags.
 |                     | `bgp_enable`          | Enables BGP peering from kube-vip                                               |                                                                                 |
 |                     | `vip_address`         | `<IP Address>`                                                                  | (deprecated)                                                                    |
 |                     | `address`             | `<IP Address>` or `<DNS name>`                                                  |                                                                                 |
+|                     | `dns_mode`            | Select the dns resolve method                                                   | The DSN lookup method (first, ipv4, ipv6, dual)                                 |
 |                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                                           | Requires `vip_address` is set to FQDN                                           |
 |                     | `vip_interface`       | `<linux interface>`                                                             |                                                                                 |
 |                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                                               | Used by ARP, as only the leader can broadcast                                   |
