@@ -21,7 +21,7 @@ The watcher will always examine the [load balancer class ](https://kubernetes.io
 
 ### Optional behavior
 
-Alternate LoadBalancer Class handlig behavior can be enabled by setting `LoadBalancerClassLegacyHandling` config flag to `false`. In this mode, kube-vip will only process the service if it's `spec.loadBalancerClass` value **is equal** to the class configured in kube-vip using `LoadBalancerClassName` flag.
+Alternate LoadBalancer Class handling behavior can be enabled by setting `LoadBalancerClassLegacyHandling` config flag to `false`. In this mode, kube-vip will only process the service if it's `spec.loadBalancerClass` value **is equal** to the class configured in kube-vip using `LoadBalancerClassName` flag.
 
 ## Multiple services on the same IP
 
