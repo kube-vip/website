@@ -26,6 +26,18 @@ In this mode (default) all kube-vip pods will elect a leader and this leader wil
 
 In this mode kube-vip will perform an election every time a new Kubernetes service is created allowing service addresses to be spread across all nodes where a kube-vip pod is running.
 
+### VIP Preservation on Leadership Loss
+
+By default, when a node loses leadership (or cannot maintain it), kube-vip immediately removes the VIP address from the network interface. The `PreserveVIPOnLeadershipLoss` feature provides more graceful handling during leadership transitions by keeping the VIP on the interface until a new leader is elected, while immediately stopping ARP/NDP broadcasts to prevent network conflicts.
+
+**Behavior when enabled:**
+- On leadership loss, the VIP remains on the interface but ARP/NDP broadcasting stops immediately
+- The VIP is only removed when a new leader is successfully elected
+- The old node cleans up preserved VIPs once it detects the new leader
+
+**Important Note:**
+- IPv6 VIPs are always removed immediately (even with this feature enabled) to prevent Duplicate Address Detection (DAD) failures
+
 ### **Cautions**
 
 1. With this mode, kube-vip assigns VIP on the network interface which may be **wrongly** chosen by kubelet as the node's InternalIP, which is not intended. So we recommend to ensure kubelet using the right IP by setting the `--node-ip` option for [kubelet](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) explicitly.

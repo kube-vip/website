@@ -47,6 +47,7 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--namespace`          | "kube-vip"                                                         | The namespace where the lease will reside                                       |
 | **ARP**             |                        |                                                                    |                                                                                 |
 |                     | `--enableNodeLabeling` | false                                                              | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
+|                     | `--preserveVipOnLeadershipLoss` | false                                                     | Preserve VIP on interface when losing leadership (ARP mode only)                |
 | **BGP**             |                        |                                                                    |                                                                                 |
 |                     | `--bgpRouterID`        | `<IP Address>`                                                     | Typically the address of the local node                                         |
 |                     | `--localAS`            | default 65000                                                      | The AS we peer from                                                             |
@@ -108,7 +109,8 @@ Keep in mind Environment Variables always win against Flags.
 |                     | `egress_podcidr`      | "10.0.0.0/16"                                                                   | The CIDR range where pods will be allocated and IP address                      |
 |                     | `egress_servicecidr`  | "10.96.0.0/12"                                                                  | The CIDR range where services will be allocated and IP address                  |
 | **ARP**             |                       |                                                                                 |                                                                                 |
-|                     | `enable_node_labeling` | false                                                                           | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
+|                     | `enable_node_labeling` | false                                                                          | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
+|                     | `vip_preserve_on_leadership_loss` | false                                                               | Preserve VIP on interface when losing leadership (ARP mode only)                |
 | **BGP**             |                       |                                                                                 |                                                                                 |
 |                     | `bgp_routerid`        | `<IP Address>`                                                                  | Typically the address of the local node                                         |
 |                     | `bgp_routerinterface` | Interface name                                                                  | Used to associate the `routerID` with the control plane's interface.            |
