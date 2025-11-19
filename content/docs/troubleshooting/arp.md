@@ -64,3 +64,33 @@ Doing this a few times should result in something like the following:
 ..
 .
 ```
+
+## VIP Preservation Feature
+
+If you have enabled the `PreserveVIPOnLeadershipLoss` feature (`vip_preserve_on_leadership_loss=true`), VIP transitions behave differently:
+
+### Expected Behavior with VIP Preservation
+
+- When a node loses leadership, it keeps the VIP on its interface but stops ARP/NDP broadcasting
+- The VIP is only removed when a new leader successfully takes over
+- This provides more graceful failover with potentially shorter disruption windows
+
+### Troubleshooting VIP Preservation
+
+**Check if the feature is enabled:**
+```bash
+kubectl get pod <kube-vip-pod> -n kube-system -o yaml | grep vip_preserve_on_leadership_loss
+```
+
+**Check leader transition logs:**
+```bash
+kubectl logs -n kube-system <kube-vip-pod> | grep -E "preserve|leadership|took over"
+```
+
+Log messages when feature is enabled:
+- `"VIP addresses remain on interface, only stopped ARP/NDP broadcasting"`
+- `"took over VIP as new leader"`
+- `"cleaned up preserved VIP to avoid conflict"`
+
+**IPv6 Special Case:**
+Note that IPv6 VIPs are always removed immediately (even when enabled) to prevent Duplicate Address Detection (DAD) failures. If you're using IPv6 VIPs, they will not be preserved on leadership loss. (Ref: RFC 4429)
