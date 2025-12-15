@@ -9,62 +9,63 @@ description: >
 
 These flags are typically used in the kube-vip manifest generation process.
 
-| Category            | Flag<div style="width:190px">property</div>              | Usage                                                              | Notes                                                                           |
-| ------------------- | ---------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| **Troubleshooting** |                        |                                                                    |                                                                                 |
-|                     | `--log`                | default 4                                                          | Set to `-4` for debugging logs                                                  |
-| **Mode**            |                        |                                                                    |                                                                                 |
-|                     | `--arp`                | Enables ARP broadcasts from Leader                                 |                                                                                 |
-|                     | `--bgp`                | Enables BGP peering from kube-vip                                  |                                                                                 |
-|                     | `--table`              | Enables routing entries to be created                              |                                                                                 |
-|                     | `--wireguard`          | Enables services to be exposed over Wireguard                      |                                                                                 |
-| **Features**        |                        |                                                                    |                                                                                 |
-|                     | `--controlplane`       | Enables kube-vip control plane functionality                       |                                                                                 |
-|                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`          |                                                                                 |
-|                     | `--enableEndpointSlices`  | Enables use of `EndopintSlices` instead of `Endpoints` |
-| **VIP Config**      |                        |                                                                    |                                                                                 |
-|                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |           |
-|                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
-|                     | `--dnsMode`            | Dns lookup mode for address when the dns name is provided          | This will set the mode for the  DSN lookup (first, ipv4, ipv6, dual)            |
-|                     | `--ddns`               | Enables DDNS support                                               | Requires `--address` is used and set to FQDN                                    |
-|                     | `--interface`          | Linux interface on the node                                        |                                                                                 |
-|                     | `--leaderElection`     | Enables Kubernetes LeaderElection                                  | Used by ARP, as only the leader can broadcast                                   |
-|                     | `--vipSubnet`          | `32,128` in ARP mode you could use (`auto,auto`)                   | Used when advertising in any mode                |
-|                     | `--enableLoadBalancer` | Enables IPVS load balancer                                         | kube-vip ≥ 0.4.0                                                              |
-|                     | `--lbPort`             | 6443                                                               | The port that the api server will load-balanced on                              |
-|                     | `--lbForwardingMethod` | Select the forwarding method (default local)                       | The IPVS forwarding method (local, masquerade, tunnel, directroute, bypass)          |
-| **Services**        |                        |                                                                    |                                                                                 |
-|                     | `--servicesInterface`  | ""                                                                 | (Optional) different interface to bind services too                        |
-|                     | `--servicesElection`   | false                                                              | Enables a leadership Election for each Service, allowing them to be distributed |
-|                     | `--onlyAllowTrafficServicePorts`    | false                                                 | Only allow traffic to service ports, others will be dropped                     |
-| **Kubernetes**      |                        |                                                                    |                                                                                 |
-|                     | `--inCluster`          | Required for kube-vip as DaemonSet.                                |  Runs kube-vip with a ServiceAccount called kube-vip.                       |
-|                     | `--taint`              | Required for kube-vip as DaemonSet.                                |  Adds node affinity rules forcing kube-vip Pods to run on control plane.      |
-| **LeaderElection**  |                        |                                                                    |                                                                                 |
-|                     | `--leaseDuration`      | default 15                                                         | Seconds a lease is held for                                                     |
-|                     | `--leaseRenewDuration` | default 10                                                         | Seconds a leader can attempt to renew the lease                                 |
-|                     | `--leaseRetry`         | default 2                                                          | Number of times the leader will hold the lease for                              |
-|                     | `--namespace`          | "kube-vip"                                                         | The namespace where the lease will reside                                       |
-| **ARP**             |                        |                                                                    |                                                                                 |
-|                     | `--enableNodeLabeling` | false                                                              | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
-|                     | `--preserveVipOnLeadershipLoss` | false                                                     | Preserve VIP on interface when losing leadership (ARP mode only)                |
-| **BGP**             |                        |                                                                    |                                                                                 |
-|                     | `--bgpRouterID`        | `<IP Address>`                                                     | Typically the address of the local node                                         |
-|                     | `--localAS`            | default 65000                                                      | The AS we peer from                                                             |
-|                     | `--bgppeers`           | `<address:AS:password:multihop>`                                   | Comma separated list of BGP peers                                               |
-|                     | `--peerAddress`        | `<IP Address>`                                                     | Address of a single BGP Peer                                                    |
-|                     | `--peerAS`             | default 65000                                                      | AS of a single BGP Peer                                                         |
-|                     | `--peerPass`           | ""                                                                 | Password to work with a single BGP Peer                                         |
-|                     | `--multiHop`           | Enables eBGP MultiHop                                              | Enable multiHop with a single BGP Peer                                          |
-|                     | `--sourceif`           | Source Interface                                                   | Determines which interface BGP should peer _from_                               |
-|                     | `--sourceip`           | Source Address                                                     | Determines which IP address BGP should peer _from_                              |
-|                     | `--annotations`        | `<provider string>`                                                | Startup will be paused until the node annotations contain the BGP configuration |
-| **Equinix Metal**   |                        |                                                                    | (May be deprecated)                                                             |
-|                     | `--metal`              | Enables Equinix Metal API calls                                    |                                                                                 |
-|                     | `--metalKey`           | Equinix Metal API token                                            |                                                                                 |
-|                     | `--metalProject`       | Equinix Metal Project (Name)                                       |                                                                                 |
-|                     | `--metalProjectID`     | Equinix Metal Project (UUID)                                       |                                                                                 |
-|                     | `--provider-config`    | Path to the Equinix Metal provider configuration                   | Requires the Equinix Metal CCM                                                  |
+| Category            | Flag<div style="width:190px">property</div>              | Usage                                                              | Notes                                            |
+| ------------------- | ---------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **Troubleshooting** |                        |                                                                       |                                                                                 |
+|                     | `--log`                | default 4                                                             | Set to `-4` for debugging logs                                                  |
+| **Mode**            |                        |                                                                       |                                                                                 |
+|                     | `--arp`                | Enables ARP broadcasts from Leader                                    |                                                                                 |
+|                     | `--bgp`                | Enables BGP peering from kube-vip                                     |                                                                                 |
+|                     | `--table`              | Enables routing entries to be created                                 |                                                                                 |
+|                     | `--wireguard`          | Enables services to be exposed over Wireguard                         |                                                                                 |
+| **Features**        |                        |                                                                       |                                                                                 |
+|                     | `--controlplane`       | Enables kube-vip control plane functionality                          |                                                                                 |
+|                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`             |                                                                                 |
+|                     | `--enableEndpointSlices`  | Enables use of `EndopintSlices` instead of `Endpoints`             |                                                                                 |
+| **VIP Config**      |                        |                                                                       |                                                                                 |
+|                     | `--vip`                | `<IP Address>`                                                        | (deprecated)                                                                    |
+|                     | `--address`            | `<IP Address>` or `<DNS name>`                                        |                                                                                 |
+|                     | `--dnsMode`            | Dns lookup mode for address when the dns name is provided             | This will set the mode for the  DSN lookup (first, ipv4, ipv6, dual)            |
+|                     | `--ddns`               | Enables DDNS support                                                  | Requires `--address` is used and set to FQDN                                    |
+|                     | `--dhcpMode`           | Mode DHCP resolving will use to obtain IP addresses (ipv4, ipv6, dual)|                                                                                 |
+|                     | `--interface`          | Linux interface on the node                                           |                                                                                 |
+|                     | `--leaderElection`     | Enables Kubernetes LeaderElection                                     | Used by ARP, as only the leader can broadcast                                   |
+|                     | `--vipSubnet`          | `32,128` in ARP mode you could use (`auto,auto`)                      | Used when advertising in any mode                                               |
+|                     | `--enableLoadBalancer` | Enables IPVS load balancer                                            | kube-vip ≥ 0.4.0                                                                |
+|                     | `--lbPort`             | 6443                                                                  | The port that the api server will load-balanced on                              |
+|                     | `--lbForwardingMethod` | Select the forwarding method (default local)                          | The IPVS forwarding method (local, masquerade, tunnel, directroute, bypass)     |
+| **Services**        |                        |                                                                       |                                                                                 |
+|                     | `--servicesInterface`  | ""                                                                    | (Optional) different interface to bind services too                             |
+|                     | `--servicesElection`   | false                                                                 | Enables a leadership Election for each Service, allowing them to be distributed |
+|                     | `--onlyAllowTrafficServicePorts`    | false                                                    | Only allow traffic to service ports, others will be dropped                     |
+| **Kubernetes**      |                        |                                                                       |                                                                                 |
+|                     | `--inCluster`          | Required for kube-vip as DaemonSet.                                   |  Runs kube-vip with a ServiceAccount called kube-vip.                           |
+|                     | `--taint`              | Required for kube-vip as DaemonSet.                                   |  Adds node affinity rules forcing kube-vip Pods to run on control plane.        |
+| **LeaderElection**  |                        |                                                                       |                                                                                 |
+|                     | `--leaseDuration`      | default 15                                                            | Seconds a lease is held for                                                     |
+|                     | `--leaseRenewDuration` | default 10                                                            | Seconds a leader can attempt to renew the lease                                 |
+|                     | `--leaseRetry`         | default 2                                                             | Number of times the leader will hold the lease for                              |
+|                     | `--namespace`          | "kube-vip"                                                            | The namespace where the lease will reside                                       |
+| **ARP**             |                        |                                                                       |                                                                                 |
+|                     | `--enableNodeLabeling` | false                                                                 | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
+|                     | `--preserveVipOnLeadershipLoss` | false                                                        | Preserve VIP on interface when losing leadership (ARP mode only)                |
+| **BGP**             |                        |                                                                       |                                                                                 |
+|                     | `--bgpRouterID`        | `<IP Address>`                                                        | Typically the address of the local node                                         |
+|                     | `--localAS`            | default 65000                                                         | The AS we peer from                                                             |
+|                     | `--bgppeers`           | `<address:AS:password:multihop>`                                      | Comma separated list of BGP peers                                               |
+|                     | `--peerAddress`        | `<IP Address>`                                                        | Address of a single BGP Peer                                                    |
+|                     | `--peerAS`             | default 65000                                                         | AS of a single BGP Peer                                                         |
+|                     | `--peerPass`           | ""                                                                    | Password to work with a single BGP Peer                                         |
+|                     | `--multiHop`           | Enables eBGP MultiHop                                                 | Enable multiHop with a single BGP Peer                                          |
+|                     | `--sourceif`           | Source Interface                                                      | Determines which interface BGP should peer _from_                               |
+|                     | `--sourceip`           | Source Address                                                        | Determines which IP address BGP should peer _from_                              |
+|                     | `--annotations`        | `<provider string>`                                                   | Startup will be paused until the node annotations contain the BGP configuration |
+| **Equinix Metal**   |                        |                                                                       | (May be deprecated)                                                             |
+|                     | `--metal`              | Enables Equinix Metal API calls                                       |                                                                                 |
+|                     | `--metalKey`           | Equinix Metal API token                                               |                                                                                 |
+|                     | `--metalProject`       | Equinix Metal Project (Name)                                          |                                                                                 |
+|                     | `--metalProjectID`     | Equinix Metal Project (UUID)                                          |                                                                                 |
+|                     | `--provider-config`    | Path to the Equinix Metal provider configuration                      | Requires the Equinix Metal CCM                                                  |
 
 ## Environment Variables
 
@@ -90,6 +91,7 @@ Keep in mind Environment Variables always win against Flags.
 |                     | `vip_address`         | `<IP Address>`                                                                  | (deprecated)                                                                    |
 |                     | `address`             | `<IP Address>` or `<DNS name>`                                                  |                                                                                 |
 |                     | `dns_mode`            | Select the dns resolve method                                                   | The DSN lookup method (first, ipv4, ipv6, dual)                                 |
+|                     | `dhcp_mode`           | Select the DHCP resolve method                                                  | The DHCP addresses to obtain (ipv4, ipv6, dual)                                 |
 |                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                                           | Requires `vip_address` is set to FQDN                                           |
 |                     | `vip_interface`       | `<linux interface>`                                                             |                                                                                 |
 |                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                                               | Used by ARP, as only the leader can broadcast                                   |

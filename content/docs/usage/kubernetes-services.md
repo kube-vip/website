@@ -166,3 +166,26 @@ $ curl externalIP:32380
 <html>
 ...
 ```
+
+### DDNS and DHCP
+
+Services can be configured to use DHCP by providing 'empty' addresses to `kube-vip.io/loadbalancerIP` annotation. For IPv4 the address is `0.0.0.0` and for IPv6 it is `::`.
+DualStack service can be configured by specifing those two addresses separated by comma.
+
+```yaml
+kube-vip.io/loadbalancerIP: "0.0.0.0,::" # this will try to obtain both IPv4 and IPv6 addresses.
+```
+
+Services can also use DNS names to obtain IP address via DNS lookup:
+
+```yaml
+kube-vip.io/loadbalancerIP: "service.example.com"
+```
+
+DNS names can be used with DDNS by enabling DDNS for the service using annotation:
+
+```yaml
+kube-vip.io/ddns: "true"
+```
+
+All the configuration will respect value of the service's `ipFamilyPolicy` field.
