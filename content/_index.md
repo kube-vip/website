@@ -25,11 +25,11 @@ kube-vip provides Kubernetes clusters with a virtual IP and load balancer for bo
 
 ### BGP
 
-**BGP** is a mechanism so that networks that rely on routing (layer 3) can ensure that new addresses are advertised to the routing infrastructure. When this information has been updated it transparently means that the router will automatically forward traffic to the correct devices.
+**BGP** is a mechanism so that networks that rely on routing (layer 3) can ensure that new addresses are advertised to the [routing infrastructure](https://networklessons.com/bgp/introduction-to-bgp). When this information has been updated it transparently means that the router will automatically forward traffic to the correct devices.
 
 ### Routing Table
 
-The **Routing Table** mode is to allow additional routing technologies such as ECMP etc. to be configured so that traffic can be send to a range of nodes (such as your Kubernetes nodes), and kube-vip will manage the addition/deletion of addresses to the routing tables of these nodes so that they can receive the correct traffic.
+The **Routing Table** mode is to allow additional routing technologies such as ECMP etc. to be configured so that traffic can be send to a range of nodes (such as your Kubernetes nodes), and kube-vip will manage the addition/deletion of addresses to the [routing tables](https://pingmynetwork.com/network/ccna-200-301/routing-table) of these nodes so that they can receive the correct traffic.
 
 ### WireGuard
 
