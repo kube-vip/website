@@ -5,3 +5,4 @@ _site/
 .hugo_build.lock
 public
 .DS_Store
+_vendor/
