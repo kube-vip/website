@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Kube-vip manifest generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Lato:300|Open+Sans" rel="stylesheet"><link rel="stylesheet" href="./
+style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<section class="contact-form">
+  <h1>Create a manifest</h1>
+  <p>Use this handy page to create a kubernetes manifest</p>
+
+  <form>
+    <div class="input-group">
+      <input id="pod" name="deployment" type="radio" value="pod" checked="checked"/>
+      <label class="inline" for="pod">pod</label>
+
+      <input id="daemonset" name="deployment" type="radio" value="daemonset"/>
+      <label class="inline" for="daemonset">daemonset</label>
+    </div>
+
+    <div class="input-group">
+      <input id="arp" name="mode" type="radio" value="arp" checked="checked"/>
+      <label class="inline" for="arp">arp</label>
+
+      <input id="bgp" name="mode" type="radio" value="bgp"/>
+      <label class="inline" for="bgp">bgp</label>
+    </div>
+      <!--
+
+      <input id="salutation-mrs" name="salutation" type="radio" value="Mrs."/>
+      <label class="inline" for="salutation-mrs">Mrs.</label>
+
+      <input id="salutation-ms" name="salutation" type="radio" value="Ms."/>
+      <label class="inline" for="salutation-ms">Ms.</label>
+    </div> -->
+
+    <div class="input-group">
+      <p class="group-label">Functionality:</p>
+      <input id="control-plane" name="function" type="checkbox" value="control-plane"/>
+      <label class="inline" for="control-plane">Control plane</label>
+      <input id="services" name="function" type="checkbox" value="services"/>
+      <label class="inline" for="services">Services</label>
+      <input id="servicesle" name="function" type="checkbox" value="servicesle"/>
+      <label class="inline" for="servicesle">Services (leader election)</label>
+    </div>
+
+    <div class="input-group">
+      <label for="address">Control plane address</label>
+      <input id="address" name="address" type="text"  placeholder="192.168.0.1"/>
+    </div>
+
+    <div class="input-group">
+      <label for="interface">Interface</label>
+      <input id="interface" name="interface" type="text" placeholder="eth0"/>
+    </div>
+
+    <!-- <div class="input-group">
+      <label for="subject">How can I help you?</label>
+      <select id="subject" name="subject">
+        <option>I have a problem.</option>
+        <option>I have a general question.</option>
+      </select>
+    </div> -->
+
+    <div class="input-group">
+    <label for="subject">Which kube-vip version?</label>
+    <select name="version" id="version"></select>
+    </div>
+
+    <div class="input-group">
+      <label for="loglevel">Logging level</label>
+      <input id="loglevel" name="loglevel" type="text" value="0"/>
+    </div>
+
+    <script>
+    let todos = document.getElementById('version');
+    let newDefault1 = new Option('Select version', null, true, true)
+    newDefault1.disabled = true
+    todos.add(newDefault1)
+
+    fetch('https://api.github.com/repos/kube-vip/kube-vip/releases')
+      .then(res => res.json())
+      .then(data => {
+          data.forEach(todo => {
+            let option = new Option(todo.name)
+            todos.add(option)
+          });
+      });
+    </script>
+
+    <!-- <div class="input-group">
+      <label for="message">Enter a Message</label>
+      <textarea id="message" name="message" rows="6" cols="65"></textarea>
+    </div> -->
+
+    <!-- <div class="input-group">
+      <p class="group-label">Functionality:</p>
+      <input id="snacks-pizza" name="snacks" type="checkbox" value="pizza"/>
+      <label class="inline" for="snacks-pizza">Pizza</label>
+      <input id="snacks-cake" name="snacks" type="checkbox" value="cake"/>
+      <label class="inline" for="snacks-cake">Cake</label>
+    </div> -->
+
+
+
+    <input name="secret" type="hidden" value=""/>
+    <button type="submit">Create YAML</button>
+    <button onclick = "downloadFile()"> Download YAML </button>
+   <script>
+      const downloadFile = () => {
+         const link = document.createElement("a");
+         const content = document.querySelector(".results pre").innerText;
+         const file = new Blob([content], { type: 'text/plain' });
+         link.href = URL.createObjectURL(file);
+         link.download = "sample.yaml";
+         link.click();
+         URL.revokeObjectURL(link.href);
+      };
+   </script>
+  </form>
+</section>
+
+<div class="results">
+  <h2>yaml output</h2>
+  <pre></pre>
+</div>
+
+
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.13.0/polyfill.min.js'></script>
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+</html>
