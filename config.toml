@@ -1,5 +1,6 @@
 baseURL = "kube-vip.io/"
 title = "kube-vip"
+copyright = "Copyright kube-vip a Series of LF Projects, LLC.<br><br>For website terms of use, trademark policy and other project policies please see <a href=\"https://lfprojects.org/policies/\" style=\"color: var(--theme);\">lfprojects.org/policies</a>."
 enableRobotsTXT = true
 # this example loads the theme as hugo module
 # comment out line below, and uncomment the line after it if you prefer to load the theme normally
