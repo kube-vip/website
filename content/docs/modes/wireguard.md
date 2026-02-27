@@ -5,4 +5,4 @@ description: >
   kube-vip Wireguard mode
 ---
 
-The [**Wireguard**](https://www.wireguard.com/) mode allows Kubernetes services to be advertised over the wireguard interface (`wg0`). One of its main use-case is so that distributed services across multiple clusters can centralise all their advised services on a central network controlled by wireguard.
+The [**WireGuard**](https://www.wireguard.com/) mode allows Kubernetes services and the control plane to be accessed from an external VPN server. Its main use is to expose services to foreign networks or the internet which cannot be exposed otherwise.
