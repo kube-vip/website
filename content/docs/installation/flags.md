@@ -113,6 +113,7 @@ Keep in mind Environment Variables always win against Flags.
 | **ARP**             |                       |                                                                                 |                                                                                 |
 |                     | `enable_node_labeling` | false                                                                          | Enable leader node labeling with `kube-vip.io/has-ip=<VIP address>`             |
 |                     | `vip_preserve_on_leadership_loss` | false                                                               | Preserve VIP on interface when losing leadership (ARP mode only)                |
+|                     | `vip_arpRate`         | default 3000                                                                    | Interval in milliseconds between gARP broadcasts. Values below 500ms are ignored and reset to 3000 |
 | **BGP**             |                       |                                                                                 |                                                                                 |
 |                     | `bgp_routerid`        | `<IP Address>`                                                                  | Typically the address of the local node                                         |
 |                     | `bgp_routerinterface` | Interface name                                                                  | Used to associate the `routerID` with the control plane's interface.            |
