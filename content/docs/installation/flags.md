@@ -13,6 +13,7 @@ These flags are typically used in the kube-vip manifest generation process.
 | ------------------- | ---------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                        |                                                                       |                                                                                 |
 |                     | `--log`                | default 4                                                             | Set to `-4` for debugging logs                                                  |
+|                     | `--healthCheckPort`    | default 0 (disabled)                                                  | If set to non-zero (> 1024), the port that the healthcheck will listen on       |
 | **Mode**            |                        |                                                                       |                                                                                 |
 |                     | `--arp`                | Enables ARP broadcasts from Leader                                    |                                                                                 |
 |                     | `--bgp`                | Enables BGP peering from kube-vip                                     |                                                                                 |
@@ -82,6 +83,7 @@ Keep in mind Environment Variables always win against Flags.
 | ------------------- | --------------------- |---------------------------------------------------------------------------------| ------------------------------------------------------------------------------- |
 | **Troubleshooting** |                       |                                                                                 |                                                                                 |
 |                     | `vip_loglevel`        | default 4                                                                       | Set to `-4` for debugging logs                                                  |
+|                     | `health_check_port`   | default 0 (disabled)                                                            | If set to non-zero (> 1024), the port that the healthcheck will listen on       |
 | **Mode**            |                       |                                                                                 |                                                                                 |
 |                     | `cp_enable`           | Enables kube-vip control plane functionality                                    |                                                                                 |
 |                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer`                       |                                                                                 |
