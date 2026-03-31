@@ -67,6 +67,8 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--metalProject`       | Equinix Metal Project (Name)                                          |                                                                                 |
 |                     | `--metalProjectID`     | Equinix Metal Project (UUID)                                          |                                                                                 |
 |                     | `--provider-config`    | Path to the Equinix Metal provider configuration                      | Requires the Equinix Metal CCM                                                  |
+| **Prometheus**      |                        |                                                                       |                                                                                 |
+|                     | `--prometheusHTTPServer` | Default `:2112`                                                     | Host and port for the Prometheus metrics HTTP server. Set to `""` to disable.   |
 
 ## Environment Variables
 
@@ -131,3 +133,5 @@ Keep in mind Environment Variables always win against Flags.
 **Egress**          |                       |                                                                                 |                                                                                 |
 |                     | `EGRESS_CLEAN`        | Enables kube-vip to clean left over iptables rules                              |                                                                                 |
 |                     | `egress_withnftables` | Uses nftables instead of iptables                                               |                                                                                 |
+| **Prometheus**      |                       |                                                                                 |                                                                                 |
+|                     | `prometheus_server`   | Default `:2112`                                                                 | Host and port for the Prometheus metrics HTTP server. Set to `""` to disable.   |
