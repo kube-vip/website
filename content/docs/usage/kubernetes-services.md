@@ -5,7 +5,7 @@ description: >
   Kubernetes services options
 ---
 
-When the services are enabled for kube-vip a [watcher](https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes) is enabled on all services that match the type `loadBalancer`. The "watcher" will only advertise a kubernetes service once the `metadata.annotations["kube-vip.io/loadbalancerIPs"]`(Since kube-vip 0.5.12) or `spec.loadBalancerIP` has been populated, which is the role performed by a cloud controller. Additionally kube-vip may ignore or act upon a service depending on various annotations.
+When the services are enabled for kube-vip a [watcher](https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes) is enabled on all services that match the type `loadBalancer`. The "watcher" will only advertise a kubernetes service once the `metadata.annotations["kube-vip.io/loadbalancerIPs"]` (Since kube-vip 0.5.12) or `spec.loadBalancerIP` has been populated, which is the role performed by a cloud controller. Additionally kube-vip may ignore or act upon a service depending on various annotations.
 
 ## Configure kube-vip to ignore a service
 
