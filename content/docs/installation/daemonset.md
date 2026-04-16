@@ -57,7 +57,22 @@ Depending on the container runtime, use one of the two aliased commands to creat
 
 For containerd, run the below command:
 
+> Note: In some Kubernetes distributions such as RKE2 or K3s, the `ctr` binary and containerd socket are not in default locations. You may need to adjust the path and socket accordingly, and include the `k8s.io` namespace so images are visible to Kubernetes.
+
+Default environments:
+
 `alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"`
+
+RKE2 / K3s example:
+
+```bash
+export CTR="/var/lib/rancher/rke2/bin/ctr"
+export CONTAINERD_SOCK="/run/k3s/containerd/containerd.sock"
+
+$CTR --address $CONTAINERD_SOCK --namespace k8s.io image pull ghcr.io/kube-vip/kube-vip:$KVVERSION
+
+alias kube-vip="$CTR --address $CONTAINERD_SOCK --namespace k8s.io run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
+```
 
 For Docker, run the below command:
 
