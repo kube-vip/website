@@ -101,6 +101,15 @@ The load balancer port can be customised by changing the `lb_port` environment v
   value: "6443"
 ```
 
+Load balancer forwarding method can be also configured. This can be done using the `lb_fwdmethod` environment variable. Possible values are `local` (default), `masquerade`, `tunnel`, `directroute` and `bypass`.
+
+```yaml
+- name: lb_fwdmethod
+  value: "local"
+```
+
+Please be aware that, when using `local` forwarding method, the Kubernetes API server will be added as a backend to the IPVS load balancer only if its IP address is present locally on the node. While trying to examine if the backend is available, `kube-vip` will try to scan all the networking interfaces (excluding existing `veth` interfaces), and will only consider IP addresses that have a `global` scope.
+
 ##### How it works
 
 Once the `lb_enable` variable is set to `true`, kube-vip will do the following:
