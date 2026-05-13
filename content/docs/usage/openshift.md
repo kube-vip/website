@@ -1,6 +1,6 @@
 ---
 title: "Openshift"
-weight: 58
+weight: 59
 description: >
   Using kube-vip on Redhat Openshift
 ---

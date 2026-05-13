@@ -1,6 +1,6 @@
 ---
 title: "rancher desktop"
-weight: 57
+weight: 58
 description: >
   kube-vip usage on Rancher Desktop.
 ---
