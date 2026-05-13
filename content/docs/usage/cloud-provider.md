@@ -74,6 +74,41 @@ data:
   cidr-global: 192.168.0.240/29                       # CIDR-based range which can be used in any Namespace
 ```
 
+### Create a Deployment
+
+Before exposing a Service, you need a Deployment for kube-vip to route traffic to. The following example creates a simple nginx Deployment:
+```sh
+kubectl create deployment nginx-deployment --image=nginx
+```
+
+or via a Deployment YAML definition:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+
+Then apply it:
+```sh
+kubectl apply -f nginx-deployment.yaml
+kubectl rollout status deployment/nginx-deployment
+```
+
 ### Expose a Service
 
 We can now expose a Service and once the cloud provider has provided an address, kube-vip will start to advertise that address to the outside world as shown below:
@@ -121,4 +156,9 @@ spec:
     app: nginx
   type: LoadBalancer
   loadBalancerIP: "1.1.1.1"
+```
+
+Watch the external IP assignment:
+```sh
+kubectl get svc nginx -w
 ```
