@@ -12,3 +12,9 @@ description: >
 When using kube-vip with BGP various bits of information are required, namely we require the credentials for the devices that will be handling the routing for the network. Most of this is passed in as part of the kube-vip configuration. In some environments kube-vip can use API calls in order to determine this information from the underlying infrastructure.
 
 To understand more look at the BGP section in the [Flags and Environment page](/docs/installation/flags/) or the details should exist on a particular usage page.
+
+### Control Plane Health Check
+
+When using BGP without leader election for the control plane, all nodes announce the VIP and usually an upstream router distributes traffic via ECMP. If a node's kube-apiserver fails, kube-vip can automatically withdraw the BGP route for that node by polling the kube-apiserver's health check endpoint.
+
+See [BGP Control Plane Health Check](/docs/usage/bgp-health-check/) for configuration details.
