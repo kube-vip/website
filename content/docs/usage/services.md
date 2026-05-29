@@ -83,6 +83,7 @@ IP address for service can be also requested from DHCP server with the following
 - `kube-vip.io/hwaddr` - specifies hardware address (MAC) of the interface that the service should be bound to.
 - `kube-vip.io/requestedIP` - the IP address that should be requested from the DHCP server.
 - `kube-vip.io/loadbalancerIPs` - addresses `0.0.0.0` and/or `::` can be provided to instruct kube-vip to use DHCP to obtain IPv4 and/or IPv6 VIP address for the service from the DHCP server.
+- `kube-vip.io/macvlanName` - can be used to specify the name for the MACVlan interface created by kube-vip for services that use DHCP. If not specified, the name will be randomly generated. If specified, it is possible to point multiple services to the same interface, therefore achieving shared DHCP IP address for multiple services.
 
 ### rp_filter settings
 
