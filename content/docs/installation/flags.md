@@ -104,7 +104,7 @@ Keep in mind Environment Variables always win against Flags.
 |                     | `dhcp_mode`           | Select the DHCP resolve method                                                  | The DHCP addresses to obtain (ipv4, ipv6, dual)                                 |
 |                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                                           | Requires `vip_address` is set to FQDN                                           |
 |                     | `vip_interface`       | `<linux interface>`                                                             |                                                                                 |
-|                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                                               | Used by ARP, as only the leader can broadcast                                   |
+|                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                                               | Used by ARP & BGP, as only the leader can broadcast                                   |
 |                     | `vip_subnet`          | Detected at runtime: Tuple for IPv4,IPv6 (e.g. `32,128` or `auto,auto`)         | Used when advertising in any mode                |
 |                     | `lb_enable`           | Enables IPVS LoadBalancer                                                       | kube-vip ≥ 0.4.0. Adds nodes to the IPVS load balancer                        |
 |                     | `lb_port`             | 6443                                                                            | The IPVS port that will be used to load-balance control plane requests          |
