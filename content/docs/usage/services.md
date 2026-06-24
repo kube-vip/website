@@ -76,6 +76,15 @@ Additionally, hostname can be used to obtain IP address using DHCP service with 
 
 By default, kube-vip will update the service's `status.loadBalancer.ingress` field with the configured IP addresses obtained with e.g. `kube-vip.io/loadbalancerIPs`. This may conflict with other controllers that use/set this field (e.g. MetalLB). In such case you can disable the update of the service's `status` with CLI flag `disableServiceUpdates` or env variable `disable_service_updates` with value `true`.
 
+## VLAN
+
+When defining a Service, it is possible to specify an interface that should be tagged with a VLAN header by using the `kube-vip.io/serviceVLAN` annotation, kube-vip will then create a sub-interface with the configured VLAN tag and assign the VIP address to that sub-interface.
+
+```yaml
+annotations:
+  kube-vip.io/serviceVLAN: "eth0.200"
+```
+
 ## DHCP
 
 IP address for service can be also requested from DHCP server with the following annotations:
