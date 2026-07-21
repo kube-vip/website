@@ -90,3 +90,17 @@ By default prometheus will bind to port `2112`, this isn't normally a problem ho
         - --prometheusHTTPServer
         - ""
 ```
+
+### nftables egress conflicts
+
+Multiple kube-vip deployments running on the same nodes share the default nftables egress tables. If nftables egress is enabled, give each deployment a unique `instance_name`, especially when using `EGRESS_CLEAN`:
+
+```yaml
+env:
+  - name: instance_name
+    value: "finance"
+```
+
+The example above uses the `kube_vip_finance_v4` and `kube_vip_finance_v6` tables instead of the shared legacy tables. See the [Egress documentation](/docs/usage/egress/#isolating-nftables-egress-tables-for-multiple-kube-vip-instances) for the supported configuration methods, validation rules, and migration behaviour.
+
+`instance_name` currently isolates nftables egress state only. Namespace filters, load balancer classes, routing table IDs, Prometheus ports, and other shared resources still need to be configured separately for each deployment.

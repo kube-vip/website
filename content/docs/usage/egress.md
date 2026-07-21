@@ -105,6 +105,27 @@ For a little more detail there is a blog post [here](https://thebsdbox.co.uk/202
 
 To enable Egress kube-vip requires `serviceElection` to be enabled, the Kubernetes service requires the below Egress annotation **and** it requires `externalTrafficPolicy` set to `Local`. 
 
+### Isolating nftables egress tables for multiple kube-vip instances
+
+By default, every kube-vip instance uses the nftables egress tables `kube_vip_v4` and `kube_vip_v6`. If multiple kube-vip deployments run on the same nodes, they would therefore share those tables. In particular, enabling `EGRESS_CLEAN` could allow one deployment to clear egress state belonging to another deployment.
+
+Set a unique instance name for each deployment that uses nftables egress. The value can be provided as an environment variable:
+
+```yaml
+env:
+  - name: instance_name
+    value: "release_a"
+```
+
+It can also be set with the `--instanceName release_a` flag or the `instanceName: "release_a"` configuration file field. kube-vip prefixes the value and appends the address family, so this example uses:
+
+- `kube_vip_release_a_v4`
+- `kube_vip_release_a_v6`
+
+An empty instance name retains the legacy `kube_vip_v4` and `kube_vip_v6` table names. Instance names may contain ASCII letters, digits, `.`, `-`, and `_`, and must not exceed 243 bytes.
+
+kube-vip stores the effective table base name in the managed Service annotation `kube-vip.io/egress-nftables-table`. When the instance name changes, active per-Service egress chains are migrated to the new tables. The instance name currently scopes nftables egress state only; other shared host resources must still be configured independently.
+
 ### Applying Egress rules only to certain destination ports
 
 To allow differentiation of traffic, in the event you would have multiple pods performing various egress.. we can apply rules that are specific on outbound traffic. So if we had a sip client that was sending traffic out to a remote host on port `5060` we would only rewrite the egress of that traffic particularly. This is done through annotations:

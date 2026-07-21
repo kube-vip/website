@@ -23,6 +23,8 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--controlplane`       | Enables kube-vip control plane functionality                          |                                                                                 |
 |                     | `--services`           | Enables kube-vip to watch services of type `LoadBalancer`             |                                                                                 |
 |                     | `--enableEndpointSlices`  | Enables use of `EndopintSlices` instead of `Endpoints`             |                                                                                 |
+| **Instance**        |                        |                                                                       |                                                                                 |
+|                     | `--instanceName`       | default `""`                                                          | Unique instance name; currently used to isolate nftables egress tables          |
 | **VIP Config**      |                        |                                                                       |                                                                                 |
 |                     | `--vip`                | `<IP Address>`                                                        | (deprecated)                                                                    |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                        |                                                                                 |
@@ -95,6 +97,8 @@ Keep in mind Environment Variables always win against Flags.
 | **Mode**            |                       |                                                                                 |                                                                                 |
 |                     | `cp_enable`           | Enables kube-vip control plane functionality                                    |                                                                                 |
 |                     | `svc_enable`          | Enables kube-vip to watch Services of type `LoadBalancer`                       |                                                                                 |
+| **Instance**        |                       |                                                                                 |                                                                                 |
+|                     | `instance_name`       | default `""`                                                                    | Unique instance name; currently used to isolate nftables egress tables          |
 | **VIP Config**      |                       |                                                                                 |                                                                                 |
 |                     | `vip_arp`             | Enables ARP broadcasts from Leader                                              |                                                                                 |
 |                     | `bgp_enable`          | Enables BGP peering from kube-vip                                               |                                                                                 |
@@ -143,7 +147,7 @@ Keep in mind Environment Variables always win against Flags.
 |                     | `control_plane_health_check_failure_threshold` | default 3                                                  | Consecutive failures before BGP route withdrawal                                |
 |                     | `control_plane_health_check_ca_path` | Path to CA cert for HTTPS verification                               | Required when using HTTPS with a private CA                                     |
 | **Egress**          |                       |                                                                                 |                                                                                 |
-|                     | `EGRESS_CLEAN`        | Enables kube-vip to clean left over iptables rules                              |                                                                                 |
+|                     | `EGRESS_CLEAN`        | Cleans leftover egress rules and the configured nftables tables at startup      |                                                                                 |
 |                     | `egress_withnftables` | Uses nftables instead of iptables                                               |                                                                                 |
 | **Prometheus**      |                       |                                                                                 |                                                                                 |
 |                     | `prometheus_server`   | Default `:2112`                                                                 | Host and port for the Prometheus metrics HTTP server. Set to `""` to disable.   |
