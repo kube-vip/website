@@ -62,6 +62,12 @@ For each kube-vip's mode (`ARP`, `BGP`, `Routing Table` and `WireGuard`) various
 | true         | Per-service leader election (leader will be elected for each service) |
 | false        | Services reconciliation disabled                                      |
 
+## Forced per-service leader election
+
+Even if kube-vip is configured to use global leader election for Services, or to run without leader election, you can still force a specific Service to use per-service leader election by adding the annotation `kube-vip.io/forcePerServiceElection: "true"` to that Service.
+ 
+To use this feature, enable it in the kube-vip configuration using the environment variable `per_service_election_on_demand=true` or the CLI flag `perServiceElectionOnDemand`.
+
 ## Loadbalancer IP
 
 Loadbalancer IP for the service can be specified in 3 separate ways. The precedence of those methods is as follows:
