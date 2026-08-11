@@ -40,6 +40,8 @@ More information about Calicos behaviour is available [here](https://docs.tigera
 
 In the event that kube-vip is being terminated, then it won't be able to clean up existing rules during shutdown. In order for kube-vip to clean those rules we can add the environment variable `EGRESS_CLEAN`, set to `true` to the kube-vip configuration. This will ensure that on startup kube-vip will remove any rules that have the comment `/* a3ViZS12aXAK=kube-vip */` (used to identify rules kube-vip manages). 
 
+When using internal nftables egress, `EGRESS_CLEAN` clears the nftables tables configured for the current kube-vip instance. If multiple kube-vip deployments run on the same nodes, assign each one a unique `instance_name` so that cleanup cannot affect another deployment. See [Isolating nftables egress tables](/docs/usage/egress/#isolating-nftables-egress-tables-for-multiple-kube-vip-instances).
+
 ## Finding the iptables rules
 
 In order to view the iptables rules created by kube-vip you may need to use the legacy iptables command, you can view the current configuration with `sudo iptables -v`. If `nf_tables` is listed then you will need to use `iptables-legacy` in order to view the correct rules.
