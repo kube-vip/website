@@ -44,6 +44,7 @@ These flags are typically used in the kube-vip manifest generation process.
 | **Kubernetes**      |                        |                                                                       |                                                                                 |
 |                     | `--inCluster`          | Required for kube-vip as DaemonSet.                                   |  Runs kube-vip with a ServiceAccount called kube-vip.                           |
 |                     | `--taint`              | Required for kube-vip as DaemonSet.                                   |  Adds node affinity rules forcing kube-vip Pods to run on control plane.        |
+|                     | `--k8sConfigPath`      | default `/etc/kubernetes/admin.conf`                                  |  Path to the configuration file used with the Kubernetes client                 |
 | **LeaderElection**  |                        |                                                                       |                                                                                 |
 |                     | `--leaseDuration`      | default 15                                                            | Seconds a lease is held for                                                     |
 |                     | `--leaseRenewDuration` | default 10                                                            | Seconds a leader can attempt to renew the lease                                 |
@@ -117,6 +118,8 @@ Keep in mind Environment Variables always win against Flags.
 |                     | `vip_servicesinterface` | ""                                                                              | Defines an optional different interface to bind                                 |
 |                     | `svc_election`        | Enables a leadership Election for each Service, allowing them to be distributed |                                                             |
 |                     | `enable_service_security` | Boolean. Enable service security feature, defaults false                        | Restrict traffic to only service ports                 |
+| **Kubernetes**      |                       |                                                                                 |                                                                                 |
+|                     | `k8s_config_file`     | default `/etc/kubernetes/admin.conf`                                            | Path to the configuration file used with the Kubernetes client                  |
 | **LeaderElection**  |                       |                                                                                 |                                                                                 |
 |                     | `vip_leaseduration`   | default 15                                                                      | Seconds a lease is held for                                                     |
 |                     | `vip_renewdeadline`   | default 10                                                                      | Seconds a leader can attempt to renew the lease                                 |
