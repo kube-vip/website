@@ -14,6 +14,12 @@ codeMaxLines = 7
 # disable showing line numbers by default. Switch to `true` if you'd rather have them on.
 codeLineNumbers = false
 
+# Homepage announcement banner
+[banner]
+  showBanner = true
+  text = "Join us at KubeCon + CloudNativeCon North America on Nov 9-12 🎉"
+  url = "https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/register/?utm_source=kube-vip&utm_medium=ribbon-banner&utm_campaign=KubeCon-CloudNativeCon-NA-2026&utm_content=hero"
+
 # Site logo
 [logo]
   lightMode = "images/compose.svg"

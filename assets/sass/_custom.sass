@@ -1,0 +1,28 @@
+// Site-level overrides for the compose theme (imported by the theme's main.sass)
+
+// 100vw used by the banner includes the scrollbar; clip so it never causes horizontal scroll
+html
+  overflow-x: clip
+
+.announcement-banner
+  display: block
+  // body is max-width capped and centered; stretch the banner to the viewport edges
+  margin: 0 calc(50% - 50vw)
+  padding: 0.4rem 1.5rem
+  background: var(--theme)
+  color: #fff
+  text-align: center
+  font-weight: 600
+  &:hover
+    color: #fff
+    text-decoration: underline
+
+// With the banner in flow, keep the nav in flow too and drop the padding that cleared the absolute header
+.nav_header
+  position: relative
+
+.main.pt-4
+  padding-top: 1.5rem
+
+#searchpage
+  padding-top: 1.5rem
