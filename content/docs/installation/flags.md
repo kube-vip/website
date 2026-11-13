@@ -31,6 +31,7 @@ These flags are typically used in the kube-vip manifest generation process.
 |                     | `--dnsMode`            | Dns lookup mode for address when the dns name is provided             | This will set the mode for the  DSN lookup (first, ipv4, ipv6, dual)            |
 |                     | `--ddns`               | Enables DDNS support                                                  | Requires `--address` is used and set to FQDN                                    |
 |                     | `--dhcpMode`           | Mode DHCP resolving will use to obtain IP addresses (ipv4, ipv6, dual)|                                                                                 |
+|                     | `--dhcpBackoffAttempts` | default `3`                                                          | Number of times the DHCP client tries to obtain an IP address, `0` for unlimited retries |
 |                     | `--interface`          | Linux interface on the node                                           |                                                                                 |
 |                     | `--leaderElection`     | Enables Kubernetes LeaderElection                                     | Used by ARP, as only the leader can broadcast                                   |
 |                     | `--vipSubnet`          | `32,128` in ARP mode you could use (`auto,auto`)                      | Used when advertising in any mode                                               |
@@ -107,6 +108,7 @@ Keep in mind Environment Variables always win against Flags.
 |                     | `address`             | `<IP Address>` or `<DNS name>`                                                  |                                                                                 |
 |                     | `dns_mode`            | Select the dns resolve method                                                   | The DSN lookup method (first, ipv4, ipv6, dual)                                 |
 |                     | `dhcp_mode`           | Select the DHCP resolve method                                                  | The DHCP addresses to obtain (ipv4, ipv6, dual)                                 |
+|                     | `dhcp_backoff_attempts` | default `3`                                                                   | Number of times the DHCP client tries to obtain an IP address, `0` for unlimited retries |
 |                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                                           | Requires `vip_address` is set to FQDN                                           |
 |                     | `vip_interface`       | `<linux interface>`                                                             |                                                                                 |
 |                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                                               | Used by ARP & BGP, as only the leader can broadcast                                   |

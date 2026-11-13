@@ -99,6 +99,41 @@ IP address for service can be also requested from DHCP server with the following
 - `kube-vip.io/requestedIP` - the IP address that should be requested from the DHCP server.
 - `kube-vip.io/loadbalancerIPs` - addresses `0.0.0.0` and/or `::` can be provided to instruct kube-vip to use DHCP to obtain IPv4 and/or IPv6 VIP address for the service from the DHCP server.
 - `kube-vip.io/macvlanName` - can be used to specify the name for the MACVlan interface created by kube-vip for services that use DHCP. If not specified, the name will be randomly generated. If specified, it is possible to point multiple services to the same interface, therefore achieving shared DHCP IP address for multiple services.
+- `kube-vip.io/loadbalancerHostname` - the DHCPv4 client sends this value as the host name (option 12) and as the client identifier (option 61), so the DHCP server can register the name and hand out the same address again. The DHCPv6 client sends it as the client FQDN and uses it to build its client DUID.
+- `kube-vip.io/dhcp-broadcast` - set to `"true"` to set the BROADCAST flag in DHCPv4 DISCOVER and REQUEST messages. This asks the DHCP server, or a DHCP relay, to broadcast its replies instead of unicasting them to an interface that has no IP address yet.
+- `kube-vip.io/dhcp-vendor-class` - vendor class identifier (option 60) that the DHCPv4 client sends in every DISCOVER and REQUEST, including renewals. DHCP servers commonly match on it to hand out addresses from a dedicated pool. The value can be at most 255 bytes long. Available in kube-vip releases after v1.3.1.
+
+For example, the following Service requests its address from DHCP and identifies itself with the `kube-vip-lb` vendor class:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-dhcp
+  annotations:
+    kube-vip.io/loadbalancerIPs: "0.0.0.0"
+    kube-vip.io/loadbalancerHostname: nginx-dhcp
+    kube-vip.io/dhcp-vendor-class: kube-vip-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: nginx
+```
+
+With dnsmasq as the DHCP server, the following configuration keeps these Services in their own address range:
+
+```text
+dhcp-vendorclass=set:kubevip,kube-vip-lb
+dhcp-range=tag:kubevip,192.168.0.200,192.168.0.220
+```
+
+### DHCP retries
+
+kube-vip tries to obtain an address for a Service 3 times by default, waiting between 10 seconds and 1 minute (exponential backoff) between the attempts, before it gives up. The number of attempts can be changed with the env variable `dhcp_backoff_attempts` or the CLI flag `--dhcpBackoffAttempts`. Set it to `0` to keep retrying without limit.
 
 ### rp_filter settings
 
