@@ -21,7 +21,9 @@ kube-vip provides Kubernetes clusters with a virtual IP and load balancer for bo
 
 ### ARP
 
-**ARP** is a layer 2 protocol that is used to inform the network of the location of a new address. When a new IP address is configured to a device, there needs to be a mechanism to inform the network of which piece of hardware is hosting this new address. ARP is the technology that is used to ensure that a network understands the link between the hardware address (MAC) and the logical address (IP). In order to inform the entire layer 2 network of a net IP <--> MAC pairing typically a gratuitous ARP broadcast is performed, more detail can be found here [https://www.practicalnetworking.net/series/arp/gratuitous-arp/](https://www.practicalnetworking.net/series/arp/gratuitous-arp/)
+[ARP](https://subneti.ca/en/glossary/arp/) resolves an IPv4 next-hop address to a hardware address (MAC) on the local link, as specified in [RFC 826](https://www.rfc-editor.org/rfc/rfc826.html). When a virtual IPv4 address moves to another node, neighboring devices need an updated IP-to-MAC mapping so that subsequent Ethernet frames reach the new owner. ARP does not advertise that address across routed networks; IPv6 uses [Neighbor Discovery](https://www.rfc-editor.org/rfc/rfc4861.html) instead.
+
+In order to inform the entire layer 2 network of a new IP <--> MAC pairing typically a [gratuitous ARP announcement](https://www.rfc-editor.org/rfc/rfc5227.html#section-2.3) is broadcast to update stale ARP cache entries, more detail can be found here [https://www.practicalnetworking.net/series/arp/gratuitous-arp/](https://www.practicalnetworking.net/series/arp/gratuitous-arp/)
 
 ### BGP
 
