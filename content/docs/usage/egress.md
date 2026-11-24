@@ -177,7 +177,7 @@ If we want to ensure we don't egress for a CIDR we can add to the service the fo
       kube-vip.io/egress-denied-networks:172.18.0.0/24
 ```
 
-These are comma separated values, so we we can add multiple networks not to egress.
+These are comma separated values, so we can add multiple networks not to egress.
 
 Additionally if we want to egress to only certain networks we can do the following:
 
