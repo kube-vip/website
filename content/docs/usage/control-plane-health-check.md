@@ -1,8 +1,8 @@
 ---
-title: "BGP Control Plane Health Check"
+title: "Control Plane Health Check"
 weight: 52
 description: >
-  Automatic BGP route withdrawal when the local kube-apiserver becomes unhealthy
+  Automatic BGP route withdrawal or ARP leadership loss when the local kube-apiserver becomes unhealthy
 ---
 
 ## The Problem
